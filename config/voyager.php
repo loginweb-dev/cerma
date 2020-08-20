@@ -14,7 +14,7 @@ return [
         'add_default_role_on_register' => true,
         'default_role'                 => 'user',
         'default_avatar'               => 'users/default.png',
-        'redirect'                     => '/admin',
+        'redirect'                     => '/admin/profile',
     ],
 
     /*
@@ -135,27 +135,27 @@ return [
             'voyager::generic.home' => [
                 'route'        => '/',
                 'icon_class'   => 'voyager-home',
-                'target_blank' => true,
+                'target_blank' => false,
             ],
             'Parametros' => [
                 'route'      => 'voyager.settings.index',
                 'icon_class' => 'voyager-settings',
-                'target_blank' => true,
+                'target_blank' => false,
             ],
             'Bread' => [
                 'route'      => 'voyager.bread.index',
                 'icon_class' => 'voyager-bread',
-                'target_blank' => true,
+                'target_blank' => false,
             ],
             'Compass' => [
                 'route'      => 'voyager.compass.index',
                 'icon_class' => 'voyager-compass',
-                'target_blank' => true,
+                'target_blank' => false,
             ],
             'Base de Datos' => [
                 'route'      => 'voyager.database.index',
                 'icon_class' => 'voyager-data',
-                'target_blank' => true,
+                'target_blank' => false,
             ],
             'voyager::generic.logout' => [
                 'route'      => 'voyager.logout',
@@ -201,14 +201,15 @@ return [
     |
     */
 
-    'primary_color' => '#22A7F0',
+    'primary_color' => env('APP_PRIMARY_COLOR'),
+    'primary_text_color' => env('APP_PRIMARY_TEXT_COLOR'),
 
     'show_dev_tips' => true, // Show development tip "How To Use:" in Menu and Settings
 
     // Here you can specify additional assets you would like to be included in the master.blade
     'additional_css' => [
         //'css/custom.css',
-        'theme.css',
+        // 'theme.css',
     ],
 
     'additional_js' => [

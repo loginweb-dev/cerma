@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use TCG\Voyager\VoyagerServiceProvider;
 
 class Install extends Command
 {
@@ -40,6 +41,10 @@ class Install extends Command
         $this->call('key:generate');
         $this->call('migrate:refresh');
         $this->call('db:seed');
+        $this->call('storage:link');
+        $this->call('vendor:publish', [
+            '--provider' => VoyagerServiceProvider::class, '--tag' => ['config', 'voyager_avatar']
+        ]);
 
         $this->info('
             █ █▄░█ █▀ ▀█▀ ▄▀█ █░░ █░░ █▀▀ █▀▄ █ █ █

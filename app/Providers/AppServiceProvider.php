@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use TCG\Voyager\Facades\Voyager;
+use Illuminate\Support\Facades\Schema;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -28,5 +30,7 @@ class AppServiceProvider extends ServiceProvider
         Voyager::addAction(\App\Actions\Blocks::class);
         Voyager::addAction(\App\Actions\BlockEdit::class);
         Voyager::addAction(\App\Actions\Block::class);
+
+        Schema::defaultStringLength(191);
     }
 }

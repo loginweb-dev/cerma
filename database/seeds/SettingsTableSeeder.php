@@ -87,7 +87,7 @@ class SettingsTableSeeder extends Seeder
         if (!$setting->exists) {
             $setting->fill([
                 'display_name' => __('voyager::seeders.settings.admin.title'),
-                'value'        => 'cerma v1.0',
+                'value'        => 'cerma',
                 'details'      => '',
                 'type'         => 'text',
                 'order'        => $count++,
@@ -99,7 +99,7 @@ class SettingsTableSeeder extends Seeder
         if (!$setting->exists) {
             $setting->fill([
                 'display_name' => __('voyager::seeders.settings.admin.description'),
-                'value'        => __('voyager::seeders.settings.admin.description_value'),
+                'value'        => 'Asociación de Pequeños Productores de Leche de las Provincias Cercado y Marbán',
                 'details'      => '',
                 'type'         => 'text',
                 'order'        => $count++,

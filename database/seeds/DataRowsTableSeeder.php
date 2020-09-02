@@ -78,7 +78,7 @@ class DataRowsTableSeeder extends Seeder
                 'edit' => 1,
                 'add' => 1,
                 'delete' => 1,
-                'details' => '{"display":{"width":6},"validation":{"rule":"required|max:50","messages":{"required":"El campo :attribute es requerido.","max":"EL campo :attribute debe tener :max caracteres como m\\u00e1ximo."}}}',
+                'details' => '{"display":{"width":6},"validation":{"rule":"max:50","messages":{"required":"El campo :attribute es requerido."}}}',
                 'order' => 4,
             ),
             4 => 
@@ -111,7 +111,7 @@ class DataRowsTableSeeder extends Seeder
                 'add' => 1,
                 'delete' => 1,
                 'details' => '{}',
-                'order' => 6,
+                'order' => 7,
             ),
             6 => 
             array (
@@ -127,7 +127,7 @@ class DataRowsTableSeeder extends Seeder
                 'add' => 0,
                 'delete' => 0,
                 'details' => '{}',
-                'order' => 7,
+                'order' => 8,
             ),
             7 => 
             array (
@@ -143,7 +143,7 @@ class DataRowsTableSeeder extends Seeder
                 'add' => 0,
                 'delete' => 0,
                 'details' => '{}',
-                'order' => 8,
+                'order' => 9,
             ),
             8 => 
             array (
@@ -159,7 +159,7 @@ class DataRowsTableSeeder extends Seeder
                 'add' => 0,
                 'delete' => 0,
                 'details' => '{}',
-                'order' => 9,
+                'order' => 10,
             ),
             9 => 
             array (
@@ -191,30 +191,14 @@ class DataRowsTableSeeder extends Seeder
                 'add' => 1,
                 'delete' => 1,
                 'details' => '{"validation":{"rule":"required|max:100","messages":{"required":"El campo :attribute es requerido.","max":"EL campo :attribute debe tener :max caracteres como m\\u00e1ximo."}}}',
-                'order' => 2,
+                'order' => 4,
             ),
             11 => 
-            array (
-                'id' => 80,
-                'data_type_id' => 7,
-                'field' => 'tipo',
-                'type' => 'select_dropdown',
-                'display_name' => 'Tipo',
-                'required' => 0,
-                'browse' => 1,
-                'read' => 1,
-                'edit' => 1,
-                'add' => 1,
-                'delete' => 1,
-                'details' => '{"display":{"width":6},"default":"ingreso","options":{"ingreso":"Ingreso","egreso":"Egreso"}}',
-                'order' => 3,
-            ),
-            12 => 
             array (
                 'id' => 81,
                 'data_type_id' => 7,
                 'field' => 'monto',
-                'type' => 'text',
+                'type' => 'number',
                 'display_name' => 'Monto',
                 'required' => 0,
                 'browse' => 1,
@@ -222,10 +206,10 @@ class DataRowsTableSeeder extends Seeder
                 'edit' => 1,
                 'add' => 1,
                 'delete' => 1,
-                'details' => '{"display":{"width":6},"validation":{"rule":"required|max:100","messages":{"required":"El campo :attribute es requerido.","max":"EL campo :attribute debe tener :max caracteres como m\\u00e1ximo."}}}',
-                'order' => 4,
+                'details' => '{"display":{"width":6},"validation":{"rule":"required|max:100","messages":{"required":"El campo :attribute es requerido.","max":"EL campo :attribute debe tener :max caracteres como m\\u00e1ximo."}},"step":0.01,"min":0}',
+                'order' => 6,
             ),
-            13 => 
+            12 => 
             array (
                 'id' => 82,
                 'data_type_id' => 7,
@@ -239,9 +223,9 @@ class DataRowsTableSeeder extends Seeder
                 'add' => 1,
                 'delete' => 1,
                 'details' => '{}',
-                'order' => 5,
+                'order' => 7,
             ),
-            14 => 
+            13 => 
             array (
                 'id' => 83,
                 'data_type_id' => 7,
@@ -255,9 +239,9 @@ class DataRowsTableSeeder extends Seeder
                 'add' => 0,
                 'delete' => 0,
                 'details' => '{}',
-                'order' => 6,
+                'order' => 8,
             ),
-            15 => 
+            14 => 
             array (
                 'id' => 84,
                 'data_type_id' => 7,
@@ -271,9 +255,9 @@ class DataRowsTableSeeder extends Seeder
                 'add' => 0,
                 'delete' => 0,
                 'details' => '{}',
-                'order' => 7,
+                'order' => 9,
             ),
-            16 => 
+            15 => 
             array (
                 'id' => 85,
                 'data_type_id' => 7,
@@ -287,9 +271,9 @@ class DataRowsTableSeeder extends Seeder
                 'add' => 0,
                 'delete' => 0,
                 'details' => '{}',
-                'order' => 8,
+                'order' => 10,
             ),
-            17 => 
+            16 => 
             array (
                 'id' => 86,
                 'data_type_id' => 6,
@@ -305,7 +289,7 @@ class DataRowsTableSeeder extends Seeder
                 'details' => '{}',
                 'order' => 1,
             ),
-            18 => 
+            17 => 
             array (
                 'id' => 87,
                 'data_type_id' => 6,
@@ -321,23 +305,7 @@ class DataRowsTableSeeder extends Seeder
                 'details' => '{"validation":{"rule":"required|max:100","messages":{"required":"El campo :attribute es requerido.","max":"EL campo :attribute debe tener :max caracteres como m\\u00e1ximo."}}}',
                 'order' => 2,
             ),
-            19 => 
-            array (
-                'id' => 88,
-                'data_type_id' => 6,
-                'field' => 'tipo',
-                'type' => 'select_dropdown',
-                'display_name' => 'Tipo',
-                'required' => 0,
-                'browse' => 1,
-                'read' => 1,
-                'edit' => 1,
-                'add' => 1,
-                'delete' => 1,
-                'details' => '{"default":"monto","options":{"monto":"Monto fijo","porcentaje":"Porcentaje"}}',
-                'order' => 3,
-            ),
-            20 => 
+            18 => 
             array (
                 'id' => 89,
                 'data_type_id' => 6,
@@ -353,7 +321,7 @@ class DataRowsTableSeeder extends Seeder
                 'details' => '{}',
                 'order' => 4,
             ),
-            21 => 
+            19 => 
             array (
                 'id' => 90,
                 'data_type_id' => 6,
@@ -369,7 +337,7 @@ class DataRowsTableSeeder extends Seeder
                 'details' => '{}',
                 'order' => 5,
             ),
-            22 => 
+            20 => 
             array (
                 'id' => 91,
                 'data_type_id' => 6,
@@ -385,7 +353,7 @@ class DataRowsTableSeeder extends Seeder
                 'details' => '{}',
                 'order' => 6,
             ),
-            23 => 
+            21 => 
             array (
                 'id' => 92,
                 'data_type_id' => 6,
@@ -400,6 +368,150 @@ class DataRowsTableSeeder extends Seeder
                 'delete' => 0,
                 'details' => '{}',
                 'order' => 7,
+            ),
+            22 => 
+            array (
+                'id' => 93,
+                'data_type_id' => 7,
+                'field' => 'cuenta_id',
+                'type' => 'text',
+                'display_name' => 'Cuenta',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '{}',
+                'order' => 2,
+            ),
+            23 => 
+            array (
+                'id' => 94,
+                'data_type_id' => 7,
+                'field' => 'aporte_belongsto_cuenta_relationship',
+                'type' => 'relationship',
+                'display_name' => 'cuentas',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '{"model":"App\\\\Cuenta","table":"cuentas","type":"belongsTo","column":"cuenta_id","key":"id","label":"nombre","pivot_table":"afiliados","pivot":"0","taggable":"0"}',
+                'order' => 3,
+            ),
+            24 => 
+            array (
+                'id' => 95,
+                'data_type_id' => 3,
+                'field' => 'id',
+                'type' => 'text',
+                'display_name' => 'Id',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '{}',
+                'order' => 1,
+            ),
+            25 => 
+            array (
+                'id' => 96,
+                'data_type_id' => 3,
+                'field' => 'name',
+                'type' => 'text',
+                'display_name' => 'Name',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '{}',
+                'order' => 2,
+            ),
+            26 => 
+            array (
+                'id' => 97,
+                'data_type_id' => 3,
+                'field' => 'display_name',
+                'type' => 'text',
+                'display_name' => 'Display Name',
+                'required' => 1,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '{}',
+                'order' => 3,
+            ),
+            27 => 
+            array (
+                'id' => 98,
+                'data_type_id' => 3,
+                'field' => 'created_at',
+                'type' => 'timestamp',
+                'display_name' => 'Created At',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 0,
+                'delete' => 1,
+                'details' => '{}',
+                'order' => 4,
+            ),
+            28 => 
+            array (
+                'id' => 99,
+                'data_type_id' => 3,
+                'field' => 'updated_at',
+                'type' => 'timestamp',
+                'display_name' => 'Updated At',
+                'required' => 0,
+                'browse' => 0,
+                'read' => 0,
+                'edit' => 0,
+                'add' => 0,
+                'delete' => 0,
+                'details' => '{}',
+                'order' => 5,
+            ),
+            29 => 
+            array (
+                'id' => 100,
+                'data_type_id' => 7,
+                'field' => 'tipo',
+                'type' => 'select_dropdown',
+                'display_name' => 'Tipo',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '{"display":{"width":6},"default":"monto","options":{"monto":"Monto fijo","porcentaje":"Porcentaje"}}',
+                'order' => 5,
+            ),
+            30 => 
+            array (
+                'id' => 101,
+                'data_type_id' => 8,
+                'field' => 'localidad',
+                'type' => 'text',
+                'display_name' => 'Localidad',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '{"validation":{"rule":"max:191","messages":{"required":"El campo :attribute es requerido."}}}',
+                'order' => 6,
             ),
         ));
         

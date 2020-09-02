@@ -21,6 +21,23 @@ Auth::routes();
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 
+    // Aportes
+    Route::resource('aporteafiliado', 'AporteAfiliadoController');
+
+    // Afiliados
+    Route::get('afiliados/get/{dato}', 'AfiliadosController@get_afiliado');
+
+    // Importación de excel
+    Route::get('importar/recepciones', 'ReporteController@importar_recepcion');
+    Route::post('importar/recepciones/list', 'ReporteController@importar_recepcion_list');
+    Route::post('importar/recepciones/datos', 'ReporteController@importar_recepcion_datos');
+    Route::get('importar/recepciones/datos/view', 'ReporteController@importar_recepcion_datos_view');
+    Route::post('importar/recepciones/datos/store', 'ReporteController@importar_recepcion_datos_store');
+
+    // Recibos
+    Route::get('recibo/aportacion/{id}', 'RecibosController@recibo_aportacion');
+
+
     Route::get('{page_id}/edit', 'PageController@edit')->name('page_edit'); 
     Route::post('/page/{page_id}/update', 'PageController@update')->name('page_update');
     Route::get('/page/{page_id}/default', 'PageController@default')->name('page_default'); 

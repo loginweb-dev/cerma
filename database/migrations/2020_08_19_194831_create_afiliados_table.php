@@ -19,6 +19,7 @@ class CreateAfiliadosTable extends Migration
             $table->string('ci', 255)->nullable();
             $table->string('rau', 255)->nullable();
             $table->string('movil', 255)->nullable();
+            $table->string('localidad', 255)->nullable();
             $table->text('direccion')->nullable();
             $table->timestamps();
             $table->softDeletes();

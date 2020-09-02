@@ -15,6 +15,7 @@ class CreateAportesTable extends Migration
     {
         Schema::create('aportes', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('cuenta_id')->nullable();
             $table->string('nombre')->nullable();
             $table->string('tipo')->nullable();
             $table->decimal('monto', 10, 2)->nullable();

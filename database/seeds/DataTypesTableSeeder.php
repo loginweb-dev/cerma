@@ -64,12 +64,12 @@ class DataTypesTableSeeder extends Seeder
                 'model_name' => 'TCG\\Voyager\\Models\\Role',
                 'policy_name' => NULL,
                 'controller' => 'TCG\\Voyager\\Http\\Controllers\\VoyagerRoleController',
-                'description' => '',
+                'description' => NULL,
                 'generate_permissions' => 1,
                 'server_side' => 0,
-                'details' => NULL,
+                'details' => '{"order_column":null,"order_display_column":null,"order_direction":"desc","default_search_key":null,"scope":null}',
                 'created_at' => '2020-08-19 16:05:12',
-                'updated_at' => '2020-08-19 16:05:12',
+                'updated_at' => '2020-08-25 22:20:40',
             ),
             3 => 
             array (
@@ -121,9 +121,9 @@ class DataTypesTableSeeder extends Seeder
                 'description' => NULL,
                 'generate_permissions' => 1,
                 'server_side' => 1,
-                'details' => '{"order_column":null,"order_display_column":null,"order_direction":"asc","default_search_key":null,"scope":null}',
+                'details' => '{"order_column":"id","order_display_column":"id","order_direction":"asc","default_search_key":"nombre","scope":null}',
                 'created_at' => '2020-08-19 17:15:39',
-                'updated_at' => '2020-08-19 20:45:40',
+                'updated_at' => '2020-08-31 11:32:33',
             ),
             6 => 
             array (
@@ -131,7 +131,7 @@ class DataTypesTableSeeder extends Seeder
                 'name' => 'aportes',
                 'slug' => 'aportes',
                 'display_name_singular' => 'Aporte',
-                'display_name_plural' => 'Aportes',
+                'display_name_plural' => 'Tipos de aportes',
                 'icon' => 'voyager-window-list',
                 'model_name' => 'App\\Aporte',
                 'policy_name' => NULL,
@@ -139,9 +139,9 @@ class DataTypesTableSeeder extends Seeder
                 'description' => NULL,
                 'generate_permissions' => 1,
                 'server_side' => 1,
-                'details' => '{"order_column":null,"order_display_column":null,"order_direction":"asc","default_search_key":null,"scope":null}',
+                'details' => '{"order_column":"id","order_display_column":"id","order_direction":"asc","default_search_key":"nombre","scope":null}',
                 'created_at' => '2020-08-19 17:18:56',
-                'updated_at' => '2020-08-19 20:46:10',
+                'updated_at' => '2020-08-31 12:10:11',
             ),
             7 => 
             array (
@@ -157,9 +157,9 @@ class DataTypesTableSeeder extends Seeder
                 'description' => NULL,
                 'generate_permissions' => 1,
                 'server_side' => 1,
-                'details' => '{"order_column":null,"order_display_column":null,"order_direction":"asc","default_search_key":null,"scope":null}',
+                'details' => '{"order_column":"nombre_completo","order_display_column":"nombre_completo","order_direction":"asc","default_search_key":"nombre_completo","scope":null}',
                 'created_at' => '2020-08-19 19:46:52',
-                'updated_at' => '2020-08-19 20:27:06',
+                'updated_at' => '2020-09-01 14:12:23',
             ),
         ));
         

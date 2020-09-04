@@ -13,7 +13,7 @@
 </head>
 <body>
     @php
-        $numero_recibo = str_pad($recepcion->id, 6, "0", STR_PAD_LEFT);
+        $numero_recibo = str_pad($recepcion[0]->id, 6, "0", STR_PAD_LEFT);
     @endphp
     <table width="100%" border="1" cellspacing="0" style="margin-bottom: 5px">
         <tr style="text-align: center">
@@ -38,22 +38,22 @@
     </table>
     <table width="100%" border="1" cellspacing="0" cellpadding="5" style="margin-bottom: 5px">
         <tr>
-            <td colspan="6" class="bg-primary"><small>Recibimos de</small>: <b style="font-size: 16px">{{ $recepcion->afiliado->nombre_completo }}</b></td>
-            <td rowspan="3" width="100px">{!!QrCode::size(100)->generate('Recibo de CERMA #'.$numero_recibo.': '.$recepcion->afiliado->nombre_completo.' en fecha '.date('d-m-Y', strtotime($recepcion->periodo))) !!}</td>
+            <td colspan="6" class="bg-primary"><small>Recibimos de</small>: <b style="font-size: 16px">{{ $recepcion[0]->afiliado->nombre_completo }}</b></td>
+            <td rowspan="3" width="100px">{!!QrCode::size(100)->generate('Recibo de CERMA #'.$numero_recibo.': '.$recepcion[0]->afiliado->nombre_completo.' en fecha '.date('d-m-Y', strtotime($recepcion[0]->periodo))) !!}</td>
         </tr>
         <tr>
             <td class="bg-primary"><b>RAU</b></td>
-            <td>{{ $recepcion->afiliado->rau ?? 'Sin RAU' }}</td>
+            <td>{{ $recepcion[0]->afiliado->rau ?? 'Sin RAU' }}</td>
             <td class="bg-primary"><b>Telefono</b></td>
-            <td>{{ $recepcion->afiliado->movil }}</td>
+            <td>{{ $recepcion[0]->afiliado->movil }}</td>
             <td class="bg-primary"><b>Fecha de recibo</b></td>
-            <td>{{ date('d-m-Y', strtotime($recepcion->periodo)) }}</td>
+            <td>{{ date('d-m-Y', strtotime($recepcion[0]->periodo)) }}</td>
         </tr>
         <tr>
             <td class="bg-primary"><b>Dirección</b></td>
-            <td>{{ $recepcion->afiliado->direccion }}</td>
+            <td>{{ $recepcion[0]->afiliado->direccion }}</td>
             <td class="bg-primary"><b>Ciudad</b></td>
-            <td>{{ $recepcion->afiliado->localidad }}</td>
+            <td>{{ $recepcion[0]->afiliado->localidad }}</td>
             <td class="bg-primary"><b>Medio de pago</b></td>
             <td>Efectivo</td>
         </tr>
@@ -71,7 +71,7 @@
                 $cont = 1;
                 $total = 0;
             @endphp
-            @foreach ($recepcion->detalle as $item)
+            @foreach ($recepcion as $item)
             <tr>
                 <td>{{ $cont }}</td>
                 <td>{{ $item->aporte->nombre }}</td>

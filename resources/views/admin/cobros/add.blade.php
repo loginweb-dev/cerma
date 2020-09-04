@@ -81,6 +81,7 @@
 @stop
 
 @section('javascript')
+    <script src="{{ url('plugins/formatSelect2.js') }}"></script>
     <script>
         $(document).ready(function(){
 
@@ -121,22 +122,6 @@
                 $('#input-monto').val(monto);
             });
         });
-
-        function formatResultAfiliados(option){
-            // Si está cargando mostrar texto de carga
-            if (option.loading) {
-                return '<span class="text-center"><i class="fas fa-spinner fa-spin"></i> Buscando...</span>';
-            }
-            // Mostrar las opciones encontradas
-            return $(`<span>
-                            <div class="row">
-                                <div class="col-sm-10" style="margin:0px">
-                                    <b class="text-dark">${option.nombre_completo}</b><br>
-                                    ${option.rau ? 'RAU: '+option.rau : 'CI: '+option.ci}
-                                </div>
-                            </div>
-                    </span>`);
-        }
     </script>
 @stop
 

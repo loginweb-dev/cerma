@@ -27,15 +27,23 @@ Route::group(['prefix' => 'admin'], function () {
     // Afiliados
     Route::get('afiliados/get/{dato}', 'AfiliadosController@get_afiliado');
 
+    // ============== Reportes =============
+
     // Importación de excel
-    Route::get('importar/recepciones', 'ReporteController@importar_recepcion');
+    Route::get('importar/recepciones', 'ReporteController@recepcion_index');
     Route::post('importar/recepciones/list', 'ReporteController@importar_recepcion_list');
     Route::post('importar/recepciones/datos', 'ReporteController@importar_recepcion_datos');
     Route::get('importar/recepciones/datos/view', 'ReporteController@importar_recepcion_datos_view');
     Route::post('importar/recepciones/datos/store', 'ReporteController@importar_recepcion_datos_store');
 
+    // Reporte de afiliados
+    Route::get('reportes/afiliados', 'ReporteController@afiliados_index');
+    Route::post('reportes/afiliados/lista', 'ReporteController@afiliados_reporte');
+
+    // =====================================
+
     // Recibos
-    Route::get('recibo/aportacion/{id}', 'RecibosController@recibo_aportacion');
+    Route::post('recibo/aportacion', 'RecibosController@recibo_aportacion');
 
 
     Route::get('{page_id}/edit', 'PageController@edit')->name('page_edit'); 

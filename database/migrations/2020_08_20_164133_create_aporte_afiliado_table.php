@@ -18,6 +18,7 @@ class CreateAporteAfiliadoTable extends Migration
             $table->integer('aporte_id')->nullable();
             $table->integer('afiliado_id')->nullable();
             $table->decimal('monto', 10, 2)->nullable();
+            $table->decimal('periodo')->nullable();
             $table->text('observacion')->nullable();
             $table->timestamps();
             $table->softDeletes();

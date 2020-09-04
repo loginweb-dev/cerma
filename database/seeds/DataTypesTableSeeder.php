@@ -28,12 +28,12 @@ class DataTypesTableSeeder extends Seeder
                 'model_name' => 'TCG\\Voyager\\Models\\User',
                 'policy_name' => 'TCG\\Voyager\\Policies\\UserPolicy',
                 'controller' => 'TCG\\Voyager\\Http\\Controllers\\VoyagerUserController',
-                'description' => '',
+                'description' => NULL,
                 'generate_permissions' => 1,
                 'server_side' => 0,
-                'details' => NULL,
+                'details' => '{"order_column":null,"order_display_column":null,"order_direction":"desc","default_search_key":null,"scope":null}',
                 'created_at' => '2020-08-19 16:05:12',
-                'updated_at' => '2020-08-19 16:05:12',
+                'updated_at' => '2020-09-02 15:38:27',
             ),
             1 => 
             array (
@@ -159,7 +159,7 @@ class DataTypesTableSeeder extends Seeder
                 'server_side' => 1,
                 'details' => '{"order_column":"nombre_completo","order_display_column":"nombre_completo","order_direction":"asc","default_search_key":"nombre_completo","scope":null}',
                 'created_at' => '2020-08-19 19:46:52',
-                'updated_at' => '2020-09-01 14:12:23',
+                'updated_at' => '2020-09-02 15:10:25',
             ),
         ));
         

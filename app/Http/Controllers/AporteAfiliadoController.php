@@ -18,8 +18,15 @@ class AporteAfiliadoController extends Controller
      */
     public function index()
     {
-        $cobros = AporteAfiliado::with(['afiliado', 'aporte'])->where('deleted_at', null)->orderBy('id', 'DESC')->get();
-        return view('admin.cobros.browse', compact('cobros'));
+        $search = request('search');
+        $query = $search ? "nombre_completo like '%$search%' or rau like '%$search%' or ci like '%$search%'" : 1;
+        $cobros = AporteAfiliado::with(['afiliado', 'aporte'])
+                        ->whereHas('afiliado', function($q) use ($query){
+                            $q->whereRaw($query);
+                        })
+                        // ->where('periodo', NULL)->where('deleted_at', null)
+                        ->orderBy('id', 'DESC')->get();
+        return view('admin.cobros.browse', compact('cobros', 'search'));
     }
 
     /**

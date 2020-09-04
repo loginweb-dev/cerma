@@ -13,8 +13,4 @@ class RecepcionAfiliado extends Model
     public function afiliado(){
         return $this->belongsTo('App\Afiliado', 'afiliado_id');
     }
-
-    public function detalle(){
-        return $this->hasMany('App\RecepcionAfiliadoDetalle');
-    }
 }

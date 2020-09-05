@@ -24,7 +24,7 @@ class AporteAfiliadoController extends Controller
                         ->whereHas('afiliado', function($q) use ($query){
                             $q->whereRaw($query);
                         })
-                        // ->where('periodo', NULL)->where('deleted_at', null)
+                        ->where('periodo', NULL)->where('deleted_at', null)
                         ->orderBy('id', 'DESC')->get();
         return view('admin.cobros.browse', compact('cobros', 'search'));
     }
@@ -36,7 +36,7 @@ class AporteAfiliadoController extends Controller
      */
     public function create()
     {
-        $aportes = Aporte::where('deleted_at', null)->get();
+        $aportes = Aporte::where('deleted_at', null)->where('tipo', 'monto')->get();
         return view('admin.cobros.add', compact('aportes'));
     }
 
@@ -50,7 +50,7 @@ class AporteAfiliadoController extends Controller
     {
         DB::beginTransaction();
         try {
-            $redirect = $request->return ? 'cobros.create' : 'cobros.index';
+            $redirect = $request->return ? 'aporteafiliado.create' : 'aporteafiliado.index';
             $aporte = AporteAfiliado::create([
                 'aporte_id' => $request->aporte_id,
                 'afiliado_id' => $request->afiliado_id,
@@ -108,6 +108,10 @@ class AporteAfiliadoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::table('aporte_afiliado')->where('id', $id)
+            ->update([
+                'deleted_at' => date('Y-m-d H:i:s')
+            ]);
+        return redirect()->route('aporteafiliado.index')->with(['message' => 'Cobro registrado exitosamente.', 'alert-type' => 'success']);
     }
 }

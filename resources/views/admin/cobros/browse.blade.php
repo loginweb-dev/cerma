@@ -46,7 +46,7 @@
                                         <th>Monto</th>
                                         <th>Fecha</th>
                                         <th>Observaciones</th>
-                                        {{-- <th class="text-right">Acciones</th> --}}
+                                        <th class="text-right">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -60,17 +60,17 @@
                                         <td>Bs. {{ $item->monto }}</td>
                                         <td>{{ date('d-m-Y H:i', strtotime($item->created_at)) }} <br> <small>{{ \Carbon\Carbon::parse($item->created_at)->diffForHumans() }}</small> </td>
                                         <td>{{ $item->observacion }}</td>
-                                        {{-- <td class="no-sort no-click bread-actions text-right">
-                                            <a href="#" title="Ver" class="btn btn-sm btn-warning view">
+                                        <td class="no-sort no-click bread-actions text-right">
+                                            {{-- <a href="#" title="Ver" class="btn btn-sm btn-warning view">
                                                 <i class="voyager-eye"></i> <span class="hidden-xs hidden-sm">Ver</span>
-                                            </a>
-                                            <a href="http://127.0.0.1:8000/admin/cuentas/1/edit" title="Editar" class="btn btn-sm btn-primary edit">
-                                                <i class="voyager-edit"></i> <span class="hidden-xs hidden-sm">Editar</span>
-                                            </a>
-                                            <a href="javascript:;" title="Borrar" class="btn btn-sm btn-danger delete" data-id="{{ $item->id }}" >
+                                            </a> --}}
+                                            <button title="Imprimir" onclick="generar_recibo({{ $item->id }})" class="btn btn-sm btn-primary edit">
+                                                <i class="voyager-polaroid"></i> <span class="hidden-xs hidden-sm">Imprimir</span>
+                                            </button>
+                                            <a href="#" title="Borrar" onclick="borrar({{ $item->id }})" class="btn btn-sm btn-danger delete" data-id="{{ $item->id }}" >
                                                 <i class="voyager-trash"></i> <span class="hidden-xs hidden-sm">Borrar</span>
                                             </a>
-                                        </td> --}}
+                                        </td>
                                     </tr>
                                     @empty
                                         <tr>
@@ -86,6 +86,31 @@
         </div>
     </div>
 
+    {{-- Imprimir --}}
+    <form id="form-print" action="{{ url('admin/recibo/aportacion') }}" method="post" target="_blank">
+        @csrf
+        <input type="hidden" name="id">
+    </form>
+
+    {{-- Borrar --}}
+    <div class="modal modal-danger fade" id="delete_modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title"><i class="voyager-trash"></i> ¿Estás seguro que quieres eliminar el registro?</h4>
+                </div>
+                <div class="modal-footer">
+                    <form id="form-delete" method="POST">
+                        <input type="hidden" name="_method" value="DELETE">
+                        @csrf
+                        <input type="submit" class="btn btn-danger pull-right delete-confirm" value="Sí, ¡Bórralo!">
+                    </form>
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
 @stop
 
 @section('css')
@@ -97,6 +122,17 @@
         $(document).ready(function(){
             
         });
+
+        function generar_recibo(id){
+            $('#form-print input[name="id"]').val(id);
+            $('#form-print').submit();
+        }
+
+        function borrar(id){
+            $('#form-delete').attr('action', '{{ url("admin/aporteafiliado") }}/'+id);
+            $('#delete_modal').modal('show');
+            // $('#form-delete').submit();
+        }
     </script>
 @stop
 

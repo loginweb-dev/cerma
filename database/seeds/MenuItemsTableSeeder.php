@@ -225,6 +225,22 @@ class MenuItemsTableSeeder extends Seeder
                 'route' => NULL,
                 'parameters' => '',
             ),
+            13 => 
+            array (
+                'id' => 14,
+                'menu_id' => 1,
+                'title' => 'Afiliados',
+                'url' => 'admin/reportes/afiliados',
+                'target' => '_self',
+                'icon_class' => 'voyager-people',
+                'color' => '#000000',
+                'parent_id' => 12,
+                'order' => 2,
+                'created_at' => '2020-09-04 21:05:49',
+                'updated_at' => '2020-09-04 21:06:01',
+                'route' => NULL,
+                'parameters' => '',
+            ),
         ));
         
         

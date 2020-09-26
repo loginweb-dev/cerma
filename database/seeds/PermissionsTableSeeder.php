@@ -46,5 +46,7 @@ class PermissionsTableSeeder extends Seeder
         Permission::generateFor('blocks');
 
         Permission::generateFor('plans_of_accounts');
+
+        Permission::generateFor('type_documents');
     }
 }

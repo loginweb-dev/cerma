@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePlansOfAccountsTable extends Migration
+class CreateDetailAccountsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreatePlansOfAccountsTable extends Migration
      */
     public function up()
     {
-        Schema::create('plans_of_accounts', function (Blueprint $table) {
-            $table->id('id');
-            $table->text('element')->nullable();
-            $table->string('code')->nullable();
+        Schema::create('detail_accounts', function (Blueprint $table) {
+            $table->id();
+            $table->longtext('sub_account')->nullable();
+            $table->text('division')->nullable();
+            $table->text('sub_division')->nullable();
             $table->string('name')->nullable();
             $table->string('debe')->nullable();
             $table->string('haber')->nullable();
@@ -24,8 +25,9 @@ class CreatePlansOfAccountsTable extends Migration
             $table->string('grupo')->nullable();
             $table->string('conasev')->nullable();
             $table->string('saldo')->nullable();
+            $table->unsignedBigInteger('plan_of_account_id');
+            $table->foreign('plan_of_account_id')->references('id')->on('plans_of_accounts');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -36,6 +38,6 @@ class CreatePlansOfAccountsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('plans_of_accounts');
+        Schema::dropIfExists('detail_accounts');
     }
 }

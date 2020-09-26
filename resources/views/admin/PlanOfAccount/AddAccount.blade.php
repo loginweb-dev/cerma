@@ -21,16 +21,16 @@
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label>Sub-Cuenta</label>
-                                    <input type="number" name="sub_account" id="input-monto" class="form-control" min="0.1" step="0.1" required>
+                                    <input type="number" name="sub_account" id="input-monto" class="form-control" min="0.1" step="0.1">
                                     <input type="hidden" name="element_id" class="form-control" value="{{$element_id}}">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Division</label>
-                                    <input type="number" name="division" id="input-monto" class="form-control" min="0.1" step="0.1" required>
+                                    <input type="number" name="division" id="input-monto" class="form-control" min="0.1" step="0.1">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Sub-Division</label>
-                                    <input type="number" name="sub_division" id="input-monto" class="form-control" min="0.1" step="0.1" required>
+                                    <input type="number" name="sub_division" id="input-monto" class="form-control" min="0.1" step="0.1">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Nombre de Cuenta</label>
@@ -80,7 +80,7 @@
 @section('javascript')
     <script src="{{ url('plugins/formatSelect2.js') }}"></script>
     <script>
-      
+
 
     </script>
 @stop

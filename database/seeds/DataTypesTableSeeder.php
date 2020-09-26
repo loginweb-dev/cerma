@@ -177,7 +177,25 @@ class DataTypesTableSeeder extends Seeder
                 'server_side' => 1,
                 'details' => '{"order_column":"id","order_display_column":"id","order_direction":"asc","default_search_key":"id","scope":null}',
                 'created_at' => '2020-09-25 16:20:39',
-                'updated_at' => '2020-09-25 19:19:00',
+                'updated_at' => '2020-09-26 15:54:45',
+            ),
+            9 => 
+            array (
+                'id' => 10,
+                'name' => 'type_documents',
+                'slug' => 'type-documents',
+                'display_name_singular' => 'Tipo de Documento',
+                'display_name_plural' => 'Tipos de Documentos',
+                'icon' => 'voyager-documentation',
+                'model_name' => 'App\\Models\\TypeDocument',
+                'policy_name' => NULL,
+                'controller' => NULL,
+                'description' => NULL,
+                'generate_permissions' => 1,
+                'server_side' => 0,
+                'details' => '{"order_column":null,"order_display_column":null,"order_direction":"asc","default_search_key":null,"scope":null}',
+                'created_at' => '2020-09-26 16:37:17',
+                'updated_at' => '2020-09-26 16:38:53',
             ),
         ));
         

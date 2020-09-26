@@ -241,6 +241,22 @@ class MenuItemsTableSeeder extends Seeder
                 'route' => NULL,
                 'parameters' => '',
             ),
+            14 => 
+            array (
+                'id' => 15,
+                'menu_id' => 1,
+                'title' => 'Planes de Cuentas',
+                'url' => '',
+                'target' => '_self',
+                'icon_class' => 'voyager-double-right',
+                'color' => NULL,
+                'parent_id' => NULL,
+                'order' => 5,
+                'created_at' => '2020-09-25 16:20:39',
+                'updated_at' => '2020-09-25 16:20:39',
+                'route' => 'voyager.plans-of-accounts.index',
+                'parameters' => NULL,
+            ),
         ));
         
         

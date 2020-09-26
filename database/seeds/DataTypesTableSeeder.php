@@ -161,6 +161,24 @@ class DataTypesTableSeeder extends Seeder
                 'created_at' => '2020-08-19 19:46:52',
                 'updated_at' => '2020-09-02 15:10:25',
             ),
+            8 => 
+            array (
+                'id' => 9,
+                'name' => 'plans_of_accounts',
+                'slug' => 'plans-of-accounts',
+                'display_name_singular' => 'Plan de Cuenta',
+                'display_name_plural' => 'Planes de Cuentas',
+                'icon' => 'voyager-double-right',
+                'model_name' => 'App\\Models\\PlansOfAccount',
+                'policy_name' => NULL,
+                'controller' => NULL,
+                'description' => NULL,
+                'generate_permissions' => 1,
+                'server_side' => 1,
+                'details' => '{"order_column":"id","order_display_column":"id","order_direction":"asc","default_search_key":"id","scope":null}',
+                'created_at' => '2020-09-25 16:20:39',
+                'updated_at' => '2020-09-25 19:19:00',
+            ),
         ));
         
         

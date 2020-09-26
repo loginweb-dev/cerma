@@ -58,5 +58,14 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::get('/block/move_up/{block_id}', 'BlockController@move_up')->name('block_move_up'); 
     Route::get('/block/move_down/{block_id}', 'BlockController@move_down')->name('block_move_down');
+
+    //ruta para agregar las cuentas a los elementos
+    Route::get('add_account/{id}',function($id){
+        return view('admin.PlanOfAccount.AddAccount', [
+            'element_id' => $id
+            ]
+        );
+    })->name('add_account');
+    Route::post('store_account','PlansAccountController@store')->name('store_account');
 });
 

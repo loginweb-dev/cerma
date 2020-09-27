@@ -273,6 +273,22 @@ class MenuItemsTableSeeder extends Seeder
                 'route' => 'voyager.type-documents.index',
                 'parameters' => NULL,
             ),
+            16 => 
+            array (
+                'id' => 17,
+                'menu_id' => 1,
+                'title' => 'Asientos',
+                'url' => '',
+                'target' => '_self',
+                'icon_class' => 'voyager-logbook',
+                'color' => '#000000',
+                'parent_id' => NULL,
+                'order' => 7,
+                'created_at' => '2020-09-26 21:17:12',
+                'updated_at' => '2020-09-26 21:17:12',
+                'route' => 'asientos.index',
+                'parameters' => NULL,
+            ),
         ));
         
         

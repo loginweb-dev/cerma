@@ -12,9 +12,9 @@
 
 @section('content')
     <div class="page-content container-fluid">
-        <div class="row">
-            <form id="form-store" action="{{ route('asientos.store') }}" method="POST">
-                @csrf
+        <form id="form-store" action="{{ route('asientos.store') }}" method="POST">
+            @csrf
+            <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-bordered">
                         <div class="panel-body">
@@ -80,32 +80,114 @@
                                                 <option value="{{ $doc }}">{{ $doc }} </option>
                                         @endforeach
                                     </select>
-                                    @error('monto')
+                                    @error('typedocument')
                                         <span class="text-danger" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
                                 </div>
-                                <div class="form-group col-md-12">
-                                    <label>Observación</label>
-                                    <textarea name="observacion" class="form-control" rows="3"></textarea>
+                                <div class="form-group col-md-2">
+                                    <label>Serie:</label>
+                                    <input type="text" name="serie" class="form-control">
+                                    @error('serie')
+                                        <span class="text-danger" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label>Nro. Doc.</label>
+                                    <input type="text" name="nro_doc" class="form-control">
+                                    @error('nro_doc')
+                                        <span class="text-danger" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label>T Cambio.</label>
+                                    <input type="text" name="tipo_cambio" class="form-control">
+                                    @error('tipo_cambio')
+                                        <span class="text-danger" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Vouncher:</label>
+                                    <select name="vouncher" class="form-control select2" required>
+                                        <option value="" selected>Seleccione el vouncher</option>
+                                        <option value="00">Apertura</option>
+                                        <option value="01">Ventasas</option>
+                                        <option value="02">Compras</option>
+                                        <option value="03">Ingresos</option>
+                                        <option value="04">Egresos</option>
+                                        <option value="05">Diario</option>
+                                    </select>
+                                    @error('vouncher')
+                                        <span class="text-danger" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label>Nro. Vouncher.</label>
+                                    <input type="text" name="nro_vouncher" class="form-control">
+                                    @error('nro_vouncher')
+                                        <span class="text-danger" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12" style="margin-top: -10px">
+            </div>
+            <div class="row">
+                <div class="col-md-12" style="margin-top:-30px">
                     <div class="panel panel-bordered">
                         <div class="panel-body">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="return" id="defaultCheck1">
-                                <label class="form-check-label" for="defaultCheck1">Permanecer aquí</label>
+                            <h4 class="text-center">Detalle de Asientos</h4>
+                            <div class="clearfix"></div>
+                            <hr style="margin-top:0px">
+                            <div class="col-md-12">
+                                <div class="tab-content">
+                                    <div id="tab1" class="tab-pane fade in  active ">
+                                        <div id="detalle_venta">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-submit">Guardar</button>
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
+            <div class="col-md-12" style="margin-top: -10px">
+                <div class="panel panel-bordered">
+                    <div class="panel-body">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="return" id="defaultCheck1">
+                            <label class="form-check-label" for="defaultCheck1">Permanecer aquí</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-submit">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+     {{-- Modal de detalle de producto --}}
+     <div class="modal modal-primary fade" tabindex="-1" id="modal-info_producto" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="voyager-harddrive"></i> Detalle de cuentas</h4>
+                </div>
+                <div class="modal-body" id="info_producto"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-right" id="btn-cancel-map" data-dismiss="modal">cerrar</button>
+                </div>
+            </div>
         </div>
     </div>
 @stop
@@ -117,45 +199,72 @@
 @section('javascript')
     <script src="{{ url('plugins/formatSelect2.js') }}"></script>
     <script>
-        $(document).ready(function(){
-
-            // Inicializar select2 personalizado
-            $('#select-afiliado_id').select2({
-                placeholder: '<i class="fa fa-search"></i> Buscar cliente...',
-                escapeMarkup : function(markup) {
-                    return markup;
-                },
-                language: {
-                    inputTooShort: function (data) {
-                        return `Por favor ingrese ${data.minimum - data.input.length} o más caracteres`;
-                    },
-                    noResults: function () {
-                        return `<i class="far fa-frown"></i> No hay resultados encontrados`;
+          // cargar vista de detalle de compra según tipo
+          $(document).ready(function(){
+                $('[data-toggle="popover"]').popover();
+                $('[data-toggle="tooltip"]').tooltip();
+                // obtener datos de proveedor
+                $('#input-nit').change(function(){
+                    let nit = $(this).val();
+                    if(nit!=''){
+                        $.ajax({
+                            url: `{{url('admin/proveedores/get_proveedor/${nit}')}}`,
+                            type: 'get',
+                            success: function(data){
+                                if(data){
+                                    $('#form input[name="razon_social"]').val(data);
+                                    toastr.info('Proveedor seleccionado.', 'Información');
+                                }
+                            },
+                            error: function(){
+                                console.log('error');
+                            }
+                        });
                     }
-                },
-                quietMillis: 250,
-                minimumInputLength: 4,
-                ajax: {
-                    url: function (params) {
-                        return `../../admin/afiliados/get/${escape(params.term)}`;
-                    },
-                    processResults: function (data) {
-                        return {
-                            results: data
-                        };
-                    },
-                    cache: true
-                },
-                templateResult: formatResultAfiliados,
-                templateSelection: (opt) => opt.nombre_completo
+                });
+
+                $('#btn-enviar').click(function(){
+                    let con_factura = $(this).prop('checked');
+                    if(con_factura){
+                        $('#confirm_modal').modal('hide');
+                        let factura = $('#input-nro_factura').val();
+                        let nit = $('#input-nit').val();
+                        let nombre = $('#input-razon_social').val();
+                        if(factura==''){
+                            toastr.error('Debe ingresar un número de factura para realizar la venta.', 'Error');
+                        }
+                        if(nit==''){
+                            toastr.error('Debe ingresar un NIT para realizar la venta.', 'Error');
+                        }
+                        if(nombre==''){
+                            toastr.error('Debe ingresar la razón social para realizar la venta.', 'Error');
+                        }
+                    }
+                });
             });
 
-            // Asignar monto según el aporte seleccionado
-            $('#select-aporte_id').change(function(){
-                let monto = $('#select-aporte_id option:selected').data('monto');
-                $('#input-monto').val(monto);
-            });
-        });
+            cargar_detalle('productos')
+            function cargar_detalle(tipo){
+                $('#detalle_venta').html('<br><h4 class="text-center">Cargando...</h4><br>');
+                $.ajax({
+                    url: `{{url('admin/compras/crear')}}/`+tipo,
+                    type: 'get',
+                    success: function(data){
+                        $('#detalle_venta').html(data);
+                    },
+                    error: function(){
+                        console.log('error');
+                    }
+                });
+            }
+
+            function producto_info(id){
+                $('#modal-info_producto').modal();
+                $('#info_producto').html('<br><h4 class="text-center">Cargando...</h4>');
+                $.get('{{url("admin/productos/ver/informacion")}}/'+id, function(data){
+                    $('#info_producto').html(data);
+                });
+            }
     </script>
 @stop
 

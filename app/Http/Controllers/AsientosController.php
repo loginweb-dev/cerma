@@ -85,4 +85,9 @@ class AsientosController extends Controller
     {
         //
     }
+
+    public function cargar_detalle(){
+        $cuentas = \App\Models\DetailAccount::all();
+        return view('admin.asientos.create_detail', compact('cuentas'));
+    }
 }

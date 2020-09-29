@@ -11,7 +11,7 @@
 @stop
 
 @section('content')
-    <div class="page-content container-fluid">
+    <div class="page-content container-fluid" id="asiento">
         <form id="form-store" action="{{ route('asientos.store') }}" method="POST">
             @csrf
             <div class="row">
@@ -19,125 +19,19 @@
                     <div class="panel panel-bordered">
                         <div class="panel-body">
                             <div class="row">
-                                <div class="form-group col-md-12">
-                                    <label>Tipo</label>
-                                    <select name="tipo" class="form-control" required>
-                                        <option value="libro diario">Libro Diario</option>
-                                        <option value="libro compra">Libro Compra</option>
-                                        <option value="libro venta">Libro Venta</option>
-                                    </select>
-                                    @error('afiliado_id')
-                                        <span class="text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <label>Mes</label>
-                                    <select name="mes" class="form-control select2" required>
-                                        <option value="1">ENERO</option>
-                                        <option value="2">FEBRERO</option>
-                                        <option value="3">MARZO</option>
-                                        <option value="4">ABRIL</option>
-                                        <option value="5">MAYO</option>
-                                        <option value="6">JUNIO</option>
-                                        <option value="7">JULIO</option>
-                                        <option value="8">AGOSTO</option>
-                                        <option value="9">SEPTIEMBRE</option>
-                                        <option value="10">OCTUBRE</option>
-                                        <option value="11">NOVIEMBRE</option>
-                                        <option value="12">DICIEMBRE</option>
-                                    </select>
-                                    @error('aporte_id')
-                                        <span class="text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <label>Fecha-Emision</label>
-                                    <input type="date" name="fecha_emision" class="form-control" required>
-                                    @error('fecha_emision')
-                                        <span class="text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="form-group col-md-1">
-                                    <label>F. V o P</label>
-                                    <input type="text" name="fv_op" class="form-control">
-                                    @error('fv_op')
-                                        <span class="text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="form-group col-md-7">
-                                    <label>Tipo de Documento</label>
-                                    <select name="typedocument" class="form-control select2" required>
-                                        <option value="">Seleccione el tipo de documento</option>
-                                        @foreach(\App\Models\TypeDocument::pluck('name') as $doc)
-                                                <option value="{{ $doc }}">{{ $doc }} </option>
-                                        @endforeach
-                                    </select>
-                                    @error('typedocument')
-                                        <span class="text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <label>Serie:</label>
-                                    <input type="text" name="serie" class="form-control">
-                                    @error('serie')
-                                        <span class="text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <label>Nro. Doc.</label>
-                                    <input type="text" name="nro_doc" class="form-control">
-                                    @error('nro_doc')
-                                        <span class="text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <label>T Cambio.</label>
-                                    <input type="text" name="tipo_cambio" class="form-control">
-                                    @error('tipo_cambio')
-                                        <span class="text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label>Vouncher:</label>
-                                    <select name="vouncher" class="form-control select2" required>
-                                        <option value="" selected>Seleccione el vouncher</option>
-                                        <option value="00">Apertura</option>
-                                        <option value="01">Ventasas</option>
-                                        <option value="02">Compras</option>
-                                        <option value="03">Ingresos</option>
-                                        <option value="04">Egresos</option>
-                                        <option value="05">Diario</option>
-                                    </select>
-                                    @error('vouncher')
-                                        <span class="text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <label>Nro. Vouncher.</label>
-                                    <input type="text" name="nro_vouncher" class="form-control">
-                                    @error('nro_vouncher')
-                                        <span class="text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Cuentas <span style="color:red;"v-show="form.idcuenta==0">(*Seleccione)</span></label>
+                                        <div class="form-inline">
+                                            <input type="text" v-model="form.codigobuscar" class="form-control"  @keyup.enter="buscarCuenta()" placeholder="Ingrese codigo de la cuenta">
+                                            <button type="button" title="Buscar" data-toggle="modal" data-target="#modalcuentas" class="btn btn-primary">...</button>
+                                            <input type="text" readonly class="form-control" v-model="form.codigo">
+                                            <input type="text" readonly class="form-control" v-model="form.cuenta">
+                                            <div class="form-group">
+                                                <button type="button" @click="agregarDetalle()" title="agregar cuenta" class="btn btn-success form-control btnagregar"><i class="voyager-plus"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -159,6 +53,12 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="">Glosa </label>
+                                    <textarea name="descripcion" class="form-control" required>{{old('descripcion')}}</textarea>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -170,26 +70,66 @@
                             <input class="form-check-input" type="checkbox" name="return" id="defaultCheck1">
                             <label class="form-check-label" for="defaultCheck1">Permanecer aquí</label>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-submit">Guardar</button>
+                        <input type="button" value="Registrar" class="btn btn-primary">
                     </div>
                 </div>
             </div>
         </form>
-    </div>
-     {{-- Modal de detalle de producto --}}
-     <div class="modal modal-primary fade" tabindex="-1" id="modal-info_producto" role="dialog">
-        <div class="modal-dialog modal-lg">
+         <!--Inicio del modal agregar/actualizar-->
+     <div class="modal fade" tabindex="-1" tabindex="-1" id="modalcuentas" role="dialog">
+        <div class="modal-dialog modal-primary modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title"><i class="voyager-harddrive"></i> Detalle de cuentas</h4>
+                    <h4 class="modal-title" v-text="form.tituloModal"></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
                 </div>
-                <div class="modal-body" id="info_producto"></div>
+                <div class="modal-body">
+                        <div class="form-group">
+                            <div class="form-inline">
+                                 <select class="form-control" v-model="form.criterio">
+                                <option value="codigo">codigo</option>
+                                <option value="descripcion">Nombre</option>
+                                </select>
+                                <input type="text" v-model="form.buscar" @keyup.enter="listarCuentas(form.buscar,form.criterio)" class="form-control" placeholder="Texto a buscar">
+                                <button type="submit" @click="listarCuentas(form.buscar,form.criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                            </div>
+                        </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Opciones</th>
+                                    <th>Código</th>
+                                    <th>Descripcion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="cuenta in form.arrayCuentas" :key="cuenta.id">
+                                    <td>
+                                        <button type="button" @click="agregarDetalleModal(cuenta)" class="btn btn-success btn-sm" title="agregar cuenta">
+                                        <i class="voyager-list-add"></i>
+                                        </button>
+                                    </td>
+                                    <td v-text="cuenta.sub_account"></td>
+                                    <td v-text="cuenta.name"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-right" id="btn-cancel-map" data-dismiss="modal">cerrar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
+            <!-- /.modal-content -->
         </div>
+        <!-- /.modal-dialog -->
     </div>
+    <!--Fin del modal-->
+    </div>
+
 @stop
 
 @section('css')
@@ -197,75 +137,28 @@
 @stop
 
 @section('javascript')
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
     <script src="{{ url('plugins/formatSelect2.js') }}"></script>
-    <script>
-          // cargar vista de detalle de compra según tipo
-          $(document).ready(function(){
-                $('[data-toggle="popover"]').popover();
-                $('[data-toggle="tooltip"]').tooltip();
-                // obtener datos de proveedor
-                $('#input-nit').change(function(){
-                    let nit = $(this).val();
-                    if(nit!=''){
-                        $.ajax({
-                            url: `{{url('admin/proveedores/get_proveedor/${nit}')}}`,
-                            type: 'get',
-                            success: function(data){
-                                if(data){
-                                    $('#form input[name="razon_social"]').val(data);
-                                    toastr.info('Proveedor seleccionado.', 'Información');
-                                }
-                            },
-                            error: function(){
-                                console.log('error');
-                            }
-                        });
-                    }
-                });
-
-                $('#btn-enviar').click(function(){
-                    let con_factura = $(this).prop('checked');
-                    if(con_factura){
-                        $('#confirm_modal').modal('hide');
-                        let factura = $('#input-nro_factura').val();
-                        let nit = $('#input-nit').val();
-                        let nombre = $('#input-razon_social').val();
-                        if(factura==''){
-                            toastr.error('Debe ingresar un número de factura para realizar la venta.', 'Error');
-                        }
-                        if(nit==''){
-                            toastr.error('Debe ingresar un NIT para realizar la venta.', 'Error');
-                        }
-                        if(nombre==''){
-                            toastr.error('Debe ingresar la razón social para realizar la venta.', 'Error');
-                        }
-                    }
-                });
-            });
-
-            cargar_detalle('productos')
-            function cargar_detalle(tipo){
-                $('#detalle_venta').html('<br><h4 class="text-center">Cargando...</h4><br>');
-                $.ajax({
-                    url: `{{url('admin/compras/crear')}}/`+tipo,
-                    type: 'get',
-                    success: function(data){
-                        $('#detalle_venta').html(data);
-                    },
-                    error: function(){
-                        console.log('error');
-                    }
-                });
-            }
-
-            function producto_info(id){
-                $('#modal-info_producto').modal();
-                $('#info_producto').html('<br><h4 class="text-center">Cargando...</h4>');
-                $.get('{{url("admin/productos/ver/informacion")}}/'+id, function(data){
-                    $('#info_producto').html(data);
-                });
-            }
-    </script>
+    <script type="text/javascript">
+        Vue.http.headers.common['X-CSRF-TOKEN'] = '{{csrf_token()}}';
+        window._form = {
+			tituloModal: 'Seleccione uno o varias cuentas',
+			idcuenta: 0,
+            codigo: '',
+            cuenta:null,
+			codigobuscar:'',
+            fecha: '',
+			glosa: '',
+			items: [],
+			cuenta:[],
+			arrayDetalle:[],
+			criterio: 'codigo',
+			buscar: '',
+			arrayCuentas:[]
+        };
+</script>
+<script src="{{ asset('js/asiento.js') }}"></script>
 @stop
 
 @else

@@ -62,7 +62,10 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/block/move_down/{block_id}', 'BlockController@move_down')->name('block_move_down');
 
     Route::resource('asientos','AsientosController');
-    Route::get('get_detail','AsientosController@cargar_detalle')->name('get_detail');
+    //ruta para buscar por codigo las cuentas
+    Route::get('planes_cuentas/buscarcuenta','AsientosController@buscarCuenta');
+    Route::get('planes_cuentas/listarcuentas','AsientosController@listarCuentas');
+
     //ruta para agregar las cuentas a los elementos
     Route::get('add_account/{id}',function($id){
         return view('admin.PlanOfAccount.AddAccount', [

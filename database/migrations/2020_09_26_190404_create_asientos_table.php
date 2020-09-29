@@ -15,8 +15,8 @@ class CreateAsientosTable extends Migration
     {
         Schema::create('asientos', function (Blueprint $table) {
             $table->id();
-            $table->string('tipo')->nullable();
             $table->foreignId('user_id')->constrained();
+            $table->text('glosa')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

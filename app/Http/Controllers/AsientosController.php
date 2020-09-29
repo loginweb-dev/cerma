@@ -86,8 +86,37 @@ class AsientosController extends Controller
         //
     }
 
-    public function cargar_detalle(){
-        $cuentas = \App\Models\DetailAccount::all();
-        return view('admin.asientos.create_detail', compact('cuentas'));
+    public function buscarCuenta(Request $request){
+        $filtro = $request->filtro;
+        $cuenta = \App\Models\DetailAccount::where('sub_division',$filtro)
+                                  ->select('id','sub_division','name')
+                                  ->orderBy('id','asc')
+                                  ->take(1)
+                                  ->get();
+        return response()->json([
+            'cuenta' => $cuenta
+        ]);
     }
+
+    public function listarCuentas(Request $request)
+    {
+       // if (!$request->ajax()) return redirect('/');
+
+        $buscar = $request->buscar;
+        $criterio = $request->criterio;
+
+         //obtengo los ids de los almacenes
+
+        if ($buscar==''){
+            $cuentas = \App\Models\DetailAccount::orderBy('id','desc')->paginate(10);
+        }
+        else{
+            $cuentas = d\App\Models\DetailAccount::where('tomos.'. $criterio, 'like','%'. $buscar . '%')
+                                        ->orderBy('id','desc')->paginate(10);
+        }
+        return response()->json([
+            'data' => $cuentas
+        ]);
+    }
+
 }

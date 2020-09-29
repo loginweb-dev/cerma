@@ -17,16 +17,16 @@ class CreateDiariosTable extends Migration
             $table->id();
             $table->integer('mes');
             $table->date('fecha');
-            $table->string('bouncher');
-            $table->string('comprobante');
-            $table->string('cta');
-            $table->string('nombre');
-            $table->string('debe');
-            $table->string('haber');
-            $table->text('glosa');
+            $table->string('bouncher')->nullable();
+            $table->string('comprobante')->nullable();
+            $table->string('cta')->nullable();
+            $table->string('nombre')->nullable();
+            $table->string('debe')->nullable();
+            $table->string('haber')->nullable();
+            $table->text('glosa')->nullable();
             $table->string('cta2')->nullable();
-            $table->string('conasev');
-            $table->year('year');
+            $table->string('conasev')->nullable();
+            $table->year('year')->nullable();
             $table->string('cta3')->nullable();
             $table->foreignId('asiento_id')
                   ->nullable()

@@ -68,15 +68,27 @@ Route::group(['prefix' => 'admin'], function () {
 
     //ruta para agregar las cuentas a los elementos
     Route::get('add_account/{id}',function($id){
+        $plan = \App\Models\PlansOfAccount::with('detailaccounts')
+                                            ->where('id',$id)->first();
+        //return $plan;
         return view('admin.PlanOfAccount.AddAccount', [
-            'element_id' => $id
+            'cuenta' => $plan,
+            'element_id' => $plan->id
             ]
         );
     })->name('add_account');
     Route::post('store_account','PlansAccountController@store')->name('store_account');
+
+    //rutas para reportes
+    Route::get('reports/lbdiario','ReporteController@lbdiario_index')->name('lbdiario_index');
+    Route::post('reports/lbdiario/list', 'ReporteController@lbdiario_generate');
+
+    Route::get('reports/lbmayor','ReporteController@lbmayor_index')->name('lbmayor_index');
+    Route::post('reports/lbmayor/list', 'ReporteController@lbmayor_generate');
+
     //ruta para importar los tipos de documentos
     Route::get('import-document', function () {
-        Excel::import(new TypeDocumentImport, 'typs_documents.xlsx');
+        Excel::import(new TypeDocumentImport, 'subcuentas.xlsx');
         return 'importacion con exito';
     });
 });

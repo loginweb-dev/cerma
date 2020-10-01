@@ -42,8 +42,8 @@
                                 <thead>
                                     <tr>
                                         <th>Usuario</th>
-                                        <th>Tipo</th>
                                         <th>Fecha</th>
+                                        <th>Glosa</th>
                                         <th class="text-right">Acciones</th>
                                     </tr>
                                 </thead>
@@ -54,8 +54,8 @@
                                             {{ $item->user->name }} <br>
                                             <b><small>{{ $item->user->email }}</small></b>
                                         </td>
-                                        <td>{{ $item->tipo}}</td>
                                         <td>{{ date('d-m-Y H:i', strtotime($item->created_at)) }} <br> <small>{{ \Carbon\Carbon::parse($item->created_at)->diffForHumans() }}</small> </td>
+                                        <td>{{ $item->glosa}}</td>
                                         <td class="no-sort no-click bread-actions text-right">
                                             {{-- <a href="#" title="Ver" class="btn btn-sm btn-warning view">
                                                 <i class="voyager-eye"></i> <span class="hidden-xs hidden-sm">Ver</span>

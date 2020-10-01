@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Asiento;
 use Illuminate\Http\Request;
-
+use DB;
 class AsientosController extends Controller
 {
     /**
@@ -38,7 +38,26 @@ class AsientosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $asiento = new Asiento;
+        $asiento->user_id = auth()->user()->id;
+        $asiento->glosa = $request->glosa;
+        $asiento->total_haber = collect($request->items)->sum(function($item) {
+            return $item['haber'];
+        });
+        $asiento->total_debe = collect($request->items)->sum(function($item) {
+            return $item['debe'];
+        });
+        $asiento = DB::transaction(function() use ($asiento, $request) {
+            // custom method from app/Helper/HasManyRelation
+            $asiento->storeHasMany([
+                'items' => $request->items
+            ]);
+            return $asiento;
+        });
+
+        return response()
+            ->json(['saved' => true, 'id' => $asiento->id]);
+
     }
 
     /**
@@ -88,8 +107,8 @@ class AsientosController extends Controller
 
     public function buscarCuenta(Request $request){
         $filtro = $request->filtro;
-        $cuenta = \App\Models\DetailAccount::where('sub_division',$filtro)
-                                  ->select('id','sub_division','name')
+        $cuenta = \App\Models\DetailAccount::where('code',$filtro)
+                                  ->select('id','code','name')
                                   ->orderBy('id','asc')
                                   ->take(1)
                                   ->get();
@@ -105,14 +124,15 @@ class AsientosController extends Controller
         $buscar = $request->buscar;
         $criterio = $request->criterio;
 
-         //obtengo los ids de los almacenes
-
         if ($buscar==''){
-            $cuentas = \App\Models\DetailAccount::orderBy('id','desc')->paginate(10);
+            $cuentas = \App\Models\DetailAccount::select('id','code','name')
+                                                    ->orderBy('id','desc')
+                                                    ->paginate(10);
         }
         else{
-            $cuentas = d\App\Models\DetailAccount::where('tomos.'. $criterio, 'like','%'. $buscar . '%')
-                                        ->orderBy('id','desc')->paginate(10);
+            $cuentas = \App\Models\DetailAccount::where('detail_accounts.'. $criterio, 'like','%'. $buscar . '%')
+                                                    //->whereNotNull('sub_division')
+                                                    ->orderBy('id','desc')->paginate(10);
         }
         return response()->json([
             'data' => $cuentas

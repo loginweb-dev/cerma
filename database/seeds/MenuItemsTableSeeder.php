@@ -289,6 +289,38 @@ class MenuItemsTableSeeder extends Seeder
                 'route' => 'asientos.index',
                 'parameters' => NULL,
             ),
+            17 => 
+            array (
+                'id' => 18,
+                'menu_id' => 1,
+                'title' => 'Libro Diario',
+                'url' => '',
+                'target' => '_self',
+                'icon_class' => 'voyager-documentation',
+                'color' => '#000000',
+                'parent_id' => 12,
+                'order' => 3,
+                'created_at' => '2020-09-30 17:40:00',
+                'updated_at' => '2020-09-30 17:40:48',
+                'route' => 'lbdiario_index',
+                'parameters' => NULL,
+            ),
+            18 => 
+            array (
+                'id' => 19,
+                'menu_id' => 1,
+                'title' => 'Libro Mayor',
+                'url' => '',
+                'target' => '_self',
+                'icon_class' => 'voyager-logbook',
+                'color' => '#000000',
+                'parent_id' => 12,
+                'order' => 4,
+                'created_at' => '2020-09-30 22:27:24',
+                'updated_at' => '2020-09-30 22:27:31',
+                'route' => 'lbmayor_index',
+                'parameters' => NULL,
+            ),
         ));
         
         

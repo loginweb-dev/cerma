@@ -3,6 +3,8 @@
 namespace App\Imports;
 
 use App\Models\TypeDocument;
+use App\Models\PlansOfAccount;
+use App\Models\DetailAccount;
 use Maatwebsite\Excel\Concerns\ToModel;
 
 class TypeDocumentImport implements ToModel
@@ -14,9 +16,10 @@ class TypeDocumentImport implements ToModel
     */
     public function model(array $row)
     {
-        return new TypeDocument([
+        return new DetailAccount([
+           'plan_of_account_id' => $row[0],
            'code'     => $row[1],
-           'name'    => $row[0],
+           'name'    => $row[2],
         ]);
     }
 }

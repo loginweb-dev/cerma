@@ -8,7 +8,7 @@ class PlanOfAccount extends AbstractAction
 {
     public function getTitle()
     {
-        return 'Agregar Sub-Cuentas';
+        return 'Sub-Cuentas';
     }
 
     public function getIcon()
@@ -31,10 +31,6 @@ class PlanOfAccount extends AbstractAction
     public function getDefaultRoute()
     {
         return route('add_account', $this->data->{$this->data->getKeyName()});
-        // return view('admin.PlanOfAccount.AddAccount', [
-        //     'element_id' => $this->data->{$this->data->getKeyName()}
-        //     ]
-        // );
     }
 
     public function shouldActionDisplayOnDataType()

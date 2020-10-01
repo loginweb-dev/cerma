@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDetailAccountsTable extends Migration
+class CreateDetallesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,16 @@ class CreateDetailAccountsTable extends Migration
      */
     public function up()
     {
-        Schema::create('detail_accounts', function (Blueprint $table) {
+        Schema::create('detalles', function (Blueprint $table) {
             $table->id();
-            $table->text('code')->nullable();
+            $table->date('fecha')->nullable();
+            $table->string('codigo')->nullable();
             $table->string('name')->nullable();
-            $table->unsignedBigInteger('plan_of_account_id');
-            $table->foreign('plan_of_account_id')->references('id')->on('plans_of_accounts');
+            $table->string('debe')->nullable();
+            $table->string('haber')->nullable();
+            $table->text('glosa')->nullable();
+            $table->foreignId('asiento_id')
+                  ->constrained();
             $table->timestamps();
         });
     }
@@ -30,6 +34,6 @@ class CreateDetailAccountsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('detail_accounts');
+        Schema::dropIfExists('detalles');
     }
 }

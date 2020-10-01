@@ -12,8 +12,6 @@
 
 @section('content')
     <div class="page-content container-fluid" id="asiento">
-        <form id="form-store" action="{{ route('asientos.store') }}" method="POST">
-            @csrf
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-bordered">
@@ -25,11 +23,7 @@
                                         <div class="form-inline">
                                             <input type="text" v-model="form.codigobuscar" class="form-control"  @keyup.enter="buscarCuenta()" placeholder="Ingrese codigo de la cuenta">
                                             <button type="button" title="Buscar" data-toggle="modal" data-target="#modalcuentas" class="btn btn-primary">...</button>
-                                            <input type="text" readonly class="form-control" v-model="form.codigo">
-                                            <input type="text" readonly class="form-control" v-model="form.cuenta">
-                                            <div class="form-group">
-                                                <button type="button" @click="agregarDetalle()" title="agregar cuenta" class="btn btn-success form-control btnagregar"><i class="voyager-plus"></i></button>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -54,9 +48,64 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="">Glosa </label>
-                                    <textarea name="descripcion" class="form-control" required>{{old('descripcion')}}</textarea>
+                                <div class="form-group row border">
+                                    <div class="table-responsive col-md-12">
+                                        <div style="max-height:500px; overflow-y:auto">
+                                            <table class="table table-bordered table-striped table-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Codigo</th>
+                                                        <th>Cta:</th>
+                                                        <th>Debe</th>
+                                                        <th>Haber</th>
+                                                        <th>Opciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody v-if="form.items.length>0">
+                                                    <tr v-for="cuenta in form.items">
+                                                        </td>
+                                                        <td v-text="cuenta.codigo">
+                                                        </td>
+                                                        <td v-text="cuenta.name">
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control" v-model="cuenta.debe">
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control" v-model="cuenta.haber">
+                                                        </td>
+                                                        <td>
+                                                            <button @click="remove(cuenta)" type="button" class="btn btn-danger btn-sm">
+                                                                <i class="voyager-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <tbody v-else>
+                                                    <tr>
+                                                        <td colspan="6" align="center">
+                                                            No hay cuentas agregadas
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot v-if="form.items.length>0">
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            Totales
+                                                        </td>
+                                                        <td align="center">
+                                                            @{{ totalDebe }}
+                                                        </td>
+                                                        <td align="center">
+                                                            @{{ totalHaber }}
+                                                        </td>
+                                                        <td>
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -66,15 +115,15 @@
             <div class="col-md-12" style="margin-top: -10px">
                 <div class="panel panel-bordered">
                     <div class="panel-body">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="return" id="defaultCheck1">
-                            <label class="form-check-label" for="defaultCheck1">Permanecer aquí</label>
+                        <div>
+                            <label>Glosa</label>
+                            <textarea name="glosa"  rows="5" class="form-control" v-model="form.glosa">
+                            </textarea>
                         </div>
-                        <input type="button" value="Registrar" class="btn btn-primary">
+                        <input type="button" value="Registrar" class="btn btn-primary" @click="crearAsiento">
                     </div>
                 </div>
             </div>
-        </form>
          <!--Inicio del modal agregar/actualizar-->
      <div class="modal fade" tabindex="-1" tabindex="-1" id="modalcuentas" role="dialog">
         <div class="modal-dialog modal-primary modal-lg" role="document">
@@ -89,8 +138,8 @@
                         <div class="form-group">
                             <div class="form-inline">
                                  <select class="form-control" v-model="form.criterio">
-                                <option value="codigo">codigo</option>
-                                <option value="descripcion">Nombre</option>
+                                <option value="code">codigo</option>
+                                <option value="name">Nombre</option>
                                 </select>
                                 <input type="text" v-model="form.buscar" @keyup.enter="listarCuentas(form.buscar,form.criterio)" class="form-control" placeholder="Texto a buscar">
                                 <button type="submit" @click="listarCuentas(form.buscar,form.criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
@@ -112,7 +161,7 @@
                                         <i class="voyager-list-add"></i>
                                         </button>
                                     </td>
-                                    <td v-text="cuenta.sub_account"></td>
+                                    <td v-text="cuenta.code"></td>
                                     <td v-text="cuenta.name"></td>
                                 </tr>
                             </tbody>
@@ -129,7 +178,6 @@
     </div>
     <!--Fin del modal-->
     </div>
-
 @stop
 
 @section('css')
@@ -144,17 +192,22 @@
         Vue.http.headers.common['X-CSRF-TOKEN'] = '{{csrf_token()}}';
         window._form = {
 			tituloModal: 'Seleccione uno o varias cuentas',
-			idcuenta: 0,
+            //variables para agregar al detalle de lacuenta
+            idcuenta: 0,
+            //fecha: '',
             codigo: '',
             cuenta:null,
+            glosa: '',
+            debe: '',
+            haber: '',
+            //fin-variables
 			codigobuscar:'',
-            fecha: '',
 			glosa: '',
 			items: [],
-			cuenta:[],
+			cuentas:[],
 			arrayDetalle:[],
-			criterio: 'codigo',
-			buscar: '',
+			criterio: 'code',
+            buscar: '',
 			arrayCuentas:[]
         };
 </script>

@@ -782,8 +782,8 @@ class DataRowsTableSeeder extends Seeder
                 'edit' => 1,
                 'add' => 1,
                 'delete' => 1,
-                'details' => '{"display":{"width":8}}',
-                'order' => 4,
+                'details' => '{"display":{"width":6}}',
+                'order' => 3,
             ),
             48 => 
             array (
@@ -795,11 +795,11 @@ class DataRowsTableSeeder extends Seeder
                 'required' => 0,
                 'browse' => 1,
                 'read' => 1,
-                'edit' => 1,
+                'edit' => 0,
                 'add' => 0,
                 'delete' => 0,
                 'details' => '{}',
-                'order' => 14,
+                'order' => 5,
             ),
             49 => 
             array (
@@ -815,7 +815,7 @@ class DataRowsTableSeeder extends Seeder
                 'add' => 0,
                 'delete' => 0,
                 'details' => '{}',
-                'order' => 15,
+                'order' => 6,
             ),
             50 => 
             array (
@@ -831,7 +831,7 @@ class DataRowsTableSeeder extends Seeder
                 'add' => 0,
                 'delete' => 0,
                 'details' => '{}',
-                'order' => 16,
+                'order' => 7,
             ),
             51 => 
             array (
@@ -846,8 +846,8 @@ class DataRowsTableSeeder extends Seeder
                 'edit' => 1,
                 'add' => 1,
                 'delete' => 1,
-                'details' => '{"display":{"width":4}}',
-                'order' => 3,
+                'details' => '{"display":{"width":2}}',
+                'order' => 2,
             ),
             52 => 
             array (
@@ -944,6 +944,22 @@ class DataRowsTableSeeder extends Seeder
                 'delete' => 0,
                 'details' => '{}',
                 'order' => 6,
+            ),
+            58 => 
+            array (
+                'id' => 140,
+                'data_type_id' => 9,
+                'field' => 'tipo',
+                'type' => 'select_dropdown',
+                'display_name' => 'Tipo',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '{"display":{"width":4},"default":"A","options":{"A":"Activos","P":"Pasivo-Patrimonio","G":"Gastos","I":"Ingresos"}}',
+                'order' => 4,
             ),
         ));
         

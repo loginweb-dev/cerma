@@ -200,6 +200,7 @@
             glosa: '',
             debe: '',
             haber: '',
+            tipo: '',
             //fin-variables
 			codigobuscar:'',
 			glosa: '',

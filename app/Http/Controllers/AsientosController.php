@@ -107,9 +107,10 @@ class AsientosController extends Controller
 
     public function buscarCuenta(Request $request){
         $filtro = $request->filtro;
-        $cuenta = \App\Models\DetailAccount::where('code',$filtro)
-                                  ->select('id','code','name')
-                                  ->orderBy('id','asc')
+        $cuenta = \App\Models\DetailAccount::join('plans_of_accounts as plan','plan.id','=','detail_accounts.plan_of_account_id')
+                                  ->where('detail_accounts.code',$filtro)
+                                  ->select('detail_accounts.id','detail_accounts.code','detail_accounts.name','plan.tipo')
+                                  ->orderBy('detail_accounts.id','asc')
                                   ->take(1)
                                   ->get();
         return response()->json([
@@ -125,13 +126,16 @@ class AsientosController extends Controller
         $criterio = $request->criterio;
 
         if ($buscar==''){
-            $cuentas = \App\Models\DetailAccount::select('id','code','name')
-                                                    ->orderBy('id','desc')
-                                                    ->paginate(10);
+            $cuentas = \App\Models\DetailAccount::join('plans_of_accounts as plan','plan.id','=','detail_accounts.plan_of_account_id')
+                                                  ->select('detail_accounts.id','detail_accounts.code','detail_accounts.name','plan.tipo')
+                                                  ->orderBy('detail_accounts.id','asc')
+                                                  ->paginate(10);
         }
         else{
-            $cuentas = \App\Models\DetailAccount::where('detail_accounts.'. $criterio, 'like','%'. $buscar . '%')
-                                                    //->whereNotNull('sub_division')
+            $cuentas = \App\Models\DetailAccount::join('plans_of_accounts as plan','plan.id','=','detail_accounts.plan_of_account_id')
+                                                    ->where('detail_accounts.'. $criterio, 'like','%'. $buscar . '%')
+                                                    ->select('detail_accounts.id','detail_accounts.code','detail_accounts.name','plan.tipo')
+                                                    ->orderBy('detail_accounts.id','asc')
                                                     ->orderBy('id','desc')->paginate(10);
         }
         return response()->json([

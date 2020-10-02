@@ -15,8 +15,9 @@ class CreatePlansOfAccountsTable extends Migration
     {
         Schema::create('plans_of_accounts', function (Blueprint $table) {
             $table->id('id');
-            $table->string('code')->nullable();
-            $table->string('name')->nullable();
+            $table->integer('code');
+            $table->string('name');
+            $table->string('tipo',10)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

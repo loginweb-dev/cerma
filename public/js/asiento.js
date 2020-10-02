@@ -36,9 +36,11 @@ var app = new Vue({
       buscarCuenta: function(){
         let me=this;
         me.form.estado = '';
-        var url= '/admin/planes_cuentas/buscarcuenta?filtro=' + me.form.codigobuscar;
+        //var url= '/admin/planes_cuentas/buscarcuenta?filtro=' + me.form.codigobuscar;
+        var url= '/cerma/public/admin/planes_cuentas/buscarcuenta?filtro=' + me.form.codigobuscar;
 
         this.$http.get(url).then(function (response) {
+            console.log(response)
             var respuesta= response.data;
              me.form.cuentas = respuesta.cuenta;
 
@@ -46,6 +48,7 @@ var app = new Vue({
               me.form.idcuenta=me.form.cuentas[0]['id'];
               me.form.codigo=me.form.cuentas[0]['code'];
               me.form.cuenta=me.form.cuentas[0]['name'];
+              me.form.tipo=me.form.cuentas[0]['tipo'];
 
                 //push al a los items
                 me.form.items.push({
@@ -55,17 +58,20 @@ var app = new Vue({
                     name: me.form.cuenta,
                     //glosa: me.form.glosa,
                     debe: me.form.debe,
-                    haber: me.form.haber
+                    haber: me.form.haber,
+                    tipo: me.form.tipo
                 });
                 //me.itemsarray( me.form.cuentas);
                 me.form.idcuenta=0;
                 me.form.codigobuscar="";
                 me.form.codigo='';
+                me.form.tipo = '';
              }
              else{
               me.form.codigo='No existe tal cuenta';
               me.form.idcuenta=0;
               me.form.cuenta = '';
+              me.form.tipo = '';
              }
         })
         .catch(function (error) {
@@ -80,7 +86,8 @@ var app = new Vue({
             codigo: me.form.codigo,
             name: me.form.cuenta,
             debe: me.form.debe,
-            haber: me.form.haber
+            haber: me.form.haber,
+            tipo: me.form.tipo
         });
             //me.itemsarray( me.form.cuentas);
             me.form.idcuenta=0;
@@ -99,7 +106,8 @@ var app = new Vue({
       },
       listarCuentas (buscar,criterio){
         let me=this;
-        var url= '/admin/planes_cuentas/listarcuentas?buscar='+ buscar + '&criterio='+ criterio;
+        var url= '/cerma/public/admin/planes_cuentas/listarcuentas?buscar='+ buscar + '&criterio='+ criterio;
+        //var url= '/admin/planes_cuentas/listarcuentas?buscar='+ buscar + '&criterio='+ criterio;
        this.$http.get(url).then(function (response) {
            console.log(response.data)
             var respuesta= response.data;
@@ -119,7 +127,8 @@ var app = new Vue({
             name: data['name'],
            // glosa: me.form.glosa,
             debe: me.form.debe,
-            haber: me.form.haber
+            haber: me.form.haber,
+            tipo: data['tipo']
         });
         //quitamos el item del arrayde cuenta
         const index =this.form.arrayCuentas.indexOf(data);

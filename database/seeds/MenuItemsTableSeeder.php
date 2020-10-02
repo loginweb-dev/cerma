@@ -321,6 +321,22 @@ class MenuItemsTableSeeder extends Seeder
                 'route' => 'lbmayor_index',
                 'parameters' => NULL,
             ),
+            19 => 
+            array (
+                'id' => 20,
+                'menu_id' => 1,
+                'title' => 'Balance General',
+                'url' => '',
+                'target' => '_self',
+                'icon_class' => 'voyager-anchor',
+                'color' => '#000000',
+                'parent_id' => 12,
+                'order' => 5,
+                'created_at' => '2020-10-01 18:48:26',
+                'updated_at' => '2020-10-01 18:48:32',
+                'route' => 'balancegnral_index',
+                'parameters' => NULL,
+            ),
         ));
         
         

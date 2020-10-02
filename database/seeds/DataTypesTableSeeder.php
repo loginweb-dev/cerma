@@ -12,12 +12,12 @@ class DataTypesTableSeeder extends Seeder
      */
     public function run()
     {
-
+        
 
         \DB::table('data_types')->delete();
-
+        
         \DB::table('data_types')->insert(array (
-            0 =>
+            0 => 
             array (
                 'id' => 1,
                 'name' => 'users',
@@ -35,7 +35,7 @@ class DataTypesTableSeeder extends Seeder
                 'created_at' => '2020-08-19 16:05:12',
                 'updated_at' => '2020-09-02 15:38:27',
             ),
-            1 =>
+            1 => 
             array (
                 'id' => 2,
                 'name' => 'menus',
@@ -53,7 +53,7 @@ class DataTypesTableSeeder extends Seeder
                 'created_at' => '2020-08-19 16:05:12',
                 'updated_at' => '2020-08-19 16:05:12',
             ),
-            2 =>
+            2 => 
             array (
                 'id' => 3,
                 'name' => 'roles',
@@ -71,7 +71,7 @@ class DataTypesTableSeeder extends Seeder
                 'created_at' => '2020-08-19 16:05:12',
                 'updated_at' => '2020-08-25 22:20:40',
             ),
-            3 =>
+            3 => 
             array (
                 'id' => 4,
                 'name' => 'pages',
@@ -89,7 +89,7 @@ class DataTypesTableSeeder extends Seeder
                 'created_at' => '2020-08-19 16:05:12',
                 'updated_at' => '2020-08-19 16:05:12',
             ),
-            4 =>
+            4 => 
             array (
                 'id' => 5,
                 'name' => 'blocks',
@@ -107,7 +107,7 @@ class DataTypesTableSeeder extends Seeder
                 'created_at' => '2020-08-19 16:05:12',
                 'updated_at' => '2020-08-19 16:05:12',
             ),
-            5 =>
+            5 => 
             array (
                 'id' => 6,
                 'name' => 'cuentas',
@@ -125,7 +125,7 @@ class DataTypesTableSeeder extends Seeder
                 'created_at' => '2020-08-19 17:15:39',
                 'updated_at' => '2020-08-31 11:32:33',
             ),
-            6 =>
+            6 => 
             array (
                 'id' => 7,
                 'name' => 'aportes',
@@ -143,7 +143,7 @@ class DataTypesTableSeeder extends Seeder
                 'created_at' => '2020-08-19 17:18:56',
                 'updated_at' => '2020-08-31 12:10:11',
             ),
-            7 =>
+            7 => 
             array (
                 'id' => 8,
                 'name' => 'afiliados',
@@ -161,7 +161,7 @@ class DataTypesTableSeeder extends Seeder
                 'created_at' => '2020-08-19 19:46:52',
                 'updated_at' => '2020-09-02 15:10:25',
             ),
-            8 =>
+            8 => 
             array (
                 'id' => 9,
                 'name' => 'plans_of_accounts',
@@ -177,9 +177,9 @@ class DataTypesTableSeeder extends Seeder
                 'server_side' => 1,
                 'details' => '{"order_column":"id","order_display_column":"id","order_direction":"asc","default_search_key":"id","scope":null}',
                 'created_at' => '2020-09-25 16:20:39',
-                'updated_at' => '2020-09-30 16:19:06',
+                'updated_at' => '2020-10-01 18:09:36',
             ),
-            9 =>
+            9 => 
             array (
                 'id' => 10,
                 'name' => 'type_documents',
@@ -198,7 +198,7 @@ class DataTypesTableSeeder extends Seeder
                 'updated_at' => '2020-09-26 16:38:53',
             ),
         ));
-
-
+        
+        
     }
 }

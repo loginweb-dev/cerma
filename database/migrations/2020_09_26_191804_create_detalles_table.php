@@ -16,13 +16,14 @@ class CreateDetallesTable extends Migration
         Schema::create('detalles', function (Blueprint $table) {
             $table->id();
             $table->date('fecha')->nullable();
-            $table->string('codigo')->nullable();
-            $table->string('name')->nullable();
-            $table->string('debe')->nullable();
-            $table->string('haber')->nullable();
+            $table->string('codigo');
+            $table->string('name');
+            $table->decimal('debe',8,2)->nullable();
+            $table->decimal('haber',8,2)->nullable();
             $table->text('glosa')->nullable();
             $table->foreignId('asiento_id')
                   ->constrained();
+            $table->string('tipo',10)->nullable();
             $table->timestamps();
         });
     }

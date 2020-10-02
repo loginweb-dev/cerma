@@ -86,6 +86,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('reports/lbmayor','ReporteController@lbmayor_index')->name('lbmayor_index');
     Route::post('reports/lbmayor/list', 'ReporteController@lbmayor_generate');
 
+    Route::get('reports/balancegnral','ReporteController@balancegnral_index')->name('balancegnral_index');
+    Route::post('reports/balancegnral/list', 'ReporteController@balancegnral_generate');
+
     //ruta para importar los tipos de documentos
     Route::get('import-document', function () {
         Excel::import(new TypeDocumentImport, 'subcuentas.xlsx');

@@ -36,8 +36,8 @@ var app = new Vue({
       buscarCuenta: function(){
         let me=this;
         me.form.estado = '';
-        //var url= '/admin/planes_cuentas/buscarcuenta?filtro=' + me.form.codigobuscar;
-        var url= '/cerma/public/admin/planes_cuentas/buscarcuenta?filtro=' + me.form.codigobuscar;
+        var url= '/admin/planes_cuentas/buscarcuenta?filtro=' + me.form.codigobuscar;
+        //var url= '/cerma/public/admin/planes_cuentas/buscarcuenta?filtro=' + me.form.codigobuscar;
 
         this.$http.get(url).then(function (response) {
             console.log(response)
@@ -106,8 +106,8 @@ var app = new Vue({
       },
       listarCuentas (buscar,criterio){
         let me=this;
-        var url= '/cerma/public/admin/planes_cuentas/listarcuentas?buscar='+ buscar + '&criterio='+ criterio;
-        //var url= '/admin/planes_cuentas/listarcuentas?buscar='+ buscar + '&criterio='+ criterio;
+        //var url= '/cerma/public/admin/planes_cuentas/listarcuentas?buscar='+ buscar + '&criterio='+ criterio;
+        var url= '/admin/planes_cuentas/listarcuentas?buscar='+ buscar + '&criterio='+ criterio;
        this.$http.get(url).then(function (response) {
            console.log(response.data)
             var respuesta= response.data;

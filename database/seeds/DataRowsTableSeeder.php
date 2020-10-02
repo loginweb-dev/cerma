@@ -782,106 +782,10 @@ class DataRowsTableSeeder extends Seeder
                 'edit' => 1,
                 'add' => 1,
                 'delete' => 1,
-                'details' => '{"display":{"width":4}}',
-                'order' => 4,
+                'details' => '{"display":{"width":6}}',
+                'order' => 3,
             ),
             48 => 
-            array (
-                'id' => 123,
-                'data_type_id' => 9,
-                'field' => 'debe',
-                'type' => 'text',
-                'display_name' => 'Debe',
-                'required' => 0,
-                'browse' => 0,
-                'read' => 0,
-                'edit' => 0,
-                'add' => 0,
-                'delete' => 0,
-                'details' => '{"display":{"width":2}}',
-                'order' => 8,
-            ),
-            49 => 
-            array (
-                'id' => 124,
-                'data_type_id' => 9,
-                'field' => 'haber',
-                'type' => 'text',
-                'display_name' => 'Haber',
-                'required' => 0,
-                'browse' => 0,
-                'read' => 0,
-                'edit' => 0,
-                'add' => 0,
-                'delete' => 0,
-                'details' => '{"display":{"width":2}}',
-                'order' => 9,
-            ),
-            50 => 
-            array (
-                'id' => 125,
-                'data_type_id' => 9,
-                'field' => 'tipo',
-                'type' => 'select_dropdown',
-                'display_name' => 'Tipo',
-                'required' => 0,
-                'browse' => 1,
-                'read' => 1,
-                'edit' => 1,
-                'add' => 1,
-                'delete' => 1,
-                'details' => '{"default":"A","options":{"A":"Activo","P":"Pasivo-Patrimonio","G":"Gasto"},"display":{"width":3}}',
-                'order' => 10,
-            ),
-            51 => 
-            array (
-                'id' => 126,
-                'data_type_id' => 9,
-                'field' => 'grupo',
-                'type' => 'select_dropdown',
-                'display_name' => 'Grupo',
-                'required' => 0,
-                'browse' => 1,
-                'read' => 1,
-                'edit' => 1,
-                'add' => 1,
-                'delete' => 1,
-                'details' => '{"default":"1","options":{"1":"Balance","2":"E. G. y P Naturaleza","3":"E. G. y P Funcion"},"display":{"width":3}}',
-                'order' => 11,
-            ),
-            52 => 
-            array (
-                'id' => 127,
-                'data_type_id' => 9,
-                'field' => 'conasev',
-                'type' => 'text',
-                'display_name' => 'Conasev',
-                'required' => 0,
-                'browse' => 0,
-                'read' => 0,
-                'edit' => 0,
-                'add' => 0,
-                'delete' => 0,
-                'details' => '{"display":{"width":3}}',
-                'order' => 12,
-            ),
-            53 => 
-            array (
-                'id' => 128,
-                'data_type_id' => 9,
-                'field' => 'saldo',
-                'type' => 'text',
-                'display_name' => 'Saldo',
-                'required' => 0,
-                'browse' => 1,
-                'read' => 0,
-                'edit' => 0,
-                'add' => 0,
-                'delete' => 0,
-                'details' => '{"display":{"width":3}}',
-                'order' => 13,
-            ),
-            54 => 
             array (
                 'id' => 129,
                 'data_type_id' => 9,
@@ -891,13 +795,13 @@ class DataRowsTableSeeder extends Seeder
                 'required' => 0,
                 'browse' => 1,
                 'read' => 1,
-                'edit' => 1,
+                'edit' => 0,
                 'add' => 0,
                 'delete' => 0,
                 'details' => '{}',
-                'order' => 14,
+                'order' => 5,
             ),
-            55 => 
+            49 => 
             array (
                 'id' => 130,
                 'data_type_id' => 9,
@@ -911,9 +815,9 @@ class DataRowsTableSeeder extends Seeder
                 'add' => 0,
                 'delete' => 0,
                 'details' => '{}',
-                'order' => 15,
+                'order' => 6,
             ),
-            56 => 
+            50 => 
             array (
                 'id' => 131,
                 'data_type_id' => 9,
@@ -927,25 +831,9 @@ class DataRowsTableSeeder extends Seeder
                 'add' => 0,
                 'delete' => 0,
                 'details' => '{}',
-                'order' => 16,
+                'order' => 7,
             ),
-            57 => 
-            array (
-                'id' => 132,
-                'data_type_id' => 9,
-                'field' => 'element',
-                'type' => 'select_dropdown',
-                'display_name' => 'Element',
-                'required' => 0,
-                'browse' => 1,
-                'read' => 1,
-                'edit' => 1,
-                'add' => 1,
-                'delete' => 1,
-                'details' => '{"default":"ACTIVO DISPONIBLE Y EXIGIBLE","options":{"ACTIVO DISPONIBLE Y EXIGIBLE":"ACTIVO DISPONIBLE Y EXIGIBLE","ACTIVO REALIZABLE":"ACTIVO REALIZABLE","ACTIVO INMOVILIZADO":"ACTIVO INMOVILIZADO","PASIVO":"PASIVO","PATRIMONIO NETO":"PATRIMONIO NETO"," GASTOS POR NATURALEZA":" GASTOS POR NATURALEZA","INGRESOS":"INGRESOS","SALDOS INTERMEDIARIOS DE GESTI\\u00d3N Y DETERMINACI\\u00d3N DE LOS RESULTADOS DEL EJERCICIO":"SALDOS INTERMEDIARIOS DE GESTI\\u00d3N Y DETERMINACI\\u00d3N DE LOS RESULTADOS DEL EJERCICIO","CONTABILIDAD ANAL\\u00cdTICA DE EXPLOTACI\\u00d3N":"CONTABILIDAD ANAL\\u00cdTICA DE EXPLOTACI\\u00d3N"}}',
-                'order' => 2,
-            ),
-            58 => 
+            51 => 
             array (
                 'id' => 133,
                 'data_type_id' => 9,
@@ -959,9 +847,9 @@ class DataRowsTableSeeder extends Seeder
                 'add' => 1,
                 'delete' => 1,
                 'details' => '{"display":{"width":2}}',
-                'order' => 3,
+                'order' => 2,
             ),
-            59 => 
+            52 => 
             array (
                 'id' => 134,
                 'data_type_id' => 10,
@@ -977,7 +865,7 @@ class DataRowsTableSeeder extends Seeder
                 'details' => '{}',
                 'order' => 1,
             ),
-            60 => 
+            53 => 
             array (
                 'id' => 135,
                 'data_type_id' => 10,
@@ -993,7 +881,7 @@ class DataRowsTableSeeder extends Seeder
                 'details' => '{"display":{"width":6}}',
                 'order' => 2,
             ),
-            61 => 
+            54 => 
             array (
                 'id' => 136,
                 'data_type_id' => 10,
@@ -1009,7 +897,7 @@ class DataRowsTableSeeder extends Seeder
                 'details' => '{"display":{"width":6}}',
                 'order' => 3,
             ),
-            62 => 
+            55 => 
             array (
                 'id' => 137,
                 'data_type_id' => 10,
@@ -1025,7 +913,7 @@ class DataRowsTableSeeder extends Seeder
                 'details' => '{}',
                 'order' => 4,
             ),
-            63 => 
+            56 => 
             array (
                 'id' => 138,
                 'data_type_id' => 10,
@@ -1041,7 +929,7 @@ class DataRowsTableSeeder extends Seeder
                 'details' => '{}',
                 'order' => 5,
             ),
-            64 => 
+            57 => 
             array (
                 'id' => 139,
                 'data_type_id' => 10,
@@ -1056,6 +944,22 @@ class DataRowsTableSeeder extends Seeder
                 'delete' => 0,
                 'details' => '{}',
                 'order' => 6,
+            ),
+            58 => 
+            array (
+                'id' => 140,
+                'data_type_id' => 9,
+                'field' => 'tipo',
+                'type' => 'select_dropdown',
+                'display_name' => 'Tipo',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '{"display":{"width":4},"default":"A","options":{"A":"Activos","P":"Pasivo-Patrimonio","G":"Gastos","I":"Ingresos"}}',
+                'order' => 4,
             ),
         ));
         

@@ -19,39 +19,17 @@
                     <div class="panel panel-bordered">
                         <div class="panel-body">
                             <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label>Sub-Cuenta</label>
-                                    <input type="number" name="sub_account" id="input-monto" class="form-control" min="0.1" step="0.1">
-                                    <input type="hidden" name="element_id" class="form-control" value="{{$element_id}}">
+                                <div class="form-group col-md-4">
+                                    <label>Codigo</label>
+                                    <input type="number" name="code" class="form-control">
+                                    <input type="hidden" name="cuenta_id" class="form-control" value="{{$element_id}}">
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label>Division</label>
-                                    <input type="number" name="division" id="input-monto" class="form-control" min="0.1" step="0.1">
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label>Sub-Division</label>
-                                    <input type="number" name="sub_division" id="input-monto" class="form-control" min="0.1" step="0.1">
-                                </div>
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-8">
                                     <label>Nombre de Cuenta</label>
                                     <input type="text" name="name" class="form-control" required>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label>Tipo</label>
-                                    <select name="tipo" class="form-control select2">
-                                        <option value="A">Activo</option>
-                                        <option value="P">Pasivo-Patrimonio</option>
-                                        <option value="G">Gastos</option>
-                                        <option value="I">Ingresos</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label>Grupo</label>
-                                    <select name="grupo" class="form-control select2">
-                                        <option value="1">Balance</option>
-                                        <option value="2">E. G. y P Naturaleza</option>
-                                        <option value="3">E. G. y P Funcion</option>
-                                    </select>
+                                <div class="form-group col-md-2">
+                                    <button type="submit" class="btn btn-primary btn-submit">Guardar</button>
                                 </div>
                             </div>
                         </div>
@@ -60,11 +38,33 @@
                 <div class="col-md-12" style="margin-top: -10px">
                     <div class="panel panel-bordered">
                         <div class="panel-body">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="return" id="defaultCheck1">
-                                <label class="form-check-label" for="defaultCheck1">Permanecer aquí</label>
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2" class="text-center h3">Sub Cuentas</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Codigo</th>
+                                                <th>Nombre</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @forelse ($cuenta->detailaccounts as $item)
+                                                <tr>
+                                                    <td>{{ $item->code }}</td>
+                                                    <td>{{ $item->name }}</td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="5" class="text-center">No hay datos registrados</td>
+                                                </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-submit">Guardar</button>
                         </div>
                     </div>
                 </div>

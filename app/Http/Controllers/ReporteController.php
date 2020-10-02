@@ -15,7 +15,7 @@ use App\Imports\RecepcionImport;
 use App\RecepcionAfiliado;
 use App\AporteAfiliado;
 use App\Aporte;
-
+use App\Models\Asiento;
 class ReporteController extends Controller
 {
     // Recepcion de leche
@@ -68,7 +68,7 @@ class ReporteController extends Controller
         // dd($request);
         DB::beginTransaction();
         try {
-            for ($i=0; $i < count($request->id); $i++) { 
+            for ($i=0; $i < count($request->id); $i++) {
                 // Registrar ambos aportes en el detalle de recepción
                 AporteAfiliado::create([
                     'afiliado_id' => $request->afiliado_id[$i],
@@ -82,7 +82,7 @@ class ReporteController extends Controller
                     'monto' => $request->aporte_leche[$i],
                     'periodo' => $request->periodo,
                 ]);
-                
+
                 // Actualizar datos de recepción
                 RecepcionAfiliado::where('afiliado_id', $request->afiliado_id[$i])
                 ->where('estado', 0)->update([
@@ -127,5 +127,51 @@ class ReporteController extends Controller
         }
         // dd($recepciones);
         return view('admin.reportes.afiliados.lista_aportes', compact('recepciones'));
+    }
+
+    public function lbdiario_index(){
+        return view('admin.reportes.diario.index');
+    }
+
+    public function lbdiario_generate(Request $request){
+        $f_inicio = $request->inicio;
+        $f_fin    = $request->fin;
+
+        $diarios = Asiento::with(['user','items'])
+                        ->whereBetween('created_at',[$f_inicio,$f_fin])
+                        ->get();
+        return view('admin.reportes.diario.diario_list', compact('diarios','f_inicio','f_fin'));
+    }
+    public function lbmayor_index(){
+        return view('admin.reportes.mayor.index');
+    }
+
+    public function lbmayor_generate(Request $request){
+        $f_inicio = $request->inicio;
+        $f_fin    = $request->fin;
+
+        $mayores = Asiento::selectRaw('det.codigo,det.name,sum(det.debe) AS Debe,sum(det.haber) AS Haber')
+                        ->join('detalles as det', 'det.asiento_id', '=', 'asientos.id')
+                        ->whereBetween('asientos.created_at',[$f_inicio,$f_fin])
+                        ->groupBy('det.codigo','det.name')
+                        ->get();
+        return view('admin.reportes.mayor.mayor_list', compact('mayores','f_inicio','f_fin'));
+    }
+
+    public function balancegnral_index(){
+        return view('admin.reportes.balance.index');
+    }
+
+    public function balancegnral_generate(Request $request){
+        $f_inicio = $request->inicio;
+        $f_fin    = $request->fin;
+
+        $balance = Asiento::selectRaw('det.codigo,det.name,sum(det.debe) AS Debe,sum(det.haber) AS Haber,det.tipo')
+                        ->join('detalles as det', 'det.asiento_id', '=', 'asientos.id')
+                        ->whereBetween('asientos.created_at',[$f_inicio,$f_fin])
+                        ->groupBy('det.codigo','det.name')
+                        ->get();
+
+        return view('admin.reportes.balance.balance_list', compact('balance','f_inicio','f_fin'));
     }
 }

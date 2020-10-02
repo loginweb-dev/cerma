@@ -16,6 +16,8 @@ class CreateAsientosTable extends Migration
         Schema::create('asientos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
+            $table->decimal('total_debe',8,2);
+            $table->decimal('total_haber',8,2);
             $table->text('glosa')->nullable();
             $table->timestamps();
             $table->softDeletes();

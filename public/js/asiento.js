@@ -9,7 +9,7 @@ var app = new Vue({
       Vue.set(this.$data, 'form', _form);
     },
     mounted() {
-      //this.itemsarray(this.form.cuentas);
+      this.listarCuentas(this.form.buscar);
     },
     computed: {
         totalDebe() {
@@ -21,6 +21,9 @@ var app = new Vue({
             return this.form.items.reduce((carry, item) => {
                 return carry + Number(item.haber)
             }, 0)
+        },
+        totalesIguales(){
+            return (this.totalDebe == this.totalHaber) && (this.totalDebe > 0) && (this.totalHaber > 0)
         }
     },
     methods: {
@@ -104,10 +107,10 @@ var app = new Vue({
           }
           return sw;
       },
-      listarCuentas (buscar,criterio){
+      listarCuentas (buscar){
         let me=this;
         //var url= '/cerma/public/admin/planes_cuentas/listarcuentas?buscar='+ buscar + '&criterio='+ criterio;
-        var url= '/admin/planes_cuentas/listarcuentas?buscar='+ buscar + '&criterio='+ criterio;
+        var url= '/admin/planes_cuentas/listarcuentas?buscar='+ buscar;
        this.$http.get(url).then(function (response) {
            console.log(response.data)
             var respuesta= response.data;
@@ -133,7 +136,7 @@ var app = new Vue({
         //quitamos el item del arrayde cuenta
         const index =this.form.arrayCuentas.indexOf(data);
         this.form.arrayCuentas.splice(index, 1);
-
+        toastr.success('Cuenta agregada');
                 //me.itemsarray( me.form1.tomos);
 
       },
@@ -142,6 +145,8 @@ var app = new Vue({
             //var url = '/cerma/public/admin/asientos';
             this.$http.post(url, {
                 items: this.form.items,
+                ufu: this.form.ufu,
+                tipo: this.form.tipo_cambio,
                 glosa: this.form.glosa
             }).then(res => {
                 console.log(res);
@@ -157,8 +162,8 @@ var app = new Vue({
             this.form.idcuenta=0;
             this.form.codigobuscar="";
             this.form.codigo='';
+            this.form.ufu=0;
             this.form.glosa='';
-            this.form.descripcion= '';
             this.form.items= [];
         }
     }

@@ -25,9 +25,9 @@
                                     <form id="form-generate" name="form" method="POST" action="{{ url('admin/reports/balancegnral/list') }}" class="form-inline">
                                         @csrf
                                         <div class="form-group">
-                                            <input type="date" name="inicio" class="form-control" required>
+                                            <input type="date" name="inicio" class="form-control" value="{{ date('Y-m-d') }}">
                                              -hasta-
-                                            <input type="date" name="fin" class="form-control" required>
+                                            <input type="date" name="fin" class="form-control" value="{{ date('Y-m-d') }}">
                                              <input type="hidden" name="printf" class="printf">
                                             <button type="submit" class="btn btn-primary">Generar <i class="voyager-settings"></i></button>
                                             <button id="printf" type="button" class="btn btn-success">Imprimir <i class="voyager-polaroid"></i></button>

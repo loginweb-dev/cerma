@@ -139,6 +139,7 @@ var app = new Vue({
       },
         crearAsiento: function() {
             var url = '/admin/asientos';
+            //var url = '/cerma/public/admin/asientos';
             this.$http.post(url, {
                 items: this.form.items,
                 glosa: this.form.glosa

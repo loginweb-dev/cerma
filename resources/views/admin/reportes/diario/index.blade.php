@@ -22,13 +22,15 @@
                             </ul>
                             <div class="tab-content">
                                 <div id="list" class="tab-pane fade in active">
-                                    <form id="form-generate" method="POST" action="{{ url('admin/reports/lbdiario/list') }}" class="form-inline">
+                                    <form id="form-generate" name="form" method="POST" action="{{ url('admin/reports/lbdiario/list') }}" class="form-inline">
                                         @csrf
                                         <div class="form-group">
-                                            <input type="date" name="inicio" class="form-control"/>
+                                            <input type="date" name="inicio" class="form-control" required>
                                              -hasta-
-                                             <input type="date" name="fin" class="form-control"/>
+                                            <input type="date" name="fin" class="form-control" required>
+                                             <input type="hidden" name="printf" class="printf">
                                             <button type="submit" class="btn btn-primary">Generar <i class="voyager-settings"></i></button>
+                                            <button id="printf" type="button" class="btn btn-success">Imprimir <i class="voyager-polaroid"></i></button>
                                         </div>
                                     </form>
                                     <div id="list-generate" style="margin-top: 20px"></div>
@@ -47,11 +49,18 @@
 
         $(document).ready(function(){
             $('#form-generate').on('submit', function(e){
+                $(".printf").val('noimprimir');
+                $('#form-generate').removeAttr('target')
                 e.preventDefault();
                 $.post($(this).attr('action'), $(this).serialize(), function(res){
                     $('#list-generate').html(res);
                 });
             });
+        });
+        $("#printf").click(function(){
+            $('#form-generate').attr('target','_blank')
+           $(".printf").val('imprimir');
+           document.form.submit();
         });
     </script>
 @stop

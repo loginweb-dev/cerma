@@ -136,10 +136,18 @@ class ReporteController extends Controller
     public function lbdiario_generate(Request $request){
         $f_inicio = $request->inicio;
         $f_fin    = $request->fin;
-
         $diarios = Asiento::with(['user','items'])
-                        ->whereBetween('created_at',[$f_inicio,$f_fin])
-                        ->get();
+                            ->whereBetween('created_at',[$f_inicio,$f_fin])
+                            ->get();
+
+        if ($request->printf == 'imprimir') {
+            $vista = view('admin.reportes.diario.pdf', compact('diarios','f_inicio','f_fin'));
+            $pdf = \App::make('dompdf.wrapper');
+            //  $pdf->loadHTML($vista);
+            $pdf->loadHTML($vista)->setPaper('letter');
+            return $pdf->stream();
+        }
+
         return view('admin.reportes.diario.diario_list', compact('diarios','f_inicio','f_fin'));
     }
     public function lbmayor_index(){
@@ -155,6 +163,14 @@ class ReporteController extends Controller
                         ->whereBetween('asientos.created_at',[$f_inicio,$f_fin])
                         ->groupBy('det.codigo','det.name')
                         ->get();
+        if ($request->printf == 'imprimir') {
+            $vista = view('admin.reportes.mayor.pdf', compact('mayores','f_inicio','f_fin'));
+            $pdf = \App::make('dompdf.wrapper');
+            //  $pdf->loadHTML($vista);
+            $pdf->loadHTML($vista)->setPaper('letter');
+            return $pdf->stream();
+        }
+
         return view('admin.reportes.mayor.mayor_list', compact('mayores','f_inicio','f_fin'));
     }
 
@@ -171,6 +187,13 @@ class ReporteController extends Controller
                         ->whereBetween('asientos.created_at',[$f_inicio,$f_fin])
                         ->groupBy('det.codigo','det.name')
                         ->get();
+        if ($request->printf == 'imprimir') {
+            $vista = view('admin.reportes.balance.pdf', compact('balance','f_inicio','f_fin'));
+            $pdf = \App::make('dompdf.wrapper');
+            //  $pdf->loadHTML($vista);
+            $pdf->loadHTML($vista)->setPaper('letter');
+            return $pdf->stream();
+        }
 
         return view('admin.reportes.balance.balance_list', compact('balance','f_inicio','f_fin'));
     }

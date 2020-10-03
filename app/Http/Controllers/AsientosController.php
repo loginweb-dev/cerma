@@ -16,7 +16,7 @@ class AsientosController extends Controller
     {
         $search = request('search');
         $query = $search ? "nombre_completo like '%$search%' or rau like '%$search%' or ci like '%$search%'" : 1;
-        $asientos = Asiento::orderBy('id', 'DESC')->get();
+        $asientos = Asiento::orderBy('id', 'DESC')->paginate(10);
         return view('admin.asientos.index', compact('asientos', 'search'));
     }
 

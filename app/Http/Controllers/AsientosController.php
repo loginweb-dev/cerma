@@ -40,6 +40,8 @@ class AsientosController extends Controller
     {
         $asiento = new Asiento;
         $asiento->user_id = auth()->user()->id;
+        $asiento->ufu = $request->ufu;
+        $asiento->tipo_cambio = $request->tipo;
         $asiento->glosa = $request->glosa;
         $asiento->total_haber = collect($request->items)->sum(function($item) {
             return $item['haber'];
@@ -120,11 +122,8 @@ class AsientosController extends Controller
 
     public function listarCuentas(Request $request)
     {
-       // if (!$request->ajax()) return redirect('/');
-
+        if (!$request->ajax()) return redirect('/admin');
         $buscar = $request->buscar;
-        $criterio = $request->criterio;
-
         if ($buscar==''){
             $cuentas = \App\Models\DetailAccount::join('plans_of_accounts as plan','plan.id','=','detail_accounts.plan_of_account_id')
                                                   ->select('detail_accounts.id','detail_accounts.code','detail_accounts.name','plan.tipo')
@@ -133,7 +132,8 @@ class AsientosController extends Controller
         }
         else{
             $cuentas = \App\Models\DetailAccount::join('plans_of_accounts as plan','plan.id','=','detail_accounts.plan_of_account_id')
-                                                    ->where('detail_accounts.'. $criterio, 'like','%'. $buscar . '%')
+                                                    ->where('detail_accounts.code', 'like','%'. $buscar . '%')
+                                                    ->orWhere('detail_accounts.name', 'like','%'. $buscar . '%')
                                                     ->select('detail_accounts.id','detail_accounts.code','detail_accounts.name','plan.tipo')
                                                     ->orderBy('detail_accounts.id','asc')
                                                     ->orderBy('id','desc')->paginate(10);

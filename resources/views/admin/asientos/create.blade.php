@@ -17,110 +17,110 @@
                     <div class="panel panel-bordered">
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <h4>Busqueda Cuentas</h4>
+                                    <br>
                                     <div class="form-group">
                                         <label>Cuentas <span style="color:red;"v-show="form.idcuenta==0">(*Seleccione)</span></label>
                                         <div class="form-inline">
-                                            <input type="text" v-model="form.codigobuscar" class="form-control"  @keyup.enter="buscarCuenta()" placeholder="Ingrese codigo de la cuenta">
+                                            <input  type="text"
+                                                    v-model="form.codigobuscar"
+                                                    class="form-control"
+                                                    @keyup.enter="buscarCuenta()"
+                                                    placeholder="Ingrese codigo de la cuenta"
+                                                    size="50">
                                             <button type="button" title="Buscar" data-toggle="modal" data-target="#modalcuentas" class="btn btn-primary">...</button>
 
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12" style="margin-top:-30px">
-                    <div class="panel panel-bordered">
-                        <div class="panel-body">
-                            <h4 class="text-center">Detalle de Asientos</h4>
-                            <div class="clearfix"></div>
-                            <hr style="margin-top:0px">
-                            <div class="col-md-12">
-                                <div class="tab-content">
-                                    <div id="tab1" class="tab-pane fade in  active ">
-                                        <div id="detalle_venta">
+                                <div class="col-md-6">
+                                    <h4>Datos Auxiliares</h4><br>
+                                    <div class="col-md-3 form-group">
+                                        <label>U.F.U</label>
+                                       <input type="number" class="form-control" v-model="form.ufu">
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <label>Tipo de Cambio:</label>
+                                       <input type="number" class="form-control" v-model="form.tipo_cambio">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <h4 class="text-center">Detalle de Asientos</h4>
+                                    <div class="clearfix"></div>
+                                    <hr style="margin-top:0px">
+                                    <div class="form-group row border">
+                                        <div class="table-responsive col-md-12">
+                                            <div style="max-height:500px; overflow-y:auto">
+                                                <table class="table table-bordered table-striped table-sm">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Codigo</th>
+                                                            <th>Cta:</th>
+                                                            <th>Debe</th>
+                                                            <th>Haber</th>
+                                                            <th>Opciones</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody v-if="form.items.length>0">
+                                                        <tr v-for="cuenta in form.items">
+                                                            </td>
+                                                            <td v-text="cuenta.codigo">
+                                                            </td>
+                                                            <td v-text="cuenta.name">
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" class="form-control" v-model="cuenta.debe" @keyup="cuenta.haber = 0">
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" class="form-control" v-model="cuenta.haber" @keyup="cuenta.debe = 0">
+                                                            </td>
+                                                            <td>
+                                                                <button @click="remove(cuenta)" type="button" class="btn btn-danger btn-sm">
+                                                                    <i class="voyager-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tbody v-else>
+                                                        <tr>
+                                                            <td colspan="6" align="center">
+                                                                No hay cuentas agregadas
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tfoot v-if="form.items.length>0">
+                                                        <tr>
+                                                            <td colspan="2">
+                                                                Totales
+                                                            </td>
+                                                            <td align="center">
+                                                                <span :class="totalesIguales? 'label label-info' : 'label label-danger'">
+                                                                     @{{ totalDebe }}
+                                                                </span>
+                                                            </td>
+                                                            <td align="center">
+                                                                <span :class="totalesIguales? 'label label-info' : 'label label-danger'">
+                                                                    @{{ totalHaber }}
+                                                               </span>
+                                                            </td>
+                                                            <td>
+                                                            </td>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group row border">
-                                    <div class="table-responsive col-md-12">
-                                        <div style="max-height:500px; overflow-y:auto">
-                                            <table class="table table-bordered table-striped table-sm">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Codigo</th>
-                                                        <th>Cta:</th>
-                                                        <th>Debe</th>
-                                                        <th>Haber</th>
-                                                        <th>Opciones</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody v-if="form.items.length>0">
-                                                    <tr v-for="cuenta in form.items">
-                                                        </td>
-                                                        <td v-text="cuenta.codigo">
-                                                        </td>
-                                                        <td v-text="cuenta.name">
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" class="form-control" v-model="cuenta.debe">
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" class="form-control" v-model="cuenta.haber">
-                                                        </td>
-                                                        <td>
-                                                            <button @click="remove(cuenta)" type="button" class="btn btn-danger btn-sm">
-                                                                <i class="voyager-trash"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                                <tbody v-else>
-                                                    <tr>
-                                                        <td colspan="6" align="center">
-                                                            No hay cuentas agregadas
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                                <tfoot v-if="form.items.length>0">
-                                                    <tr>
-                                                        <td colspan="2">
-                                                            Totales
-                                                        </td>
-                                                        <td align="center">
-                                                            @{{ totalDebe }}
-                                                        </td>
-                                                        <td align="center">
-                                                            @{{ totalHaber }}
-                                                        </td>
-                                                        <td>
-                                                        </td>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
-                                    </div>
+                                <div class="col-md-12">
+                                    <label>Glosa</label>
+                                    <textarea name="glosa"  rows="5" class="form-control" v-model="form.glosa">
+                                    </textarea>
+                                    <input type="button" value="Registrar" class="btn btn-primary" @click="crearAsiento" :disabled="!totalesIguales">
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12" style="margin-top: -10px">
-                <div class="panel panel-bordered">
-                    <div class="panel-body">
-                        <div>
-                            <label>Glosa</label>
-                            <textarea name="glosa"  rows="5" class="form-control" v-model="form.glosa">
-                            </textarea>
-                        </div>
-                        <input type="button" value="Registrar" class="btn btn-primary" @click="crearAsiento">
                     </div>
                 </div>
             </div>
@@ -135,16 +135,12 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                        <div class="form-group">
-                            <div class="form-inline">
-                                 <select class="form-control" v-model="form.criterio">
-                                <option value="code">codigo</option>
-                                <option value="name">Nombre</option>
-                                </select>
-                                <input type="text" v-model="form.buscar" @keyup.enter="listarCuentas(form.buscar,form.criterio)" class="form-control" placeholder="Texto a buscar">
-                                <button type="submit" @click="listarCuentas(form.buscar,form.criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
-                            </div>
+                    <div class="form-group">
+                        <div class="form-inline">
+                            <input type="text" v-model="form.buscar" @keyup.enter="listarCuentas(form.buscar)" class="form-control" placeholder="escriba codigo o nombre..." size="30">
+                            <button type="submit" @click="listarCuentas(form.buscar)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
                         </div>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped table-sm">
                             <thead>
@@ -198,16 +194,17 @@
             codigo: '',
             cuenta:null,
             glosa: '',
-            debe: '',
-            haber: '',
+            debe: 0,
+            haber: 0,
             tipo: '',
             //fin-variables
-			codigobuscar:'',
+            codigobuscar:'',
+            ufu: 0,
+            tipo_cambio: 6.96,
 			glosa: '',
 			items: [],
 			cuentas:[],
 			arrayDetalle:[],
-			criterio: 'code',
             buscar: '',
 			arrayCuentas:[]
         };

@@ -44,7 +44,7 @@
                                         <th>Usuario</th>
                                         <th>Fecha</th>
                                         <th>Glosa</th>
-                                        <th class="text-right">Acciones</th>
+                                        {{-- <th class="text-right">Acciones</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -60,12 +60,12 @@
                                             {{-- <a href="#" title="Ver" class="btn btn-sm btn-warning view">
                                                 <i class="voyager-eye"></i> <span class="hidden-xs hidden-sm">Ver</span>
                                             </a> --}}
-                                            <button title="Imprimir" onclick="generar_recibo({{ $item->id }})" class="btn btn-sm btn-primary edit">
+                                            {{-- <button title="Imprimir" onclick="generar_recibo({{ $item->id }})" class="btn btn-sm btn-primary edit">
                                                 <i class="voyager-polaroid"></i> <span class="hidden-xs hidden-sm">Imprimir</span>
                                             </button>
                                             <a href="#" title="Borrar" onclick="borrar({{ $item->id }})" class="btn btn-sm btn-danger delete" data-id="{{ $item->id }}" >
                                                 <i class="voyager-trash"></i> <span class="hidden-xs hidden-sm">Borrar</span>
-                                            </a>
+                                            </a> --}}
                                         </td>
                                     </tr>
                                     @empty
@@ -76,6 +76,9 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="pull-right">
+                            {{$asientos->links() }}
+                       </div>
                     </div>
                 </div>
             </div>

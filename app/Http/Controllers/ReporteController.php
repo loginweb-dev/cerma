@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 
@@ -134,21 +135,20 @@ class ReporteController extends Controller
     }
 
     public function lbdiario_generate(Request $request){
-        $f_inicio = $request->inicio;
-        $f_fin    = $request->fin;
+        $fecha = Carbon::parse($request->fecha);
         $diarios = Asiento::with(['user','items'])
-                            ->whereBetween('created_at',[$f_inicio,$f_fin])
+                            ->whereDay('created_at',$fecha->day)
                             ->get();
 
         if ($request->printf == 'imprimir') {
-            $vista = view('admin.reportes.diario.pdf', compact('diarios','f_inicio','f_fin'));
+            $vista = view('admin.reportes.diario.pdf', compact('diarios','fecha'));
             $pdf = \App::make('dompdf.wrapper');
             //  $pdf->loadHTML($vista);
             $pdf->loadHTML($vista)->setPaper('letter');
             return $pdf->stream();
         }
 
-        return view('admin.reportes.diario.diario_list', compact('diarios','f_inicio','f_fin'));
+        return view('admin.reportes.diario.diario_list', compact('diarios','fecha'));
     }
     public function lbmayor_index(){
         return view('admin.reportes.mayor.index');

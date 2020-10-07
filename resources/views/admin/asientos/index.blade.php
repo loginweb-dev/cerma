@@ -44,6 +44,7 @@
                                         <th>Usuario</th>
                                         <th>Fecha</th>
                                         <th>Glosa</th>
+                                        <th>Comprobante</th>
                                         {{-- <th class="text-right">Acciones</th> --}}
                                     </tr>
                                 </thead>
@@ -56,16 +57,25 @@
                                         </td>
                                         <td>{{ date('d-m-Y H:i', strtotime($item->created_at)) }} <br> <small>{{ \Carbon\Carbon::parse($item->created_at)->diffForHumans() }}</small> </td>
                                         <td>{{ $item->glosa}}</td>
+                                        <td>
+                                            @if($item->comprobante)
+                                            <a href="#" title="Ver" class="btn btn-link btn-warning view" data-imagen="{{ $item->comprobante }}">
+                                                <i class="voyager-eye"></i> <span class="hidden-xs hidden-sm">Ver comprobante</span>
+                                            </a>
+                                            @else
+                                            <label>Sin Imagen</label>
+                                            @endif
+                                        </td>
                                         <td class="no-sort no-click bread-actions text-right">
                                             {{-- <a href="#" title="Ver" class="btn btn-sm btn-warning view">
                                                 <i class="voyager-eye"></i> <span class="hidden-xs hidden-sm">Ver</span>
                                             </a> --}}
                                             {{-- <button title="Imprimir" onclick="generar_recibo({{ $item->id }})" class="btn btn-sm btn-primary edit">
                                                 <i class="voyager-polaroid"></i> <span class="hidden-xs hidden-sm">Imprimir</span>
-                                            </button>
-                                            <a href="#" title="Borrar" onclick="borrar({{ $item->id }})" class="btn btn-sm btn-danger delete" data-id="{{ $item->id }}" >
-                                                <i class="voyager-trash"></i> <span class="hidden-xs hidden-sm">Borrar</span>
-                                            </a> --}}
+                                            </button>--}}
+                                            <a href="javascript:;" title="agregar comprobante" class="btn btn-sm btn-info pull-rigth add" data-id="{{$item->id}}">
+                                                <i class="voyager-list-add"></i> <span class="hidden-xs hidden-sm">Comprobante</span>
+                                            </a>
                                         </td>
                                     </tr>
                                     @empty
@@ -84,6 +94,46 @@
             </div>
         </div>
     </div>
+     {{-- modal para agregar comprobante --}}
+     <div class="modal modal-info fade" tabindex="-1" id="modal_comprobante" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('voyager::generic.close') }}"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><i class="voyager-archive"></i>Agregar Comprobante</h4>
+                </div>
+                <div class="modal-footer">
+                    <form action="#" id="add_form" method="POST" enctype="multipart/form-data">
+                        {{ csrf_field() }}
+                        <div class="form-group">
+                                    <label for="">Seleccione el archivo</label>
+                                    <input type="file" name="archivo">
+                        </div>
+                        <input type="submit" class="btn btn-info pull-right delete-confirm" value="{{ __('Si registrar') }}">
+                    </form>
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">{{ __('voyager::generic.cancel') }}</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    {{-- modal para agregar comprobante --}}
+    <div class="modal modal-info fade" tabindex="-1" id="modal_imagen" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('voyager::generic.close') }}"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><i class="voyager-archive"></i>Comprobante</h4>
+                </div>
+                <div class="modal-body">
+                    <img src="" id="img-comprobante" style="width:500px;height:400px;">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">{{ __('voyager::generic.cancel') }}</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
     {{-- Imprimir --}}
     <form id="form-print" action="{{ url('admin/recibo/aportacion') }}" method="post" target="_blank">
@@ -91,25 +141,6 @@
         <input type="hidden" name="id">
     </form>
 
-    {{-- Borrar --}}
-    <div class="modal modal-danger fade" id="delete_modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title"><i class="voyager-trash"></i> ¿Estás seguro que quieres eliminar el registro?</h4>
-                </div>
-                <div class="modal-footer">
-                    <form id="form-delete" method="POST">
-                        <input type="hidden" name="_method" value="DELETE">
-                        @csrf
-                        <input type="submit" class="btn btn-danger pull-right delete-confirm" value="Sí, ¡Bórralo!">
-                    </form>
-                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancelar</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div>
 @stop
 
 @section('css')
@@ -118,7 +149,14 @@
 
 @section('javascript')
     <script>
-
+        $('td').on('click', '.add', function (e) {
+            $('#add_form')[0].action = '{{route('agregarcomprobante', ['id' => '__id'])}}'.replace('__id', $(this).data('id'));
+            $('#modal_comprobante').modal('show');
+        });
+        $('td').on('click', '.view', function (e) {
+            $('#modal_imagen').modal('show');
+            $('#img-comprobante').attr('src','{{ url('storage') }}/'+$(this).data('imagen'));
+        });
     </script>
 @stop
 

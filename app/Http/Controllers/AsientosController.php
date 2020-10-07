@@ -143,4 +143,16 @@ class AsientosController extends Controller
         ]);
     }
 
+    public function agregarcomprobante(Request $request, $id){
+        $asiento = Asiento::findOrFail($id);
+        if($request->hasFile('archivo')){
+            $asiento->comprobante = $request->file('archivo')->store('comprobante','public');
+        }
+        $asiento->update();
+      return back()->with([
+        'message' => "El comprobante, se agrego crrectamente.",
+        'alert-type' => 'info'
+        ]);
+    }
+
 }

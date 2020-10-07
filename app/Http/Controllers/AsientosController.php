@@ -160,8 +160,8 @@ class AsientosController extends Controller
                             ->where('id',$id)
                             ->first();
         $vista = view('admin.asientos.pdf', compact('asiento'));
+        // return $vista;
         $pdf = \App::make('dompdf.wrapper');
-        //  $pdf->loadHTML($vista);
         $pdf->loadHTML($vista)->setPaper('letter');
         return $pdf->stream();
 

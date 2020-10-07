@@ -36,11 +36,11 @@
                                 </div>
                                 <div class="col-md-6">
                                     <h4>Datos Auxiliares</h4><br>
-                                    <div class="col-md-3 form-group">
+                                    <div class="col-md-6 form-group">
                                         <label>U.F.V.</label>
                                        <input type="number" class="form-control" v-model="form.ufu">
                                     </div>
-                                    <div class="col-md-3 form-group">
+                                    <div class="col-md-6 form-group">
                                         <label>Tipo de Cambio:</label>
                                        <input type="number" class="form-control" v-model="form.tipo_cambio">
                                     </div>

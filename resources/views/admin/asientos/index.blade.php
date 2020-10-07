@@ -45,7 +45,7 @@
                                         <th>Fecha</th>
                                         <th>Glosa</th>
                                         <th>Comprobante</th>
-                                        {{-- <th class="text-right">Acciones</th> --}}
+                                        <th class="text-right">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -59,7 +59,7 @@
                                         <td>{{ $asiento->glosa}}</td>
                                         <td>
                                             @if($asiento->comprobante)
-                                            <a href="#" title="Ver" class="btn btn-link btn-warning view" data-imagen="{{ $asiento->comprobante }}">
+                                            <a href="#" title="Ver" class="btn btn-link view" data-imagen="{{ $asiento->comprobante }}">
                                                 <i class="voyager-eye"></i> <span class="hidden-xs hidden-sm">Ver comprobante</span>
                                             </a>
                                             @else
@@ -78,7 +78,7 @@
                                             </a>
                                             <form method="post" action="{{ route('printf_asiento',$asiento->id) }}" style="display:inline" target="__blank">
                                                 {{ csrf_field() }}
-                                                <button id="printf" type="submit" class="btn btn-sm btn-success pull-rigth">Imprimir <i class="voyager-polaroid"></i></button>
+                                                <button id="printf" type="submit" class="btn btn-sm btn-danger pull-rigth">Imprimir <i class="voyager-polaroid"></i></button>
                                             </form>
                                         </td>
                                     </tr>
@@ -130,7 +130,7 @@
                     <h4 class="modal-title"><i class="voyager-archive"></i>Comprobante</h4>
                 </div>
                 <div class="modal-body">
-                    <img src="" id="img-comprobante" style="width:500px;height:400px;">
+                    <img src="" id="img-comprobante" style="width:100%;">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default pull-right" data-dismiss="modal">{{ __('voyager::generic.cancel') }}</button>

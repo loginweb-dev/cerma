@@ -35,7 +35,7 @@ class AportesTableSeeder extends Seeder
                 'cuenta_id' => 1,
                 'nombre' => 'Aporte de 0,5% a la leche',
                 'tipo' => 'porcentaje',
-                'monto' => '0.50',
+                'monto' => '0.05',
                 'descripcion' => 'nn',
                 'created_at' => '2020-08-31 11:25:33',
                 'updated_at' => '2020-08-31 11:25:33',

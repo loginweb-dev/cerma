@@ -118,21 +118,33 @@
                 </table>
                 {{-- datos de dosificacion --}}
                 <div style="height:10px"></div><br><br><br><br><br><br><br><br><br><br>
-                <table width="90%" align="center">
+                <table width="100%" align="center">
                     <tr>
                         <td align="center">
-                            <p>_____________________________</p>
+                            <p>_______________________</p>
                         </td>
                         <td align="center">
-                            <p>_____________________________</p>
+                            <p>_______________________</p>
+                        </td>
+                        <td align="center">
+                            <p>_______________________</p>
+                        </td>
+                        <td align="center">
+                            <p>_______________________</p>
                         </td>
                     </tr>
                     <tr>
                         <td align="center">
-                            <p>Firma Contador</p>
+                            <p>Recibido por</p>
                         </td>
                         <td align="center">
-                            <p>Firma Gerente</p>
+                            <p>Contador</p>
+                        </td>
+                        <td align="center">
+                            <p>Tesorero</p>
+                        </td>
+                        <td align="center">
+                            <p>Presidente</p>
                         </td>
                     </tr>
                 </table>

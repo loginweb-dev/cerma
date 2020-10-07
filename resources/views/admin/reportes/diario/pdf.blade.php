@@ -57,15 +57,10 @@
                 {{-- <div style="height:20px"></div> --}}
                 <table width="90%" align="center">
                     <tr>
-                        <td><b>F: Inicio</b></td>
-                        <td>: {{ $f_inicio }}</td>
+                        <td><b>Fecha</b></td>
+                        <td>: {{ $fecha }}</td>
                         <td align="right"><b>Empresa:</b></td>
                         <td>: {{setting('admin.title')}}</td>
-                    </tr>
-                    <tr>
-                        <td><b>Fecha</b></td>
-                        <td>: {{ $f_fin }}</td>
-
                     </tr>
                 </table>
                 {{-- detalles de la venta --}}

@@ -4,7 +4,7 @@
             <table class="table table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th colspan="5" class="text-center h3">Lb Diario desde {{ $f_inicio }} hasta {{ $f_fin }}</th>
+                        <th colspan="5" class="text-center h3">Lb Diario fecha</th>
                     </tr>
                     <tr>
                         <th>Fecha</th>

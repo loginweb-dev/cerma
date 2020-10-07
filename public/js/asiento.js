@@ -43,7 +43,6 @@ var app = new Vue({
         //var url= '/cerma/public/admin/planes_cuentas/buscarcuenta?filtro=' + me.form.codigobuscar;
 
         this.$http.get(url).then(function (response) {
-            console.log(response)
             var respuesta= response.data;
              me.form.cuentas = respuesta.cuenta;
 
@@ -112,7 +111,6 @@ var app = new Vue({
         //var url= '/cerma/public/admin/planes_cuentas/listarcuentas?buscar='+ buscar + '&criterio='+ criterio;
         var url= '/admin/planes_cuentas/listarcuentas?buscar='+ buscar;
        this.$http.get(url).then(function (response) {
-           console.log(response.data)
             var respuesta= response.data;
             me.form.arrayCuentas = respuesta.data.data;
         })
@@ -143,20 +141,21 @@ var app = new Vue({
         crearAsiento: function() {
             var url = '/admin/asientos';
             //var url = '/cerma/public/admin/asientos';
-            this.$http.post(url, {
-                items: this.form.items,
-                ufu: this.form.ufu,
-                tipo: this.form.tipo_cambio,
-                glosa: this.form.glosa
-            }).then(res => {
-                console.log(res);
-                if(res.data && res.data.saved) {
-                   toastr.success('Asiento creado con éxito');
-                    this.limpiar();
-                }
-            }).catch(error => {
-                this.errors = 'Corrija para poder crear con éxito'
-            });
+            this.$http.post(url,{
+                'items': this.form.items,
+                'ufu': this.form.ufu,
+                'tipo': this.form.tipo_cambio,
+                'glosa': this.form.glosa,
+                })
+                .then(res => {
+                    console.log(res);
+                    if(res.data && res.data.saved) {
+                    toastr.success('Asiento creado con éxito');
+                        this.limpiar();
+                    }
+                }).catch(error => {
+                    this.errors = 'Corrija para poder crear con éxito'
+                });
         },
         limpiar() {
             this.form.idcuenta=0;
@@ -165,6 +164,11 @@ var app = new Vue({
             this.form.ufu=0;
             this.form.glosa='';
             this.form.items= [];
+           // this.form.comprobante = null
+        },
+        uploadComprobante() {
+            this.form.comprobante = this.$refs.file.files[0];
+            console.log(this.form.comprobante)
         }
     }
   })

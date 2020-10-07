@@ -62,6 +62,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/block/move_down/{block_id}', 'BlockController@move_down')->name('block_move_down');
 
     Route::resource('asientos','AsientosController');
+    Route::post('add-comprobante/{id}','AsientosController@agregarcomprobante')->name('agregarcomprobante');
+
     //ruta para buscar por codigo las cuentas
     Route::get('planes_cuentas/buscarcuenta','AsientosController@buscarCuenta');
     Route::get('planes_cuentas/listarcuentas','AsientosController@listarCuentas');

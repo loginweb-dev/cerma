@@ -37,13 +37,14 @@
                                 <div class="col-md-6">
                                     <h4>Datos Auxiliares</h4><br>
                                     <div class="col-md-3 form-group">
-                                        <label>U.F.U</label>
+                                        <label>U.F.V.</label>
                                        <input type="number" class="form-control" v-model="form.ufu">
                                     </div>
                                     <div class="col-md-3 form-group">
                                         <label>Tipo de Cambio:</label>
                                        <input type="number" class="form-control" v-model="form.tipo_cambio">
                                     </div>
+
                                 </div>
                                 <div class="col-md-12">
                                     <h4 class="text-center">Detalle de Asientos</h4>
@@ -118,6 +119,7 @@
                                     <textarea name="glosa"  rows="5" class="form-control" v-model="form.glosa">
                                     </textarea>
                                     <input type="button" value="Registrar" class="btn btn-primary" @click="crearAsiento" :disabled="!totalesIguales">
+                                    <button type="button" class="btn btn-secondary">Cancelar</button>
                                 </div>
                             </div>
                         </div>
@@ -201,6 +203,7 @@
             codigobuscar:'',
             ufu: 0,
             tipo_cambio: 6.96,
+            comprobante: null,
 			glosa: '',
 			items: [],
 			cuentas:[],

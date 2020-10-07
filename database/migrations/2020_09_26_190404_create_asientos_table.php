@@ -21,6 +21,7 @@ class CreateAsientosTable extends Migration
             $table->decimal('total_debe',8,2);
             $table->decimal('total_haber',8,2);
             $table->text('glosa')->nullable();
+            $table->string('comprobante', 255)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

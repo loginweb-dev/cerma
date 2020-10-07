@@ -155,4 +155,16 @@ class AsientosController extends Controller
         ]);
     }
 
+    public function printf_asiento($id){
+        $asiento = Asiento::with('items')
+                            ->where('id',$id)
+                            ->first();
+        $vista = view('admin.asientos.pdf', compact('asiento'));
+        $pdf = \App::make('dompdf.wrapper');
+        //  $pdf->loadHTML($vista);
+        $pdf->loadHTML($vista)->setPaper('letter');
+        return $pdf->stream();
+
+    }
+
 }

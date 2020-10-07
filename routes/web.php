@@ -63,6 +63,7 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::resource('asientos','AsientosController');
     Route::post('add-comprobante/{id}','AsientosController@agregarcomprobante')->name('agregarcomprobante');
+    Route::post('printf/asiento/{id}', 'AsientosController@printf_asiento')->name('printf_asiento');
 
     //ruta para buscar por codigo las cuentas
     Route::get('planes_cuentas/buscarcuenta','AsientosController@buscarCuenta');

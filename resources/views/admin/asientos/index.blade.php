@@ -49,17 +49,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($asientos as $item)
+                                    @forelse ($asientos as $asiento)
                                     <tr>
                                         <td>
-                                            {{ $item->user->name }} <br>
-                                            <b><small>{{ $item->user->email }}</small></b>
+                                            {{ $asiento->user->name }} <br>
+                                            <b><small>{{ $asiento->user->email }}</small></b>
                                         </td>
-                                        <td>{{ date('d-m-Y H:i', strtotime($item->created_at)) }} <br> <small>{{ \Carbon\Carbon::parse($item->created_at)->diffForHumans() }}</small> </td>
-                                        <td>{{ $item->glosa}}</td>
+                                        <td>{{ date('d-m-Y H:i', strtotime($asiento->created_at)) }} <br> <small>{{ \Carbon\Carbon::parse($asiento->created_at)->diffForHumans() }}</small> </td>
+                                        <td>{{ $asiento->glosa}}</td>
                                         <td>
-                                            @if($item->comprobante)
-                                            <a href="#" title="Ver" class="btn btn-link btn-warning view" data-imagen="{{ $item->comprobante }}">
+                                            @if($asiento->comprobante)
+                                            <a href="#" title="Ver" class="btn btn-link btn-warning view" data-imagen="{{ $asiento->comprobante }}">
                                                 <i class="voyager-eye"></i> <span class="hidden-xs hidden-sm">Ver comprobante</span>
                                             </a>
                                             @else
@@ -70,12 +70,16 @@
                                             {{-- <a href="#" title="Ver" class="btn btn-sm btn-warning view">
                                                 <i class="voyager-eye"></i> <span class="hidden-xs hidden-sm">Ver</span>
                                             </a> --}}
-                                            {{-- <button title="Imprimir" onclick="generar_recibo({{ $item->id }})" class="btn btn-sm btn-primary edit">
+                                            {{-- <button title="Imprimir" onclick="generar_recibo({{ $asiento->id }})" class="btn btn-sm btn-primary edit">
                                                 <i class="voyager-polaroid"></i> <span class="hidden-xs hidden-sm">Imprimir</span>
                                             </button>--}}
-                                            <a href="javascript:;" title="agregar comprobante" class="btn btn-sm btn-info pull-rigth add" data-id="{{$item->id}}">
+                                            <a href="javascript:;" title="agregar comprobante" class="btn btn-sm btn-info pull-rigth add" data-id="{{$asiento->id}}">
                                                 <i class="voyager-list-add"></i> <span class="hidden-xs hidden-sm">Comprobante</span>
                                             </a>
+                                            <form method="post" action="{{ route('printf_asiento',$asiento->id) }}" style="display:inline" target="__blank">
+                                                {{ csrf_field() }}
+                                                <button id="printf" type="submit" class="btn btn-sm btn-success pull-rigth">Imprimir <i class="voyager-polaroid"></i></button>
+                                            </form>
                                         </td>
                                     </tr>
                                     @empty

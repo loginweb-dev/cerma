@@ -111,7 +111,7 @@
                         {{ csrf_field() }}
                         <div class="form-group">
                                     <label for="">Seleccione el archivo</label>
-                                    <input type="file" name="archivo">
+                                    <input type="file" name="archivo" accept="image/png, image/jpeg">
                         </div>
                         <input type="submit" class="btn btn-info pull-right delete-confirm" value="{{ __('Si registrar') }}">
                     </form>

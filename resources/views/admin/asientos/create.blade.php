@@ -119,7 +119,7 @@
                                     <textarea name="glosa"  rows="5" class="form-control" v-model="form.glosa">
                                     </textarea>
                                     <input type="button" value="Registrar" class="btn btn-primary" @click="crearAsiento" :disabled="!totalesIguales">
-                                    <button type="button" class="btn btn-secondary">Cancelar</button>
+                                    <a href="{{url()->previous()}}" class="btn btn-default">Cancel</a>
                                 </div>
                             </div>
                         </div>

@@ -910,24 +910,6 @@ class DetailAccountsTableSeeder extends Seeder
             ),
             99 => 
             array (
-                'id' => 100,
-                'code' => '560002',
-                'name' => 'DIFERENCIA DE CAMBIO',
-                'plan_of_account_id' => 38,
-                'created_at' => '2020-09-30 16:57:15',
-                'updated_at' => '2020-09-30 16:57:15',
-            ),
-            100 => 
-            array (
-                'id' => 101,
-                'code' => '560004',
-                'name' => 'DIFERENCIA DE REDONDEO',
-                'plan_of_account_id' => 38,
-                'created_at' => '2020-09-30 16:57:15',
-                'updated_at' => '2020-09-30 16:57:15',
-            ),
-            101 => 
-            array (
                 'id' => 102,
                 'code' => '560001',
                 'name' => 'AJUSTE POR INFLACIÓN Y TENENCIA DE BIENES',
@@ -935,7 +917,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            102 => 
+            100 => 
             array (
                 'id' => 103,
                 'code' => '560002',
@@ -944,7 +926,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            103 => 
+            101 => 
             array (
                 'id' => 104,
                 'code' => '560003',
@@ -953,7 +935,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            104 => 
+            102 => 
             array (
                 'id' => 105,
                 'code' => '560004',
@@ -962,7 +944,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            105 => 
+            103 => 
             array (
                 'id' => 106,
                 'code' => '311001',
@@ -971,7 +953,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            106 => 
+            104 => 
             array (
                 'id' => 107,
                 'code' => '311002',
@@ -980,7 +962,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            107 => 
+            105 => 
             array (
                 'id' => 108,
                 'code' => '311003',
@@ -989,7 +971,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            108 => 
+            106 => 
             array (
                 'id' => 109,
                 'code' => '312001',
@@ -998,7 +980,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            109 => 
+            107 => 
             array (
                 'id' => 110,
                 'code' => '321001',
@@ -1007,7 +989,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            110 => 
+            108 => 
             array (
                 'id' => 111,
                 'code' => '321002',
@@ -1016,7 +998,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            111 => 
+            109 => 
             array (
                 'id' => 112,
                 'code' => '322001',
@@ -1025,7 +1007,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            112 => 
+            110 => 
             array (
                 'id' => 113,
                 'code' => '331001',
@@ -1034,7 +1016,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            113 => 
+            111 => 
             array (
                 'id' => 114,
                 'code' => '331002',
@@ -1043,7 +1025,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            114 => 
+            112 => 
             array (
                 'id' => 115,
                 'code' => '332001',
@@ -1052,7 +1034,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            115 => 
+            113 => 
             array (
                 'id' => 116,
                 'code' => '111101',
@@ -1061,7 +1043,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            116 => 
+            114 => 
             array (
                 'id' => 117,
                 'code' => '111102',
@@ -1070,7 +1052,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            117 => 
+            115 => 
             array (
                 'id' => 118,
                 'code' => '111103',
@@ -1079,7 +1061,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            118 => 
+            116 => 
             array (
                 'id' => 119,
                 'code' => '111104',
@@ -1088,7 +1070,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            119 => 
+            117 => 
             array (
                 'id' => 120,
                 'code' => '111105',
@@ -1097,7 +1079,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            120 => 
+            118 => 
             array (
                 'id' => 121,
                 'code' => '111106',
@@ -1106,7 +1088,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            121 => 
+            119 => 
             array (
                 'id' => 122,
                 'code' => '111107',
@@ -1115,7 +1097,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            122 => 
+            120 => 
             array (
                 'id' => 123,
                 'code' => '111108',
@@ -1124,7 +1106,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            123 => 
+            121 => 
             array (
                 'id' => 124,
                 'code' => '111109',
@@ -1133,7 +1115,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            124 => 
+            122 => 
             array (
                 'id' => 125,
                 'code' => '111110',
@@ -1142,7 +1124,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            125 => 
+            123 => 
             array (
                 'id' => 126,
                 'code' => '111111',
@@ -1151,7 +1133,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            126 => 
+            124 => 
             array (
                 'id' => 127,
                 'code' => '111112',
@@ -1160,7 +1142,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            127 => 
+            125 => 
             array (
                 'id' => 128,
                 'code' => '111113',
@@ -1169,7 +1151,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            128 => 
+            126 => 
             array (
                 'id' => 129,
                 'code' => '111114',
@@ -1178,7 +1160,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            129 => 
+            127 => 
             array (
                 'id' => 130,
                 'code' => '111115',
@@ -1187,7 +1169,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            130 => 
+            128 => 
             array (
                 'id' => 131,
                 'code' => '111116',
@@ -1196,7 +1178,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            131 => 
+            129 => 
             array (
                 'id' => 132,
                 'code' => '111117',
@@ -1205,7 +1187,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            132 => 
+            130 => 
             array (
                 'id' => 133,
                 'code' => '111118',
@@ -1214,7 +1196,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            133 => 
+            131 => 
             array (
                 'id' => 134,
                 'code' => '111201',
@@ -1223,7 +1205,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            134 => 
+            132 => 
             array (
                 'id' => 135,
                 'code' => '111202',
@@ -1232,7 +1214,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            135 => 
+            133 => 
             array (
                 'id' => 136,
                 'code' => '111203',
@@ -1241,7 +1223,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            136 => 
+            134 => 
             array (
                 'id' => 137,
                 'code' => '111204',
@@ -1250,7 +1232,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            137 => 
+            135 => 
             array (
                 'id' => 138,
                 'code' => '111205',
@@ -1259,7 +1241,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            138 => 
+            136 => 
             array (
                 'id' => 139,
                 'code' => '111206',
@@ -1268,7 +1250,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            139 => 
+            137 => 
             array (
                 'id' => 140,
                 'code' => '111301',
@@ -1277,7 +1259,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            140 => 
+            138 => 
             array (
                 'id' => 141,
                 'code' => '111302',
@@ -1286,7 +1268,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            141 => 
+            139 => 
             array (
                 'id' => 142,
                 'code' => '111303',
@@ -1295,7 +1277,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            142 => 
+            140 => 
             array (
                 'id' => 143,
                 'code' => '111304',
@@ -1304,7 +1286,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            143 => 
+            141 => 
             array (
                 'id' => 144,
                 'code' => '111305',
@@ -1313,7 +1295,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            144 => 
+            142 => 
             array (
                 'id' => 145,
                 'code' => '111306',
@@ -1322,7 +1304,7 @@ class DetailAccountsTableSeeder extends Seeder
                 'created_at' => '2020-09-30 16:57:15',
                 'updated_at' => '2020-09-30 16:57:15',
             ),
-            145 => 
+            143 => 
             array (
                 'id' => 146,
                 'code' => '111307',

@@ -12,16 +12,16 @@ class AportesTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         \DB::table('aportes')->delete();
-        
+
         \DB::table('aportes')->insert(array (
-            0 => 
+            0 =>
             array (
                 'id' => 1,
                 'cuenta_id' => 1,
-                'nombre' => 'Pago quincenal a CERMA',
+                'nombre' => 'PAGO QUINCENAL A CERMA',
                 'tipo' => 'monto',
                 'monto' => '20.00',
                 'descripcion' => 'nn',
@@ -29,11 +29,11 @@ class AportesTableSeeder extends Seeder
                 'updated_at' => '2020-08-31 11:22:38',
                 'deleted_at' => NULL,
             ),
-            1 => 
+            1 =>
             array (
                 'id' => 2,
                 'cuenta_id' => 1,
-                'nombre' => 'Aporte de 0,5% a la leche',
+                'nombre' => 'APORTE DE 0,5% A LA LECHE',
                 'tipo' => 'porcentaje',
                 'monto' => '0.05',
                 'descripcion' => 'nn',
@@ -42,7 +42,7 @@ class AportesTableSeeder extends Seeder
                 'deleted_at' => NULL,
             ),
         ));
-        
-        
+
+
     }
 }

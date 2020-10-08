@@ -19,5 +19,12 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'role_id' => 1
         ]);
+        User::create([
+            'name' => 'Pedro Takigawa Guzmán',
+            'email' => 'pedrotakigawag@gmail.com',
+            'avatar' => null,
+            'password' => Hash::make('password'),
+            'role_id' => 1
+        ]);
     }
 }

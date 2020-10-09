@@ -2,7 +2,7 @@
 
 @section('page_title', 'Asientos')
 
-@if(auth()->user()->hasPermission('browse_aporteafiliado'))
+@if(auth()->user()->hasPermission('browse_asientos'))
 
 @section('page_header')
     <div class="container-fluid">

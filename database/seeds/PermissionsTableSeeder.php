@@ -48,5 +48,7 @@ class PermissionsTableSeeder extends Seeder
         Permission::generateFor('plans_of_accounts');
 
         Permission::generateFor('type_documents');
+
+        Permission::generateFor('asientos');
     }
 }

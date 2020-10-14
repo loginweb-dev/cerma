@@ -15,8 +15,9 @@ class AsientosController extends Controller
     public function index()
     {
         $search = request('search');
-        $query = $search ? "nombre_completo like '%$search%' or rau like '%$search%' or ci like '%$search%'" : 1;
-        $asientos = Asiento::orderBy('id', 'DESC')->paginate(10);
+        $query = $search ? "ufu like '%$search%' or tipo_cambio like '%$search%' or glosa like '%$search%'" : 1;
+        $asientos = Asiento::whereRaw($query)
+                            ->paginate(10);
         return view('admin.asientos.index', compact('asientos', 'search'));
     }
 

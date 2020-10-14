@@ -32,6 +32,10 @@ class AppServiceProvider extends ServiceProvider
         Voyager::addAction(\App\Actions\Block::class);
         //accion para los planes de cuentas
         Voyager::addAction(\App\Actions\PlanOfAccount::class);
+
+        // Docuentos de afiliados
+        Voyager::addAction(\App\Actions\Documentos::class);
+
         Schema::defaultStringLength(191);
     }
 }

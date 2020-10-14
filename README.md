@@ -36,7 +36,7 @@ Clona el repositorio oficial e instala las dependencias
 Configura el erchivo .env (Variales de Entorno) y permisos
 -   cp .env.example .env
 -   edit .env (nano)   
--   chmod -R 777 (storage, bootstrap y public)
+-   chmod -R 777 storage bootstrap/cache
 
 ### Step #3
 Realizar la instalcion mediante el comando:

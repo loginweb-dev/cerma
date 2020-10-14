@@ -27,6 +27,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('aporteafiliado', 'AporteAfiliadoController');
 
     // Afiliados
+    Route::get('afiliados/{id}/documentos', 'AfiliadosController@documentos')->name('afiliados.documentos');
+    Route::post('afiliados/{id}/documentos/store', 'AfiliadosController@documentos_store')->name('afiliados.documentos.store');
+    Route::post('afiliados/{id}/documentos/destroy', 'AfiliadosController@documentos_destroy')->name('afiliados.documentos.destroy');
     Route::get('afiliados/get/{dato}', 'AfiliadosController@get_afiliado');
 
     // ============== Reportes =============

@@ -29,6 +29,7 @@ class ReporteController extends Controller
                             ->join('afiliados as a', 'a.id', 'ra.afiliado_id')
                             ->selectRaw('a.id, ra.afiliado_id, a.nombre_completo, a.rau, SUM(ra.total_litros) as total_litros, ra.precio_unidad, ra.periodo')
                             ->where('ra.estado', 1)
+                            ->whereDay('ra.periodo', $request->quincena, 15)
                             ->whereMonth('ra.periodo', $request->mes)
                             ->whereYear('ra.periodo', $request->anio)
                             ->groupBy('a.id', 'ra.periodo')

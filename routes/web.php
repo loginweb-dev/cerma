@@ -31,6 +31,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('afiliados/{id}/documentos/store', 'AfiliadosController@documentos_store')->name('afiliados.documentos.store');
     Route::post('afiliados/{id}/documentos/destroy', 'AfiliadosController@documentos_destroy')->name('afiliados.documentos.destroy');
     Route::get('afiliados/get/{dato}', 'AfiliadosController@get_afiliado');
+    Route::get('afiliados/export/excel', 'AfiliadosController@export_excel')->name('afiliados.export.excel');
 
     // ============== Reportes =============
 

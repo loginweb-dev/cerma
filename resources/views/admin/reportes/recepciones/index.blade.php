@@ -41,6 +41,11 @@
                                                 <option value="11">Noviembre</option>
                                                 <option value="12">Diciembre</option>
                                             </select>
+                                            <select name="quincena" class="form-control" required>
+                                                {{-- <option value="">Todo el mes</option> --}}
+                                                <option value="<=">Primera quincena</option>
+                                                <option value=">">Segunda quincena</option>
+                                            </select>
                                             <input type="number" name="anio" step="1" value="{{ date('Y') }}" class="form-control">
                                             <button type="submit" class="btn btn-primary">Generar <i class="voyager-settings"></i></button>
                                         </div>

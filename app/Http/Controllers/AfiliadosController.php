@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 // Controllers
 use App\Http\Controllers\LoginWebController as LoginWeb;
@@ -11,6 +12,9 @@ use App\Http\Controllers\LoginWebController as LoginWeb;
 // Models
 use App\Afiliado;
 use App\AfiliadosDocumento;
+
+// Exports
+use App\Exports\AfiliadosExport;
 
 class AfiliadosController extends Controller
 {
@@ -53,5 +57,10 @@ class AfiliadosController extends Controller
 
     public function get_afiliado($dato){
         return Afiliado::whereRaw("(nombre_completo like '%$dato%' or ci like '%$dato%' or rau like '%$dato%')")->get();
+    }
+
+    public function export_excel() 
+    {
+        return Excel::download(new AfiliadosExport, 'Afiliados.xlsx');
     }
 }

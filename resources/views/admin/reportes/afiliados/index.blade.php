@@ -6,7 +6,7 @@
 
 @section('page_header')
     <h1 class="page-title">
-        <i class="voyager-people"></i> Historil de aportes
+        <i class="voyager-people"></i> Historial de aportes
     </h1>
 @stop
 

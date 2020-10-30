@@ -18,6 +18,7 @@ class RecibosController extends Controller
             $recepcion = AporteAfiliado::with(['afiliado', 'aporte'])
                             ->where('afiliado_id', $request->afiliado_id)
                             ->where('periodo', $request->periodo)
+                            ->where('deleted_at', NULL)
                             ->get();
         }
         return view('admin.recibos.aportacion', compact('recepcion'));

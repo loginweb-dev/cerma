@@ -16,9 +16,6 @@
 @stop
 
 @section('content')
-    @can('browse', app('App\AporteAfiliado'))
-        <h1>si</h1>
-    @endcan
     <div class="page-content browse container-fluid">
         @include('voyager::alerts')
         <div class="row">

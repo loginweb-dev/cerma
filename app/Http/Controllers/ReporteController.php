@@ -8,6 +8,8 @@ use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 
+use App\Http\Controllers\AporteAfiliadoController;
+
 // Exportación a Excel
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\RecepcionImport;
@@ -17,6 +19,8 @@ use App\RecepcionAfiliado;
 use App\AporteAfiliado;
 use App\Aporte;
 use App\Models\Asiento;
+use App\Afiliado;
+
 class ReporteController extends Controller
 {
     // Recepcion de leche
@@ -67,23 +71,44 @@ class ReporteController extends Controller
     }
 
     public function importar_recepcion_datos_store(Request $request){
-        // dd($request);
         DB::beginTransaction();
         try {
             for ($i=0; $i < count($request->id); $i++) {
                 // Registrar ambos aportes en el detalle de recepción
-                AporteAfiliado::create([
+                $aporte_afiliado = AporteAfiliado::create([
                     'afiliado_id' => $request->afiliado_id[$i],
                     'aporte_id' => 1,
                     'monto' => $request->mensualidad[$i],
                     'periodo' => $request->periodo,
+                    'periodo_fin' => $request->periodo
                 ]);
-                AporteAfiliado::create([
+
+                $afiliado = Afiliado::find($request->afiliado_id[$i]);
+
+                $asiento = collect([
+                    'aporte_id' => 1,
+                    'observacion' => 'Pago de quincena de '.($afiliado ? $afiliado->nombre_completo : 'Desconocido'),
+                    'monto' => $request->mensualidad[$i],
+                    'fecha' => $request->periodo
+                ]);
+
+                (new AporteAfiliadoController)->guardarasiento($asiento, $aporte_afiliado->id, 'BANCOS');
+
+                $aporte_afiliado = AporteAfiliado::create([
                     'afiliado_id' => $request->afiliado_id[$i],
                     'aporte_id' => 2,
                     'monto' => $request->aporte_leche[$i],
-                    'periodo' => $request->periodo,
+                    'periodo' => $request->periodo
                 ]);
+
+                $asiento = collect([
+                    'aporte_id' => 2,
+                    'observacion' => '',
+                    'monto' => $request->aporte_leche[$i],
+                    'fecha' => $request->periodo
+                ]);
+
+                (new AporteAfiliadoController)->guardarasiento($asiento, $aporte_afiliado->id, 'BANCOS');
 
                 // Actualizar datos de recepción
                 RecepcionAfiliado::where('afiliado_id', $request->afiliado_id[$i])
@@ -136,9 +161,13 @@ class ReporteController extends Controller
     }
 
     public function lbdiario_generate(Request $request){
-        $fecha = Carbon::parse($request->fecha);
+        $fecha = $request->fecha;
         $diarios = Asiento::with(['user','items'])
-                            ->whereDay('created_at',$fecha->day)
+                            ->whereHas('items', function($q) use ($fecha){
+                                $q->where('fecha', $fecha);
+                            })
+                            // ->whereDay('created_at',$fecha->day)
+                            ->where('deleted_at', NULL)
                             ->get();
 
         if ($request->printf == 'imprimir') {
@@ -162,6 +191,7 @@ class ReporteController extends Controller
         $mayores = Asiento::selectRaw('det.codigo,det.name,sum(det.debe) AS Debe,sum(det.haber) AS Haber')
                         ->join('detalles as det', 'det.asiento_id', '=', 'asientos.id')
                         ->whereBetween('asientos.created_at',[$f_inicio,$f_fin])
+                        ->where('deleted_at', NULL)
                         ->groupBy('det.codigo','det.name')
                         ->get();
         if ($request->printf == 'imprimir') {
@@ -186,6 +216,7 @@ class ReporteController extends Controller
         $balance = Asiento::selectRaw('det.codigo,det.name,sum(det.debe) AS Debe,sum(det.haber) AS Haber,det.tipo')
                         ->join('detalles as det', 'det.asiento_id', '=', 'asientos.id')
                         ->whereBetween('asientos.created_at',[$f_inicio,$f_fin])
+                        ->where('deleted_at', NULL)
                         ->groupBy('det.codigo','det.name')
                         ->get();
         if ($request->printf == 'imprimir') {

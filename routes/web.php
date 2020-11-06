@@ -26,6 +26,9 @@ Route::group(['prefix' => 'admin'], function () {
     // Aportes
     Route::resource('aporteafiliado', 'AporteAfiliadoController');
 
+    // Mensualidades
+    Route::resource('mensualidades', 'MensualidadesController');
+
     // Afiliados
     Route::get('afiliados/{id}/documentos', 'AfiliadosController@documentos')->name('afiliados.documentos');
     Route::post('afiliados/{id}/documentos/store', 'AfiliadosController@documentos_store')->name('afiliados.documentos.store');

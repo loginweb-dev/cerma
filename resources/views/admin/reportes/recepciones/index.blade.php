@@ -28,23 +28,23 @@
                                         <div class="form-group">
                                             <select name="mes" class="form-control" required>
                                                 <option value="">Seleccione el mes</option>
-                                                <option value="1">Enero</option>
-                                                <option value="2">Febrero</option>
-                                                <option value="3">Marzo</option>
-                                                <option value="4">Abril</option>
-                                                <option value="5">Mayo</option>
-                                                <option value="6">Junio</option>
-                                                <option value="7">Julio</option>
-                                                <option value="8">Agosto</option>
-                                                <option value="9">Septiembre</option>
-                                                <option value="10">Octubre</option>
-                                                <option value="11">Noviembre</option>
-                                                <option value="12">Diciembre</option>
+                                                <option @if(date('m') == 1) selected @endif value="1">Enero</option>
+                                                <option @if(date('m') == 2) selected @endif value="2">Febrero</option>
+                                                <option @if(date('m') == 3) selected @endif value="3">Marzo</option>
+                                                <option @if(date('m') == 4) selected @endif value="4">Abril</option>
+                                                <option @if(date('m') == 5) selected @endif value="5">Mayo</option>
+                                                <option @if(date('m') == 6) selected @endif value="6">Junio</option>
+                                                <option @if(date('m') == 7) selected @endif value="7">Julio</option>
+                                                <option @if(date('m') == 8) selected @endif value="8">Agosto</option>
+                                                <option @if(date('m') == 9) selected @endif value="9">Septiembre</option>
+                                                <option @if(date('m') == 10) selected @endif value="10">Octubre</option>
+                                                <option @if(date('m') == 11) selected @endif value="11">Noviembre</option>
+                                                <option @if(date('m') == 12) selected @endif value="12">Diciembre</option>
                                             </select>
                                             <select name="quincena" class="form-control" required>
                                                 {{-- <option value="">Todo el mes</option> --}}
-                                                <option value="<=">Primera quincena</option>
-                                                <option value=">">Segunda quincena</option>
+                                                <option value="<">Primera quincena</option>
+                                                <option value=">=">Segunda quincena</option>
                                             </select>
                                             <input type="number" name="anio" step="1" value="{{ date('Y') }}" class="form-control">
                                             <button type="submit" class="btn btn-primary">Generar <i class="voyager-settings"></i></button>

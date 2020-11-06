@@ -89,7 +89,7 @@
                          $total_haber += $item->haber;
                      @endphp
                          <tr>
-                             <td>{!! \Carbon\Carbon::parse($item->created_at)->format('d-m-Y') !!}</td>
+                             <td>{!! \Carbon\Carbon::parse($item->fecha)->format('d-m-Y') !!}</td>
                              <td>{{ $item->codigo }}</td>
                              <td>{{ $item->name }}</td>
                              <td>{{number_format($item->debe, 2, ',', '.')}}</td>

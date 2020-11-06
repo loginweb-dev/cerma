@@ -89,7 +89,8 @@ var app = new Vue({
             name: me.form.cuenta,
             debe: me.form.debe,
             haber: me.form.haber,
-            tipo: me.form.tipo
+            tipo: me.form.tipo,
+            fecha: me.form.fecha
         });
             //me.itemsarray( me.form.cuentas);
             me.form.idcuenta=0;
@@ -129,11 +130,12 @@ var app = new Vue({
            // glosa: me.form.glosa,
             debe: me.form.debe,
             haber: me.form.haber,
-            tipo: data['tipo']
+            tipo: data['tipo'],
+            fecha: me.form.fecha,
         });
-        //quitamos el item del arrayde cuenta
-        const index =this.form.arrayCuentas.indexOf(data);
-        this.form.arrayCuentas.splice(index, 1);
+        //quitamos el item del array de cuenta
+        // const index = this.form.arrayCuentas.indexOf(data);
+        // this.form.arrayCuentas.splice(index, 1);
         toastr.success('Cuenta agregada');
                 //me.itemsarray( me.form1.tomos);
 
@@ -142,6 +144,7 @@ var app = new Vue({
             var url = '/admin/asientos';
             //var url = '/cerma/public/admin/asientos';
             this.$http.post(url,{
+                'fecha': this.form.fecha,
                 'items': this.form.items,
                 'ufu': this.form.ufu,
                 'tipo': this.form.tipo_cambio,

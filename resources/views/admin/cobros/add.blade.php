@@ -43,10 +43,19 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <div class="form-group col-md-12">
+                                <div class="form-group col-md-6">
                                     <label>Aporte</label>
                                     <input type="number" name="monto" id="input-monto" class="form-control" min="0.1" step="0.1" required>
                                     @error('monto')
+                                        <span class="text-danger" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Fecha</label>
+                                    <input type="date" name="fecha" class="form-control" value="{{ date('Y-m-d') }}" required>
+                                    @error('fecha')
                                         <span class="text-danger" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>

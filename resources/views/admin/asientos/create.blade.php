@@ -21,30 +21,36 @@
                                     <h4>Busqueda Cuentas</h4>
                                     <br>
                                     <div class="form-group">
-                                        <label>Cuentas <span style="color:red;"v-show="form.idcuenta==0">(*Seleccione)</span></label>
-                                        <div class="form-inline">
+                                        <label>Cuentas</label>
+                                        <div class="input-group">
                                             <input  type="text"
                                                     v-model="form.codigobuscar"
                                                     class="form-control"
                                                     @keyup.enter="buscarCuenta()"
                                                     placeholder="Ingrese codigo de la cuenta"
                                                     size="50">
-                                            <button type="button" title="Buscar" data-toggle="modal" data-target="#modalcuentas" class="btn btn-primary">...</button>
-
-                                        </div>
+                                            <div class="input-group-btn">
+                                              <button class="btn btn-primary" type="button" style="margin-top: 0px" title="Buscar" data-toggle="modal" data-target="#modalcuentas">
+                                                <i class="voyager-list"></i> Buscar
+                                              </button>
+                                            </div>
+                                          </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <h4>Datos Auxiliares</h4><br>
-                                    <div class="col-md-6 form-group">
+                                    <div class="col-md-3 form-group">
                                         <label>U.F.V.</label>
                                        <input type="number" class="form-control" v-model="form.ufu">
                                     </div>
-                                    <div class="col-md-6 form-group">
-                                        <label>Tipo de Cambio:</label>
+                                    <div class="col-md-3 form-group">
+                                        <label>Dolar</label>
                                        <input type="number" class="form-control" v-model="form.tipo_cambio">
                                     </div>
-
+                                    <div class="col-md-6 form-group">
+                                        <label>Fecha</label>
+                                       <input type="date" name="fecha" class="form-control" v-model="form.fecha">
+                                    </div>
                                 </div>
                                 <div class="col-md-12">
                                     <h4 class="text-center">Detalle de Asientos</h4>
@@ -127,7 +133,7 @@
                 </div>
             </div>
          <!--Inicio del modal agregar/actualizar-->
-     <div class="modal fade" tabindex="-1" tabindex="-1" id="modalcuentas" role="dialog">
+    <div class="modal fade" tabindex="-1" tabindex="-1" id="modalcuentas" role="dialog">
         <div class="modal-dialog modal-primary modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -138,9 +144,11 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <div class="form-inline">
+                        <div class="input-group">
                             <input type="text" v-model="form.buscar" @keyup.enter="listarCuentas(form.buscar)" class="form-control" placeholder="escriba codigo o nombre..." size="30">
-                            <button type="submit" @click="listarCuentas(form.buscar)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                            <div class="input-group-btn">
+                                <button type="submit" @click="listarCuentas(form.buscar)" class="btn btn-primary" style="margin-top: 0px"><i class="voyager-search"></i></button>
+                            </div>
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -203,6 +211,7 @@
             codigobuscar:'',
             ufu: 0,
             tipo_cambio: 6.96,
+            fecha: '{{ date("Y-m-d") }}',
             comprobante: null,
 			glosa: '',
 			items: [],

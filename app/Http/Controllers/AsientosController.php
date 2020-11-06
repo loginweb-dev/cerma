@@ -17,6 +17,8 @@ class AsientosController extends Controller
         $search = request('search');
         $query = $search ? "ufu like '%$search%' or tipo_cambio like '%$search%' or glosa like '%$search%'" : 1;
         $asientos = Asiento::whereRaw($query)
+                            ->where('deleted_at', NULL)
+                            ->orderBy('id', 'Desc')
                             ->paginate(10);
         return view('admin.asientos.index', compact('asientos', 'search'));
     }
@@ -58,9 +60,7 @@ class AsientosController extends Controller
             return $asiento;
         });
 
-        return response()
-            ->json(['saved' => true, 'id' => $asiento->id]);
-
+        return response()->json(['saved' => true, 'id' => $asiento->id]);
     }
 
     /**

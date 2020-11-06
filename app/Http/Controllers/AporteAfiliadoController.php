@@ -36,7 +36,7 @@ class AporteAfiliadoController extends Controller
      */
     public function create()
     {
-        $aportes = Aporte::where('deleted_at', null)->where('tipo', 'monto')->get();
+        $aportes = Aporte::where('deleted_at', null)->where('id', '>', 2)->get();
         return view('admin.cobros.add', compact('aportes'));
     }
 
@@ -51,13 +51,21 @@ class AporteAfiliadoController extends Controller
         DB::beginTransaction();
         try {
             $redirect = $request->return ? 'aporteafiliado.create' : 'aporteafiliado.index';
-            AporteAfiliado::create([
+            $aporte_afiliado = AporteAfiliado::create([
                 'aporte_id' => $request->aporte_id,
                 'afiliado_id' => $request->afiliado_id,
                 'monto' => $request->monto,
                 'observacion' => $request->observacion
             ]);
-            $this->guardarasiento($request);
+
+            $asiento = collect([
+                'aporte_id' => $request->aporte_id,
+                'observacion' => $request->observacion,
+                'monto' => $request->monto,
+                'fecha' => $request->fecha
+            ]);
+
+            $this->guardarasiento($request, $aporte_afiliado->id);
             DB::commit();
             return redirect()->route($redirect)->with(['message' => 'Cobro registrado exitosamente.', 'alert-type' => 'success']);
         } catch (\Exception $e) {
@@ -66,55 +74,62 @@ class AporteAfiliadoController extends Controller
         }
     }
 
-    public function guardarasiento($data) {
-
-        $aporte = Aporte::findOrFail($data->aporte_id);
-        $cuenta = \App\Models\PlansOfAccount::where('name','OTROS INGRESOS')->first();
-        $ultimoitem = $cuenta->detailaccounts()->latest()->orderBy('id','desc')->first();
-        $verifay = ($aporte->nombre === $ultimoitem->name)? true : false;
-        if (!$verifay) {
-          $cuenta->detailaccounts()->create([
-                'code' => $ultimoitem->code +1,
-                'name' => $aporte->nombre,
-            ]);
+    public function guardarasiento($data, $aporte_afiliado_id = null, $cuenta_debe_nombre = 'CAJA', $ingreso = true) {
+        DB::beginTransaction();
+        try {
+            $aporte = Aporte::findOrFail($data['aporte_id']);
+            $cuenta = \App\Models\PlansOfAccount::where('name','OTROS INGRESOS')->first();
             $ultimoitem = $cuenta->detailaccounts()->latest()->orderBy('id','desc')->first();
+            $verifay = ($aporte->nombre === $ultimoitem->name)? true : false;
+            if (!$verifay) {
+            $cuenta->detailaccounts()->create([
+                    'code' => $ultimoitem->code +1,
+                    'name' => $aporte->nombre,
+                ]);
+                $ultimoitem = $cuenta->detailaccounts()->latest()->orderBy('id','desc')->first();
+            }
+            //guardar el asiento
+            $asiento = new \App\Models\Asiento;
+            $asiento->user_id = auth()->user()->id;
+            $asiento->ufu = 0;
+            $asiento->tipo_cambio = 0;
+            $asiento->glosa = $data['observacion'];
+            $asiento->total_haber = $data['monto'];
+            $asiento->total_debe = $data['monto'];
+            $asiento->aporte_afiliado_id = $aporte_afiliado_id;
+            $asiento->save();
+
+            //obtenemos la cuenta de caja para el primer registro del asiento
+            $cuenta_debe = \App\Models\DetailAccount::where('name', $cuenta_debe_nombre)->first();
+
+            $arreglo = [
+                [
+                    'fecha' => $data['fecha'],
+                    'codigo' => $ingreso ? $cuenta_debe->code : $ultimoitem->code,
+                    'name' => $ingreso ? $cuenta_debe->name : $ultimoitem->name,
+                    'debe' => $data['monto'],
+                    'haber' => 0,
+                    'tipo' => $cuenta->tipo
+                ],
+                [
+                    'fecha' => $data['fecha'],
+                    'codigo' => $ingreso ? $ultimoitem->code : $cuenta_debe->code,
+                    'name' => $ingreso ? $ultimoitem->name : $cuenta_debe->name,
+                    'debe' => 0,
+                    'haber' => $data['monto'],
+                    'tipo' => $cuenta->tipo
+                ]
+            ];
+            $asiento->storeHasMany([
+                'items' => $arreglo
+            ]);
+
+            DB::commit();
+            return $asiento;
+        } catch (\Exception $e) {
+            DB::rollback();
+            return null;
         }
-        //guardar el asiento
-        $asiento = new \App\Models\Asiento;
-        $asiento->user_id = auth()->user()->id;
-        $asiento->ufu = 0;
-        $asiento->tipo_cambio = 0;
-        $asiento->glosa = $data->observacion;
-        $asiento->total_haber = $data->monto;
-        $asiento->total_debe = $data->monto;
-        $asiento->save();
-
-        //obtenemos la cuenta de caja para el primer registro del asiento
-        $caja = \App\Models\DetailAccount::where('name','CAJA')->first();
-        $fecha = Carbon::now()->format('Y-m-d');
-
-        $arreglo = [
-            [
-            'fecha' => $fecha,
-            'codigo' => $caja->code,
-            'name' => $caja->name,
-            'debe' => $data->monto,
-            'haber' => 0,
-            'tipo' => $cuenta->tipo
-            ],
-            [
-            'fecha' => $fecha,
-            'codigo' => $ultimoitem->code,
-            'name' => $ultimoitem->name,
-            'debe' => 0,
-            'haber' => $data->monto,
-            'tipo' => $cuenta->tipo
-            ]
-        ];
-        $asiento->storeHasMany([
-            'items' => $arreglo
-        ]);
-        return $asiento;
     }
 
     /**
@@ -159,10 +174,16 @@ class AporteAfiliadoController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('aporte_afiliado')->where('id', $id)
-            ->update([
-                'deleted_at' => date('Y-m-d H:i:s')
-            ]);
-        return redirect()->route('aporteafiliado.index')->with(['message' => 'Cobro registrado exitosamente.', 'alert-type' => 'success']);
+        DB::beginTransaction();
+        try {
+            DB::table('aporte_afiliado')->where('id', $id)->update(['deleted_at' => date('Y-m-d H:i:s')]);
+            DB::table('asientos')->where('aporte_afiliado_id', $id)->update(['deleted_at' => date('Y-m-d H:i:s')]);
+
+            DB::commit();
+            return redirect()->route('aporteafiliado.index')->with(['message' => 'Cobro registrado exitosamente.', 'alert-type' => 'success']);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->route('aporteafiliado.index')->with(['message' => 'Error inesperado.', 'alert-type' => 'error']);
+        }
     }
 }

@@ -4,7 +4,7 @@
             <table class="table table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th colspan="6" class="text-center h3">Lb Mayor desde {{ $f_inicio }} hasta {{ $f_fin }}</th>
+                        <th colspan="6" class="text-center h3">Libro Mayor desde {{ $f_inicio }} hasta {{ $f_fin }}</th>
                     </tr>
                     <tr>
                         <th>Codigo</th>

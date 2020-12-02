@@ -23,8 +23,9 @@
                             </ul>
                             <div class="tab-content">
                                 <div id="list" class="tab-pane fade in active">
-                                    <form id="form-generate" method="POST" action="{{ url('admin/importar/recepciones/list') }}" class="form-inline">
+                                    <form name="formgenerate" id="form-generate" method="POST" action="{{ url('admin/importar/recepciones/list') }}" class="form-inline">
                                         @csrf
+                                        <input type="hidden" name="pdf" value="">
                                         <div class="form-group">
                                             <select name="mes" class="form-control" required>
                                                 <option value="">Seleccione el mes</option>
@@ -41,13 +42,14 @@
                                                 <option @if(date('m') == 11) selected @endif value="11">Noviembre</option>
                                                 <option @if(date('m') == 12) selected @endif value="12">Diciembre</option>
                                             </select>
-                                            <select name="quincena" class="form-control" required>
+                                            <select name="dia" class="form-control" required>
                                                 {{-- <option value="">Todo el mes</option> --}}
-                                                <option value="<">Primera quincena</option>
-                                                <option value=">=">Segunda quincena</option>
+                                                <option value="1">Primera quincena</option>
+                                                <option value="15">Segunda quincena</option>
                                             </select>
                                             <input type="number" name="anio" step="1" value="{{ date('Y') }}" class="form-control">
                                             <button type="submit" class="btn btn-primary">Generar <i class="voyager-settings"></i></button>
+                                            <button type="button" disabled class="btn btn-danger" id="btn-pdf">PDF <i class="voyager-news"></i></button>
                                         </div>
                                     </form>
                                     <div id="list-generate" style="margin-top: 20px"></div>
@@ -104,7 +106,16 @@
                 e.preventDefault();
                 $.post($(this).attr('action'), $(this).serialize(), function(res){
                     $('#list-generate').html(res);
+                    $('#btn-pdf').removeAttr('disabled');
                 });
+            });
+
+            $('#btn-pdf').click(function(){
+                $('#form-generate input[name="pdf"]').val('1');
+                $('#form-generate').attr('target', '_blank');
+                document.formgenerate.submit();
+                $('#form-generate input[name="pdf"]').val('');
+                $('#form-generate').removeAttr('target');
             });
         });
 

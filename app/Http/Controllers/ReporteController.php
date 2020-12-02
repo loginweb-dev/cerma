@@ -29,11 +29,13 @@ class ReporteController extends Controller
     }
 
     public function importar_recepcion_list(Request $request){
+        $periodo = date('Y-m-d', strtotime($request->anio.'-'.$request->mes.'-'.$request->dia));
+        
         $recepciones = DB::table('recepcion_afiliado as ra')
                             ->join('afiliados as a', 'a.id', 'ra.afiliado_id')
                             ->selectRaw('a.id, ra.afiliado_id, a.nombre_completo, a.rau, SUM(ra.total_litros) as total_litros, ra.precio_unidad, ra.periodo')
                             ->where('ra.estado', 1)
-                            ->whereDay('ra.periodo', $request->quincena, 15)
+                            ->whereDay('ra.periodo', $request->dia)
                             ->whereMonth('ra.periodo', $request->mes)
                             ->whereYear('ra.periodo', $request->anio)
                             ->groupBy('a.id', 'ra.periodo')
@@ -41,8 +43,15 @@ class ReporteController extends Controller
                             ->orderBy('ra.periodo', 'asc')
                             ->get();
         setlocale(LC_ALL, "es_ES");
-        $periodo = strftime("%B de %Y",  strtotime('1-'.$request->mes.'-'.$request->anio));
-        return view('admin.reportes.recepciones.recepciones_list', compact('recepciones', 'periodo'));
+        if(!$request->pdf){
+            return view('admin.reportes.recepciones.recepciones_list', compact('recepciones', 'periodo'));
+        }else{
+            $vista = view('admin.reportes.recepciones.recepciones_list_pdf', compact('recepciones', 'periodo'));
+            // return $vista;
+            $pdf = \App::make('dompdf.wrapper');
+            $pdf->loadHTML($vista)->setPaper('letter', 'landscape');
+            return $pdf->stream();
+        }
     }
 
     public function importar_recepcion_datos(Request $request){
@@ -71,58 +80,96 @@ class ReporteController extends Controller
     }
 
     public function importar_recepcion_datos_store(Request $request){
-        DB::beginTransaction();
-        try {
-            for ($i=0; $i < count($request->id); $i++) {
-                // Registrar ambos aportes en el detalle de recepción
-                $aporte_afiliado = AporteAfiliado::create([
-                    'afiliado_id' => $request->afiliado_id[$i],
-                    'aporte_id' => 1,
-                    'monto' => $request->mensualidad[$i],
-                    'periodo' => $request->periodo,
-                    'periodo_fin' => $request->periodo
-                ]);
 
-                $afiliado = Afiliado::find($request->afiliado_id[$i]);
+        $periodo = date('Y-m-d', strtotime($request->anio.'-'.$request->mes.'-'.$request->dia));
+        $recepcion_afiliado = RecepcionAfiliado::where('periodo', $periodo)->where('estado', 1)->first();
+        if($recepcion_afiliado){
+            return redirect('admin/importar/recepciones')->with(['message' => 'Ya se importó la recepción de leche de esta quincena, elija otra.', 'alert-type' => 'error']);
+        }
 
-                $asiento = collect([
-                    'aporte_id' => 1,
-                    'observacion' => 'Pago de quincena de '.($afiliado ? $afiliado->nombre_completo : 'Desconocido'),
-                    'monto' => $request->mensualidad[$i],
-                    'fecha' => $request->periodo
-                ]);
+        if($request->id){
 
-                (new AporteAfiliadoController)->guardarasiento($asiento, $aporte_afiliado->id, 'BANCOS');
+            DB::beginTransaction();
+            try {
+                for ($i=0; $i < count($request->id); $i++) {
+                    // Registrar ambos aportes en el detalle de recepción
+                    $aporte_afiliado = AporteAfiliado::create([
+                        'afiliado_id' => $request->afiliado_id[$i],
+                        'aporte_id' => 1,
+                        'monto' => $request->mensualidad[$i],
+                        'periodo' => $periodo,
+                        'periodo_fin' => $periodo
+                    ]);
 
-                $aporte_afiliado = AporteAfiliado::create([
-                    'afiliado_id' => $request->afiliado_id[$i],
-                    'aporte_id' => 2,
-                    'monto' => $request->aporte_leche[$i],
-                    'periodo' => $request->periodo
-                ]);
+                    $afiliado = Afiliado::find($request->afiliado_id[$i]);
 
-                $asiento = collect([
-                    'aporte_id' => 2,
-                    'observacion' => '',
-                    'monto' => $request->aporte_leche[$i],
-                    'fecha' => $request->periodo
-                ]);
+                    $asiento = collect([
+                        'aporte_id' => 1,
+                        'observacion' => 'Pago de quincena de '.($afiliado ? $afiliado->nombre_completo : 'Desconocido'),
+                        'monto' => $request->mensualidad[$i],
+                        'fecha' => $periodo
+                    ]);
 
-                (new AporteAfiliadoController)->guardarasiento($asiento, $aporte_afiliado->id, 'BANCOS');
+                    (new AporteAfiliadoController)->guardarasiento($asiento, $aporte_afiliado->id, $request->cuenta_name);
 
-                // Actualizar datos de recepción
-                RecepcionAfiliado::where('afiliado_id', $request->afiliado_id[$i])
-                ->where('estado', 0)->update([
-                    'periodo' => $request->periodo,
-                    'estado' => 1
-                ]);
+                    $aporte_afiliado = AporteAfiliado::create([
+                        'afiliado_id' => $request->afiliado_id[$i],
+                        'aporte_id' => 2,
+                        'monto' => $request->aporte_leche[$i],
+                        'periodo' => $periodo
+                    ]);
+
+                    $asiento = collect([
+                        'aporte_id' => 2,
+                        'observacion' => '',
+                        'monto' => $request->aporte_leche[$i],
+                        'fecha' => $periodo
+                    ]);
+
+                    (new AporteAfiliadoController)->guardarasiento($asiento, $aporte_afiliado->id, $request->cuenta_name);
+
+                    if($request->aportes){
+                        foreach ($request->aportes as $value) {
+                            $id = explode('_', $value)[0];
+                            $aporte_id = explode('_', $value)[1];
+                            $aporte_monto = Aporte::find($aporte_id);
+
+                            if($id == $request->id[$i]){
+                                $aporte_afiliado = AporteAfiliado::create([
+                                    'afiliado_id' => $request->afiliado_id[$i],
+                                    'aporte_id' => $aporte_id,
+                                    'monto' => $aporte_monto->monto,
+                                    'periodo' => $periodo
+                                ]);
+
+                                $asiento = collect([
+                                    'aporte_id' => $aporte_id,
+                                    'observacion' => 'Cobro extra: '.$aporte_monto->nombre,
+                                    'monto' => $aporte_monto->monto,
+                                    'fecha' => $periodo
+                                ]);
+                
+                                (new AporteAfiliadoController)->guardarasiento($asiento, $aporte_afiliado->id, $request->cuenta_name);
+                            }
+                        }
+                    }
+
+                    // Actualizar datos de recepción
+                    RecepcionAfiliado::where('afiliado_id', $request->afiliado_id[$i])
+                    ->where('estado', 0)->update([
+                        'periodo' => $periodo,
+                        'estado' => 1
+                    ]);
+                }
+                DB::table('recepcion_afiliado')->where('estado', 0)->delete();
+                DB::commit();
+                return redirect('admin/importar/recepciones')->with(['message' => 'Recepción registrada exitosamenete.', 'alert-type' => 'success']);
+            } catch (\Exception $e) {
+                DB::rollback();
+                return redirect('admin/importar/recepciones')->with(['message' => 'Ocurrió un error inesperado.', 'alert-type' => 'error']);
             }
-            DB::table('recepcion_afiliado')->where('estado', 0)->delete();
-            DB::commit();
-            return redirect('admin/importar/recepciones')->with(['message' => 'Recepción registrada exitosamenete.', 'alert-type' => 'success']);
-        } catch (\Exception $e) {
-            DB::rollback();
-            return redirect('admin/importar/recepciones')->with(['message' => 'Ocurrió un error inesperado.', 'alert-type' => 'error']);
+        }else{
+            return redirect('admin/importar/recepciones')->with(['message' => 'Debe importar datos de recepción de leche.', 'alert-type' => 'error']);
         }
     }
 

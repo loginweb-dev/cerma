@@ -18,7 +18,7 @@
             </td>
         </tr>
     </table>
-    <table border="1" cellspacing="0" cellpadding="5">
+    <table width="100%" border="1" cellspacing="0" cellpadding="5">
         <thead>
             <tr>
                 <th>Periodo</th>
@@ -75,7 +75,7 @@
             </tr>
             @empty
                 <tr>
-                    <td colspan="10" class="text-center">No hay datos registrados</td>
+                    <td colspan="10" align="center">No hay datos registrados</td>
                 </tr>
             @endforelse
             <tr>

@@ -34,6 +34,7 @@
                                 $total_montos += $total;
                                 $total_descuentos += $descuentos;
                                 $total_liquido_pagable += $total - $descuentos;
+                                // dd($item->total_litros, $aporte_leche);
                             @endphp
                             <tr>
                                 <td>

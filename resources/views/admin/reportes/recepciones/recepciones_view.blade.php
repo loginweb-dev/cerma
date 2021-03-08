@@ -58,11 +58,14 @@
                                 <td>
                                     <div>
                                         @foreach (\App\Aporte::where('id', '>', 2)->where('deleted_at', NULL)->where('tipo', 'monto')->get() as $aporte)
-                                        <input type="checkbox" name="aportes[]" value="{{ $item->id.'_'.$aporte->id }}"> {{ $aporte->nombre }} <br>
+                                        <input type="checkbox" class="check-aporte" name="aportes[]" data-id="{{ $item->id }}" data-monto="{{ $aporte->monto }}" value="{{ $item->id.'_'.$aporte->id }}"> {{ $aporte->nombre }} <br>
                                         @endforeach
                                     </div>
                                 </td>
-                                <td>{{ number_format($total - $descuentos, 2, ',', '.') }}</td>
+                                <td>
+                                    <label id="label-subtotal-{{ $item->id }}">{{ number_format($total - $descuentos, 2, ',', '.') }}</label>
+                                    <input type="hidden" id="input-subtotal-{{ $item->id }}" value="{{ $total - $descuentos }}">
+                                </td>
                             </tr>
                             @php
                         @endphp
@@ -135,6 +138,23 @@
 </style>
 <script>
     $(document).ready(function(){
-        
+        $('.check-aporte').click(function(){
+            let id = $(this).data('id');
+            let monto = parseFloat($(this).data('monto'));
+            let subtotal = parseFloat($(`#input-subtotal-${id}`).val());
+            let checked = $(this).prop('checked');
+
+            if(checked){
+                if(subtotal - monto < 0){
+                    toastr.error('El monto de descuento es mayor al liquido pagable.', 'Advertencia')
+                }
+                $(`#input-subtotal-${id}`).val((subtotal - monto).toFixed(2));
+                $(`#label-subtotal-${id}`).text((subtotal - monto).toFixed(2));
+            }else{
+                $(`#input-subtotal-${id}`).val((subtotal + monto).toFixed(2));
+                $(`#label-subtotal-${id}`).text((subtotal + monto).toFixed(2));
+            }
+
+        });
     });
 </script>

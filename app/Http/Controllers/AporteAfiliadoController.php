@@ -36,7 +36,8 @@ class AporteAfiliadoController extends Controller
      */
     public function create()
     {
-        $aportes = Aporte::where('deleted_at', null)->where('id', '>', 2)->get();
+        // $aportes = Aporte::where('deleted_at', null)->where('id', '>', 2)->get();
+        $aportes = Aporte::where('deleted_at', null)->get();
         return view('admin.cobros.add', compact('aportes'));
     }
 
@@ -88,6 +89,7 @@ class AporteAfiliadoController extends Controller
                 ]);
                 $ultimoitem = $cuenta->detailaccounts()->latest()->orderBy('id','desc')->first();
             }
+
             //guardar el asiento
             $asiento = new \App\Models\Asiento;
             $asiento->user_id = auth()->user()->id;

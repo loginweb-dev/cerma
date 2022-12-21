@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Imports\TypeDocumentImport;
 use Maatwebsite\Excel\Facades\Excel;
-
+use App\Http\Controllers\PagoController;
+use App\Http\Controllers\CajaChicaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -53,6 +54,8 @@ Route::group(['prefix' => 'admin'], function () {
 
     // Recibos
     Route::post('recibo/aportacion', 'RecibosController@recibo_aportacion');
+    Route::post('recibo/pago', 'RecibosController@recibo_pago');
+    Route::post('recibo/transaccion', 'RecibosController@recibo_dinero_afiliado');
 
 
     Route::get('{page_id}/edit', 'PageController@edit')->name('page_edit');
@@ -99,10 +102,25 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('reports/balancegnral','ReporteController@balancegnral_index')->name('balancegnral_index');
     Route::post('reports/balancegnral/list', 'ReporteController@balancegnral_generate');
 
+    Route::get('reports/comprobacion','ReporteController@comprobacion_index')->name('comprobacion_index');
+    Route::post('reports/comprobacion/list', 'ReporteController@comprobacion_generate');
+
     //ruta para importar los tipos de documentos
     Route::get('import-document', function () {
         Excel::import(new TypeDocumentImport, 'subcuentas.xlsx');
         return 'importacion con exito';
     });
+
+    //rutas pagos
+    Route::resource('pagos', 'PagoController');
+    Route::get('/pagos/imprimir', function () {
+        return 'hola';
+    });
+
+    //rutas cajachica
+    Route::resource('cajachica', 'CajaChicaController');
+
+    //rutas dinero afiliado (pagos y cobros juntos)
+    Route::resource('dineroafiliados', 'DineroAfiliadoController');
 });
 

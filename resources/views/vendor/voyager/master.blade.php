@@ -140,11 +140,12 @@ if (\Illuminate\Support\Str::startsWith(Auth::user()->avatar, 'http://') || \Ill
     @endif
 </script>
 @include('voyager::media.manager')
-@yield('javascript')
-@stack('javascript')
 @if(!empty(config('voyager.additional_js')))<!-- Additional Javascript -->
     @foreach(config('voyager.additional_js') as $js)<script type="text/javascript" src="{{ asset($js) }}"></script>@endforeach
 @endif
+@yield('javascript')
+@stack('javascript')
+
 
 </body>
 </html>

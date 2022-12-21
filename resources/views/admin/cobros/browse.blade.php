@@ -64,9 +64,9 @@
                                             <button title="Imprimir" onclick="generar_recibo({{ $item->id }})" class="btn btn-sm btn-primary edit">
                                                 <i class="voyager-polaroid"></i> <span class="hidden-xs hidden-sm">Imprimir</span>
                                             </button>
-                                            <a href="#" title="Borrar" onclick="borrar({{ $item->id }})" class="btn btn-sm btn-danger delete" data-id="{{ $item->id }}" >
+                                            {{-- <a href="#" title="Borrar" onclick="borrar({{ $item->id }})" class="btn btn-sm btn-danger delete" data-id="{{ $item->id }}" >
                                                 <i class="voyager-trash"></i> <span class="hidden-xs hidden-sm">Borrar</span>
-                                            </a>
+                                            </a> --}}
                                         </td>
                                     </tr>
                                     @empty

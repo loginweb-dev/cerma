@@ -19,7 +19,7 @@
         <tr style="text-align: center">
             <td width="35%" class="bg-primary"><h4>{{ setting('recibo.titulo') }}</h4></td>
             <td width="30%">
-                <b style="font-size: 20px">Recibo</b>
+                <b style="font-size: 20px">Recibo de Cobro</b>
                 <p style="font-size: 11px">
                     NIT: {{ setting('recibo.nit') }} <br>
                     {{ setting('recibo.direccion') }} <br>
@@ -39,7 +39,7 @@
     <table width="100%" border="1" cellspacing="0" cellpadding="5" style="margin-bottom: 5px">
         <tr>
             <td colspan="6" class="bg-primary"><small>Recibimos de</small>: <b style="font-size: 16px">{{ $recepcion[0]->afiliado->nombre_completo }}</b></td>
-            <td rowspan="3" width="100px">{!!QrCode::size(100)->generate('Recibo de CERMA #'.$numero_recibo.': '.$recepcion[0]->afiliado->nombre_completo.' en fecha '.date('d-m-Y', strtotime($recepcion[0]->periodo))) !!}</td>
+            <td rowspan="3" width="100px">{!!QrCode::size(100)->generate('Recibo de Cobro #'.$numero_recibo.': '.$recepcion[0]->afiliado->nombre_completo.' en fecha '.date('d-m-Y', strtotime($recepcion[0]->created_at))) !!}</td>
         </tr>
         <tr>
             <td class="bg-primary"><b>RAU</b></td>
@@ -47,7 +47,7 @@
             <td class="bg-primary"><b>Telefono</b></td>
             <td>{{ $recepcion[0]->afiliado->movil }}</td>
             <td class="bg-primary"><b>Fecha de recibo</b></td>
-            <td>{{ date('d-m-Y', strtotime($recepcion[0]->periodo)) }}</td>
+            <td>{{ date('d-m-Y', strtotime($recepcion[0]->created_at)) }}</td>
         </tr>
         <tr>
             <td class="bg-primary"><b>Dirección</b></td>
@@ -94,7 +94,9 @@
     <table width="100%" border="1" cellspacing="0" cellpadding="5">
         <tbody>
             <tr class="bg-primary">
-                <td>{{ setting('recibo.observaciones') }}</td>
+                {{-- <td>{{ setting('recibo.observaciones') }}</td> --}}
+                <td>{{$recepcion[0]->observacion ? 'Observación: '.$recepcion[0]->observacion : 'Observación: '}}</td>
+
             </tr>
         </tbody>
     </table>

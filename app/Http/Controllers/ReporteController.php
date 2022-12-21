@@ -276,4 +276,31 @@ class ReporteController extends Controller
 
         return view('admin.reportes.balance.balance_list', compact('balance','f_inicio','f_fin'));
     }
+
+    // Comprobaciones de sumas y saldos
+
+    public function comprobacion_index(){
+        return view('admin.reportes.comprobacion.index');
+    }
+
+    public function comprobacion_generate(Request $request){
+        
+        $f_inicio = $request->inicio;
+        $f_fin    = $request->fin;
+
+        $mayores = Asiento::selectRaw('det.codigo,det.name,sum(det.debe) AS Debe,sum(det.haber) AS Haber')
+                        ->join('detalles as det', 'det.asiento_id', '=', 'asientos.id')
+                        ->whereBetween('asientos.created_at',[$f_inicio,$f_fin])
+                        ->where('deleted_at', NULL)
+                        ->groupBy('det.codigo','det.name')
+                        ->get();
+        if ($request->printf == 'imprimir') {
+            $vista = view('admin.reportes.comprobacion.pdf', compact('mayores','f_inicio','f_fin'));
+            $pdf = \App::make('dompdf.wrapper');
+            $pdf->loadHTML($vista)->setPaper('letter');
+            return $pdf->stream();
+        }
+            // return $balance;
+        return view('admin.reportes.comprobacion.list', compact('mayores','f_inicio','f_fin'));
+    }
 }

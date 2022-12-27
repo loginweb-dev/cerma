@@ -192,7 +192,7 @@
             }
             console.log(midata)
 
-            var subcuenta= await axios.post("{{setting('admin.url')}}api/create/subcuenta", midata)
+            var subcuenta= await axios.post("/api/create/subcuenta", midata)
             if (subcuenta.data) {
                  location.href="/admin/cuentas"
 

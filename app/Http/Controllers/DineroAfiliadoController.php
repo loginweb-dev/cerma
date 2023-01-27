@@ -25,15 +25,44 @@ class DineroAfiliadoController extends Controller
 
 
         $search = request('search');
-        $query = $search ? "nombre_completo like '%$search%' or rau like '%$search%' or ci like '%$search%'" : 1;
+        // $query = $search ? "nombre_completo like '%$search%' or rau like '%$search%' or ci like '%$search%'" : 1;
+        $query = $search ? "nombre_completo like '%$search%'" : 1;
+
         $dineroafiliados = DineroAfiliado::with(['afiliado'])
                         ->whereHas('afiliado', function($q) use ($query){
                             $q->whereRaw($query);
                         })
                         ->where('deleted_at', null)
                         ->orderBy('id', 'DESC')->get();
-        return view('admin.dineroafiliados.index', compact('dineroafiliados', 'search'));
+        if (count($dineroafiliados)==0) {
+            $query = $search ? "rau like '%$search%'" : 1;
+            $dineroafiliados = DineroAfiliado::with(['afiliado'])
+                        ->whereHas('afiliado', function($q) use ($query){
+                            $q->whereRaw($query);
+                        })
+                        ->where('deleted_at', null)
+                        ->orderBy('id', 'DESC')->get();
+           
+        }
+        else{
+           
 
+            return view('admin.dineroafiliados.index', compact('dineroafiliados', 'search'));
+        }
+        if (count($dineroafiliados)==0) {
+            $query = $search ? "ci like '%$search%'" : 1;
+            $dineroafiliados = DineroAfiliado::with(['afiliado'])
+            ->whereHas('afiliado', function($q) use ($query){
+                $q->whereRaw($query);
+            })
+            ->where('deleted_at', null)
+            ->orderBy('id', 'DESC')->get();
+            return view('admin.dineroafiliados.index', compact('dineroafiliados', 'search'));
+        }
+        else{
+            return view('admin.dineroafiliados.index', compact('dineroafiliados', 'search'));
+        }
+       
     }
 
     /**

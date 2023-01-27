@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
+        <!-- Favicon -->
         <?php $admin_favicon = Voyager::setting('admin.icon_image', ''); ?>
         @if($admin_favicon == '')
             <link rel="shortcut icon" href="{{ asset('images/icon.png') }}" type="image/png">
@@ -28,7 +28,8 @@
             body{
                 font-size: 12px;
                 font-family: 'Noto Sans', sans-serif;
-             
+                /* border: 1px solid black;
+                border-radius: 1px; */
                 padding: 5px 10px;
                 margin: 0px
             }
@@ -36,44 +37,32 @@
     </head>
     <body>
         <table width="100%">
-            <thead></thead>
-            <tbody>
             <tr>
-                <td width="100%" align="center" style="font-size:11px">
+                <td width="30%" align="center" style="font-size:7px">
                     <img src="{{ setting('admin.icon_image') ? url('storage').'/'.setting('admin.icon_image') : url('images/icon.png') }}" alt="loginweb" width="60px"><br>
                     <b >{{ setting('recibo.titulo') }}</b><br>
                     <b>Telf: {{ setting('recibo.celular') }}</b><br>
                     <b>{{setting('recibo.direccion')}}</b><br>
                     <b>{{setting('recibo.localidad')}}</b><br>
                 </td>
+                <td width="70%" align="right"><span style="margin-bottom:0px;font-weight:bold;font-size:18px">ASIENTO CONTABLE #{{ str_pad($asiento->id, 5, "0", STR_PAD_LEFT) }}</span></td>
+                {{-- <td width="30%" align="right"><span style="font-weight:bold;color:red;font-size:15px;"></span></td> --}}
             </tr>
-            <tr>
-                <td></td>
-            </tr>
-            <tr>
-                <td  align="center"><span style="margin-bottom:0px;font-weight:bold;font-size:18px">ASIENTO CONTABLE #{{ str_pad($asiento->id, 5, "0", STR_PAD_LEFT) }}</span></td>
-            </tr>
-        </tbody>
         </table>
-        <br>
-        {{-- <table width="100%" align="center" style="margin-top: -40px">
-            <thead></thead>
-            <tbody>
-                <tr>
-                    @php
-                        setlocale(LC_ALL, 'es_ES');
-                    @endphp
-                    <td align="left"><b>Fecha:</b> </td>
-                    <td>{{  strftime("%d %B, %Y", strtotime($asiento->created_at)) }} </td>
-                    <td align="right"><b>Empresa:</b></td>
-                    <td align="center">{{setting('admin.title')}}</td>
-                </tr>
-            </tbody>
-        </table> --}}
 
+        <table width="100%" align="center" style="margin-top: -40px">
+            <tr>
+                @php
+                    // Carbon\Carbon::setLocale('es');
+                    setlocale(LC_ALL, 'es_ES');
+                @endphp
+                <td align="left"><b>Fecha:</b> </td>
+                <td>{{  strftime("%d %B, %Y", strtotime($asiento->created_at)) }} </td>
+                <td align="right"><b>Empresa:</b></td>
+                <td align="center">{{setting('admin.title')}}</td>
+            </tr>
+        </table>
         <table width="100%" border="1px" cellspacing="0" cellpadding="2" style="margin-top: -10px">
-            <thead></thead>
-            <tbody>
             <tr style="background-color:#022A81;color:#fff">
                 <td align="center" width="80px"><b>Fecha&deg;</b></td>
                 {{-- <td align="center" width="80px"><b>Código</b></td> --}}
@@ -81,7 +70,7 @@
                 <td align="center" ><b>Detalle Cuenta</b></td>
                 <td align="center" width="100px"><b>Debe</b></td>
                 <td align="center" width="100px"><b>Haber</b></td>
-            </tbody>
+
             </tr>
             @forelse ($asiento->items as $item)
                 <tr>
@@ -108,15 +97,14 @@
                     <td colspan="5"><b> Son: {{ NumerosEnLetras::convertir(number_format($asiento->total_debe, 2, '.', ''),'Bolivianos',false,'Centavos') }} </b></td>
                 </tr>
         </table>
-       
         @if ($asiento->comprobante)
-            <table width="100%" align="center" style="margin-top: 30px">
-                <tr>
-                    <td align="center" width="100%">
-                        <img src="{{url('storage').'/'.$asiento->comprobante}}" alt="comprobante" width="500px">
-                    </td>
-                </tr>
-            </table>
+        <table width="100%" align="center" style="margin-top: 30px">
+            <tr>
+                <td align="center" width="100%">
+                    <img src="{{url('storage').'/'.$asiento->comprobante}}" alt="comprobante" width="500px">
+                </td>
+            </tr>
+        </table>
         @endif
 
         
@@ -142,9 +130,5 @@
                 </tr>
             </table>
         </div>
-
-        <script>
-            window.print()
-        </script>
     </body>
 </html>

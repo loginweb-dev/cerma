@@ -43,9 +43,10 @@ class RecibosController extends Controller
     }
 
     public function recibo_dinero_afiliado(Request $request){
+        $asiento= \App\Models\Asiento::where('dineroafiliado_id', $request->id)->with('items')->first();
         $recepcion = DineroAfiliado::with(['afiliado'])
                                     ->where('id', $request->id)
                                     ->get();
-        return view('admin.recibos.dineroafiliado', compact('recepcion'));
+        return view('admin.recibos.dineroafiliado', compact('recepcion', 'asiento'));
     }
 }

@@ -20,10 +20,21 @@
                     <div class="panel panel-bordered">
                         <div class="panel-body">
                             <div class="row">
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-sm-3">
+                                    <label for="">Quincena</label>
+                                    <div style="border-style: outset;">
+                                        <select class="form-control" name="select_quincena" id="select_quincena">
+                                            <option value="primera">Primer Quincena</option>
+                                            <option value="segunda">Segunda Quincena</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3">
                                     <label>Fecha</label>
                                     <div style="border-style: outset;">
-                                    <input type="date" name="fecha" class="form-control" value="{{ date('Y-m-d') }}" required>
+                                    {{-- <input type="date" name="fecha" class="form-control" value="{{ date('Y-m-d') }}" required> --}}
+                                    <input type="month" name="fecha" id="fecha" class="form-control" value="{{ date('Y-m') }}">
+
                                     @error('fecha')
                                         <span class="text-danger" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -126,7 +137,7 @@
                                     <div class="col-md-6">
                                         <label> Seleccionar Cobro</label>
                                         <div style="border-style: outset;">
-                                        <select name="aporte_codigo" class="form-control select2" id="aporte_codigo" required>
+                                        <select name="aporte_codigo" class="form-control select2" id="aporte_codigo">
                                             @foreach ($cuentas as $item)
                                                 <option value="{{$item->codigo}}">{{$item->nombre}}</option>
                                             @endforeach
@@ -139,8 +150,14 @@
                                         </div>
                                     </div>
                                     <br>
+                                    
                                     <div class="col-md-6">
-                                        <a id="table3-new-row-button" onclick="agregar_fila_cobro()"  class="btn btn-sm btn-dark">Agregar Cobro</a>
+                                        <div class="col-sm-12">
+                                            <a id="table3-new-row-button" onclick="agregar_fila_cobro()"  class="btn btn-sm btn-dark">Agregar Cobro</a>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <a id="" onclick="agregar_cuentas_defecto()" class="btn btn-sm btn-dark">Cobros por Defecto</a>
+                                        </div>
                                     </div>
                                     <table class="table table-striped table-bordered" id="table2">
                                         <thead class="thead-dark">
@@ -212,17 +229,91 @@
 
 @section('javascript')
     <script src="{{ url('plugins/formatSelect2.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.0/axios.min.js"></script>
+
     <script>
          function agregar_fila_cobro() {
+            if ($("#litros").val()>0) {
+                if ($("#aporte_codigo").val()!=null) {
+                    
+                
+                    var aporte_codigo= $("#aporte_codigo").val()
+                    var aporte_text= $( "#aporte_codigo option:selected" ).text();
+                    console.log(comparar_exis_cobro(aporte_codigo))
+                    if ((comparar_exis_cobro(aporte_codigo)!=true)||( count_cobros()==0)) {
+                        $('#table2').append("<tr><td class='text-center'><input class='tab_cobros_id' type='number' value="+aporte_codigo+" hidden>"+aporte_codigo+"</td><td class='text-center'>"+aporte_text+"</td><td class='text-center'>0</td></tr>");
+                        example2.init();
+                        crear_array()
+                    }
+                    else{
+                        toastr.error("Ese cobro ya existe en la lista.")
+                    }
+                }
+                else{
+                    toastr.error("No ha seleccionado ningún cobro")
+                }
+            }
+            else{
+                toastr.error("Primero agregue la cantidad de litros de leche correspondientes")
+            }
 
-            var aporte_codigo= $("#aporte_codigo").val()
-            var aporte_text= $( "#aporte_codigo option:selected" ).text();
 
-            $('#table2').append("<tr><td class='text-center'>"+aporte_codigo+"</td><td class='text-center'>"+aporte_text+"</td><td class='text-center'>0</td></tr>");
-            example2.init();
+
+           
+        }
+        function comparar_exis_cobro(id){
+            var validador=false;
+            $('.tab_cobros_id').each(function(){
+                if (id==this.value) {
+                    validador=true
+                }
+            })
+            return validador;
+        }
+        function count_cobros(){
+            var num=0
+                $('.tab_cobros_id').each(function(){
+                    num+=1
+                })
+            return num;
         }
 
-        function update_cobros(params) {
+        async function agregar_cuentas_defecto() {
+            if ($("#litros").val()>0) {
+                // $('#table2 tbody').empty();
+                var defecto= await axios("/api/find/cuentas/default")
+                for (let index = 0; index < defecto.data.length; index++) {
+                    var monto=0
+                    if ((comparar_exis_cobro(defecto.data[index].codigo)!=true)||( count_cobros()==0)) {
+                        if (defecto.data[index].tipo_retencion=="fijo") {
+                            if (defecto.data[index].monto<1) {
+                                monto=parseFloat($("#litros").val()).toFixed(2)*parseFloat(defecto.data[index].monto).toFixed(2)
+                            }
+                            else{
+                                monto=defecto.data[index].monto
+                            }
+                        }
+                        else{
+                            monto= (parseFloat($("#total_leche").val()).toFixed(2))*(parseFloat(defecto.data[index].monto).toFixed(2)/100)
+                            console.log(monto)
+
+                        }
+                        $('#table2').append("<tr><td class='text-center'><input class='tab_cobros_id' type='number' value="+defecto.data[index].codigo+" hidden>"+defecto.data[index].codigo+"</td><td class='text-center'>"+defecto.data[index].nombre+"</td><td class='text-center'>"+monto.toFixed(2)+"</td></tr>");
+                        example2.init();
+                        update_cobros()
+                        crear_array()
+                    }
+                    else{
+                        toastr.error("El cobro "+defecto.data[index].nombre+" ya existe en la lista.")
+                    }
+                }
+            }
+            else{
+                toastr.error("Primero agregue la cantidad de litros de leche correspondientes")
+            }
+        }
+
+        function update_cobros() {
             var table2 = document.getElementById("table2");
             var monto= 0
             for (var i = 1, row; row = table2.rows[i]; i++) {
@@ -257,7 +348,7 @@
             for (var i = 1, row; row = table2.rows[i]; i++) {
                 cobros.push({codigo: parseInt(row.cells[0].innerText), nombre: row.cells[1].innerText, monto: parseFloat(row.cells[2].innerText).toFixed(2)})                
             }
-            $('[name="cobros"]').val( JSON.stringify( cobros ) );
+            $('#cobros').val( JSON.stringify( cobros ) );
         }
         
         // $("#total_leche").keyup( function () {
@@ -289,7 +380,7 @@
             
 
 
-
+            $("#precio_unitario").val("{{setting('aportes.precio_leche')}}")
             // Inicializar select2 personalizado
             $('#select-afiliado_id').select2({
                 placeholder: '<i class="fa fa-search"></i> Buscar cliente...',

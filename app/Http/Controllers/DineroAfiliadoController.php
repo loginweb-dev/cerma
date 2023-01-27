@@ -44,7 +44,7 @@ class DineroAfiliadoController extends Controller
     public function create()
     {
         //
-        $cuentas = Cuenta::where('deleted_at', null)->get();
+        $cuentas = Cuenta::where('deleted_at', null)->offset(4)->limit(100)->get();
         return view('admin.dineroafiliados.create', compact('cuentas'));
     }
 
@@ -74,6 +74,13 @@ class DineroAfiliadoController extends Controller
             //     'total_a_pagar'=> floatval($request->total_a_pagar), 
             //     'observaciones'=> $request->observaciones
             // ]);
+            $fecha=$_POST['fecha'];
+            if ($_POST['select_quincena']=='primera') {
+                $fecha=$fecha.'-01';
+            }
+            else{
+                $fecha=$fecha.'-16';
+            }
 
             $dineroafiliados = DineroAfiliado::create([
                 'afiliado_id' => intval( $_POST['afiliado_id']),
@@ -83,6 +90,7 @@ class DineroAfiliadoController extends Controller
                 'total_cobro'=> floatval( $_POST['total_cobro']),
                 'total_a_pagar'=> floatval( $_POST['total_a_pagar']),
                 'observaciones'=> ( $_POST['observaciones']),
+                'gestion'=>$fecha
             ]);
 
             //guardar el asiento
@@ -96,9 +104,9 @@ class DineroAfiliadoController extends Controller
             $asiento->dineroafiliado_id = $dineroafiliados->id;
             $asiento->save();
 
-            $cuenta_debe_nombre = 'CAJA'; 
+            $cuenta_debe_nombre = 'BANCOS'; 
             $ingreso = true;
-            //obtenemos la cuenta de caja para el primer registro del asiento
+            //obtenemos la cuenta de BANCOS para el primer registro del asiento
             $cuenta_debe = \App\Models\DetailAccount::where('name', $cuenta_debe_nombre)->with('cuenta')->first();
             
             foreach ($cobros as $item) {
@@ -109,27 +117,29 @@ class DineroAfiliadoController extends Controller
                 $arreglo = [
                     [
                         'fecha' => $asiento->created_at,
-                        'codigo' => $ingreso ? $cuenta_debe->code : $ultimoitem->code,
-                        'name' => $ingreso ? $cuenta_debe->name : $ultimoitem->name,
+                        'codigo' => $ingreso ? $cuenta_haber->code : $cuenta_debe->code,
+                        'name' => $ingreso ? $cuenta_haber->name : $cuenta_debe->name,
                         'debe' => floatval($item->monto),
                         'haber' => 0,
-                        'tipo' => $cuenta_debe->cuenta->tipo
+                        'tipo' => $cuenta_haber->cuenta->tipo
                     ],
                     [
                         'fecha' => $asiento->created_at,
-                        'codigo' => $ingreso ? $cuenta_haber->code : $cuenta_debe->code,
-                        'name' => $ingreso ? $cuenta_haber->name : $cuenta_debe->name,
+                        'codigo' => $ingreso ? $cuenta_debe->code : $ultimoitem->code,
+                        'name' => $ingreso ? $cuenta_debe->name : $ultimoitem->name,
                         'debe' => 0,
                         'haber' => floatval($item->monto),
-                        'tipo' => $cuenta_haber->cuenta->tipo
+                        'tipo' => $cuenta_debe->cuenta->tipo
                     ]
+                   
                 ];
                 $asiento->storeHasMany([
                     'items' => $arreglo
                 ]);
             }
 
-            $cuenta_haber= \App\Models\PlansOfAccount::where('code', 111200)->first();
+            // $cuenta_haber= \App\Models\PlansOfAccount::where('code', 111200)->first();
+            $cuenta_haber= \App\Models\DetailAccount::where('code', 520010)->first();
             $arreglo = [
                 [
                     'fecha' => $asiento->created_at,
@@ -137,7 +147,9 @@ class DineroAfiliadoController extends Controller
                     'name' => $ingreso ? $cuenta_haber->name : $cuenta_debe->name,
                     'debe' => floatval( $_POST['total_a_pagar']),
                     'haber' => 0,
-                    'tipo' => $cuenta_haber->tipo
+                    // 'tipo' => $cuenta_haber->tipo
+                    'tipo' => 520000
+
                 ],
                 [
                     'fecha' => $asiento->created_at,
@@ -153,8 +165,9 @@ class DineroAfiliadoController extends Controller
                 'items' => $arreglo
             ]);
 
-            return true;
+            // return true;
 
+            return redirect()->route($redirect)->with(['message' => 'Transacción registrada exitosamente.', 'alert-type' => 'success']);
 
             //$this->guardarasiento($request, $dineroafiliados->id, $cobros);
         //     DB::commit();

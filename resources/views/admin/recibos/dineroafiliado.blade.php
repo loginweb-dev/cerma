@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Recibo de aportación</title>
+    <title>Recibo de Pago Afiliado</title>
     <style>
         .bg-primary{
             background-color: #349c64;
@@ -14,12 +14,31 @@
 <body>
     @php
         $numero_recibo = str_pad($recepcion[0]->id, 6, "0", STR_PAD_LEFT);
+        $quincena_pago= strtotime($recepcion[0]->gestion);
+        $dia= date("d", $quincena_pago);
+        $mes= date("m", $quincena_pago);
+        $quincena='';
+        if ($dia==01) {
+            $quincena='1er';
+        }
+        else{
+            $quincena='2da';
+        }
+
+        $mes_texto= date("F", $quincena_pago);
+
+        setlocale(LC_TIME, 'es_ES');
+        $monthNum  = $mes;
+        $dateObj   = DateTime::createFromFormat('!m', $monthNum);
+        $monthName = ucfirst(strftime('%B', $dateObj->getTimestamp()));
+
+        
     @endphp
     <table width="100%" border="1" cellspacing="0" style="margin-bottom: 5px">
         <tr style="text-align: center">
             <td width="35%" class="bg-primary"><h4>{{ setting('recibo.titulo') }}</h4></td>
             <td width="30%">
-                <b style="font-size: 20px">Recibo de Cobro</b>
+                <b style="font-size: 20px">Recibo de Pago Afiliado</b>
                 <p style="font-size: 11px">
                     NIT: {{ setting('recibo.nit') }} <br>
                     {{ setting('recibo.direccion') }} <br>
@@ -38,8 +57,8 @@
     </table>
     <table width="100%" border="1" cellspacing="0" cellpadding="5" style="margin-bottom: 5px">
         <tr>
-            <td colspan="6" class="bg-primary"><small>Recibimos de</small>: <b style="font-size: 16px">{{ $recepcion[0]->afiliado->nombre_completo }}</b></td>
-            <td rowspan="3" width="100px">{!!QrCode::size(100)->generate('Recibo de Cobro #'.$numero_recibo.': '.$recepcion[0]->afiliado->nombre_completo.' en fecha '.date('d-m-Y', strtotime($recepcion[0]->created_at))) !!}</td>
+            <td colspan="6" class="bg-primary"><small>Afiliado </small>: <b style="font-size: 16px">{{ $recepcion[0]->afiliado->nombre_completo }}</b></td>
+            <td rowspan="3" width="100px">{!!QrCode::size(100)->generate('Recibo de Pago Afiliado #'.$numero_recibo.': '.$recepcion[0]->afiliado->nombre_completo.' en fecha '.date('d-m-Y', strtotime($recepcion[0]->created_at))) !!}</td>
         </tr>
         <tr>
             <td class="bg-primary"><b>RAU</b></td>
@@ -54,8 +73,8 @@
             <td>{{ $recepcion[0]->afiliado->direccion }}</td>
             <td class="bg-primary"><b>Ciudad</b></td>
             <td>{{ $recepcion[0]->afiliado->localidad }}</td>
-            <td class="bg-primary"><b>Medio de pago</b></td>
-            <td>Efectivo</td>
+            <td class="bg-primary"><b>Quincena de Pago</b></td>
+            <td>{{$quincena}} Quincena de {{$monthName}}</td>
         </tr>
     </table>
     <h3>
@@ -74,17 +93,17 @@
             <tr>
                 <td class="text-center">1</td>
                 <td class="text-center">Total Litros</td>
-                <td class="text-center"></td>
+                <td class="text-center">{{$recepcion[0]->litros}}</td>
             </tr>
             <tr>
                 <td>2</td>
                 <td>Precio Unitario</td>
-                <td></td>
+                <td>{{$recepcion[0]->precio_unitario}}</td>
             </tr>
             <tr>
                 <td>3</td>
                 <td class="text-right"><b>Subtotal</b></td>
-                <td></td>
+                <td>{{$recepcion[0]->total_leche}}</td>
             </tr>
 
             {{-- @php
@@ -109,7 +128,7 @@
         </tbody>
     </table>
     <h3>
-        Cobros
+        Retenciones
     </h3>
     <table width="100%" border="1" cellspacing="0" cellpadding="5" style="margin-bottom: 5px">
         <thead>
@@ -120,6 +139,29 @@
             </tr>
         </thead>
         <tbody>
+            @php
+                $cant= count($asiento->items);
+                $index=0;
+            @endphp
+            @foreach ($asiento->items as $key => $item)
+                @if (($key % 2) == 0)
+                    @if ($key+2!=$cant)
+                    @php
+                        $index+=1;
+                    @endphp
+                    <tr>
+                        <td class="text-center">{{$index}}</td>
+                        <td class="text-center">{{$item->name}}</td>
+                        <td class="text-center">{{$item->debe}}</td>
+                    </tr>
+                    @endif
+                @endif
+            @endforeach
+            <tr>
+                <td>{{($index+1)}}</td>
+                <td><b>Subtotal</b></td>
+                <td>{{$recepcion[0]->total_cobro}}</td>
+            </tr>
         </tbody>
     </table>
     <h3>
@@ -134,9 +176,27 @@
             </tr>
         </thead>
         <tbody>
-    <div style="margin-bottom: 10px">
-        {{-- Son: {{ NumerosEnLetras::convertir(number_format($total, 2, '.', ''),'Bolivianos',false,'Centavos') }} --}}
-    </div>
+            <tr>
+                <td>1</td>
+                <td>Subtotal Importe Leche</td>
+                <td>{{$recepcion[0]->total_leche}}</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Subtotal Retenciones</td>
+                <td>{{$recepcion[0]->total_cobro}}</td>
+            </tr>
+            <tr class="success">
+                <td class="success">3</td>
+                <td class="success"><b>Total a Pagar al Afiliado</b></td>
+                <td class="success"><b>{{$recepcion[0]->total_a_pagar}}</b></td>
+            </tr>
+
+        </tbody>
+    </table>
+    {{-- <div style="margin-bottom: 10px">
+        Son: {{ NumerosEnLetras::convertir(number_format($total, 2, '.', ''),'Bolivianos',false,'Centavos') }}
+    </div> --}}
     <table width="100%" border="1" cellspacing="0" cellpadding="5">
         <tbody>
             <tr class="bg-primary">
@@ -146,6 +206,29 @@
             </tr>
         </tbody>
     </table>
+    {{-- <div style="position: fixed; bottom: 120px; left: 0px; right: 0px"> --}}
+        <div>
+        <table width="100%" align="center" border="1" cellspacing="0" cellpadding="5">
+            <tr>
+                <td align="center">
+                    <p style="margin-top: 30px">_______________________</p>
+                    <p>CERMA</p>
+                </td>
+                <td align="center">
+                    <p style="margin-top: 30px">_______________________</p>
+                    <p>RECIBIDO CONFORME</p>
+                </td>
+                {{-- <td align="center">
+                    <p style="margin-top: 50px">_______________________</p>
+                    <p>Tesorero</p>
+                </td>
+                <td align="center">
+                    <p style="margin-top: 50px">_______________________</p>
+                    <p>Presidente</p>
+                </td> --}}
+            </tr>
+        </table>
+    </div>
     <script>
         window.print()
     </script>

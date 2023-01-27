@@ -55,14 +55,29 @@
                                 $dataTypeRows = $dataType->{($edit ? 'editRows' : 'addRows' )};
                                 $plandecuentas=\App\Models\PlansOfAccount::all();
                             @endphp
-                            <div class="form-group col-md-6">
-                                <label for="plancuentas">Plan de Cuentas</label>
-                                <select class="form-control select2" name="plancuentas" id="plancuentas">
-                                    @foreach ($plandecuentas as $item)
-                                        <option value="{{$item->id}}">{{$item->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            {{-- {{$dataType}} --}}
+                            @if ($edit)
+                                <div class="form-group col-md-6">
+                                    <label for="plancuentas">Plan de Cuentas</label>
+                                    <select class="form-control select2" name="plancuentas" id="plancuentas">
+                                        @foreach ($plandecuentas as $item)
+                                            @if ($dataTypeContent->plan_de_cuenta_id==$item->id)
+                                                <option value="{{$item->id}}" selected>{{$item->name}}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                            @else
+                                <div class="form-group col-md-6">
+                                    <label for="plancuentas">Plan de Cuentas</label>
+                                    <select class="form-control select2" name="plancuentas" id="plancuentas">
+                                        @foreach ($plandecuentas as $item)
+                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            @endif
+                          
                             @foreach($dataTypeRows as $row)
                                 <!-- GET THE DISPLAY OPTIONS -->
                                 @php
@@ -188,6 +203,9 @@
                 name:$("input[name='nombre']").val(),
                 plan_of_account_id: $("#plancuentas").val(),
                 detalles: $("textarea[name='detalles']").val(),
+                monto: $("input[name='monto']").val(),
+                tipo_retencion: $("select[name='tipo_retencion']").val(),
+                id: "{{$dataTypeContent->id}}"
 
             }
             console.log(midata)
